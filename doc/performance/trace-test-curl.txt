@@ -1,0 +1,1 @@
+curl -d '{"integrationId":"EG_EGSSRM_BD_001","count":"100"}' -H 'Content-Type: application/json' http://127.0.0.1:8090/traces/test

@@ -1,0 +1,1 @@
+ gradle rdist dist zpkg -x test

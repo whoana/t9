@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<include resource = "org/springframework/boot/logging/logback/defaults.xml"  />
+	<include resource = "org/springframework/boot/logging/logback/console-appender.xml"  />
+	  
+	<springProperty scope="context" name="loggingLevelRoot" source="logging.level.root" defaultValue="debug"/>
+	  
+	<appender name="FILE-AP" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	    <!-- 
+	    <file>${rose.mary.home}//logs//${LOG_FILE}</file>
+	     -->
+	    <file>${rose.mary.admin.home}//logs//admin.log</file>
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+	        <Pattern>%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n</Pattern>
+	    </encoder>
+	    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+	        <fileNamePattern>${rose.mary.admin.home}//logs//admin_%d{dd-MM-yyyy}_%i.log</fileNamePattern>
+	        <maxFileSize>20MB</maxFileSize>
+	        <maxHistory>20</maxHistory>
+	        <totalSizeCap>100MB</totalSizeCap>
+	    </rollingPolicy>
+	</appender>
+	
+	 
+	 <root level = "${loggingLevelRoot}" >
+		 <appender-ref ref = "FILE-AP"  />
+		 <appender-ref ref = "CONSOLE" />
+	 </root>
+	 
+</configuration>

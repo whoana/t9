@@ -1,0 +1,736 @@
+[현재까지 발생한 exception ]
+
+----------------------------------------------------------------------------------------------------------------------------------------
+19-05 21:01:39.760 [MQChannel1] ERROR o.i.i.i.InvocationContextInterceptor.rethrowException - ISPN000136: Error executing command SizeCommand on Cache 'dc02', writing keys []
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+19-05 21:01:59.177 [MQChannel1] ERROR r.m.t.a.c.m.MOMChannelExceptionHandler.handleException -
+org.infinispan.commons.CacheException: java.lang.OutOfMemoryError: GC overhead limit exceeded
+        at org.infinispan.interceptors.impl.InvocationContextInterceptor.rethrowException(InvocationContextInterceptor.java:134)
+        at org.infinispan.interceptors.impl.InvocationContextInterceptor.lambda$new$0(InvocationContextInterceptor.java:62)
+        at org.infinispan.interceptors.InvocationExceptionFunction.apply(InvocationExceptionFunction.java:25)
+        at org.infinispan.interceptors.impl.SimpleAsyncInvocationStage.addCallback(SimpleAsyncInvocationStage.java:70)
+        at org.infinispan.interceptors.InvocationStage.andExceptionally(InvocationStage.java:55)
+        at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextAndExceptionally(BaseAsyncInterceptor.java:128)
+        at org.infinispan.interceptors.impl.InvocationContextInterceptor.visitCommand(InvocationContextInterceptor.java:90)
+        at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:248)
+        at org.infinispan.cache.impl.CacheImpl.size(CacheImpl.java:491)
+        at org.infinispan.cache.impl.CacheImpl.size(CacheImpl.java:486)
+        at org.infinispan.cache.impl.AbstractDelegatingCache.size(AbstractDelegatingCache.java:373)
+        at rose.mary.trace.apps.cache.infinispan.InfinispanCacheProxy.size(InfinispanCacheProxy.java:101)
+        at rose.mary.trace.apps.channel.Channel.run(Channel.java:176)
+        at java.lang.Thread.run(Thread.java:748)
+        Suppressed: org.infinispan.util.logging.TraceException: null
+                at org.infinispan.interceptors.impl.SimpleAsyncInvocationStage.get(SimpleAsyncInvocationStage.java:41)
+                at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:250)
+                ... 6 common frames omitted
+
+[원인]
+캐시에 대량메시지가 발생으로 메모리 부족
+     
+[해결방법]
+1.캐시에 쌓이는 메시지량의 max를 지정하여 넘을 경우 시스템 에러 처리하자. 
+
+2.일반적인 해결 방법 
+1) heap dump를 통해 메모리 사용량 체크하기
+2) heap 메모리 설정
+	-Xmx : 최대 Heap Memory 설정
+	-Xms : 최소 Heap Memory 설정
+	시스템에서 사용하는 메모리 (1g ~ 2g) 정도를 제외하는 것이 좋다.
+
+----------------------------------------------------------------------------------------------------------------------------------------
+database 에러의 경우 스프링프레임워크는 DB 종류에 상관없이 내부적으로 매핑된 정의에 맞는 예외를 발생시킨다.
+	예를 들어 DB가 오라클일 경우 에러코드가 ["900","903","904","917","936","942", "6550", "17006"] 일경우 
+	org.springframework.jdbc.BadSqlGrammarException 을 발생시킨다.
+
+	이외에도 아래와 같은 예외가 발생될 수 있으며 아래 이외의 예외에 대해서는 원본 예외를 그대로 전달한다.
+	 
+	InvalidResultSetAccessException ["17003"]
+	DuplicateKeyException  ["1"]
+	DataIntegrityViolationException ["1400","1722","2291","2292"],
+	DataAccessResourceFailureException ["17002","17447"]
+	CannotAcquireLockException ["54","3000"]
+	CannotSerializeTransactionException ["8177"]
+	DeadlockLoserDataAccessException ["60"]
+	
+	
+
+
+"badSqlGrammarCodes" 				: ["900","903","904","917","936","942", "6550", "17006"],
+
+
+19-05 21:15:31.929 [Thread-17] ERROR r.m.t.a.l.Loader.run -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error flushing statements.  Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+### Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:255)
+        at rose.mary.trace.database.service.TraceService.load(TraceService.java:58)
+        at rose.mary.trace.apps.loader.Loader.commit(Loader.java:95)
+        at rose.mary.trace.apps.loader.Loader.run(Loader.java:179)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:148)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+        at org.apache.ibatis.executor.CachingExecutor.flushStatements(CachingExecutor.java:114)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:253)
+        ... 4 common frames omitted
+Caused by: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:10345)
+        at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:230)
+        at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+        ... 8 common frames omitted
+        
+[원인]
+테이블 스페이스 확장 문제
+
+[해결]
+
+ 
+----------------------------------------------------------------------------------------------------------------------------------------
+        
+30-04 00:52:01.582 [scheduler9] ERROR r.m.t.d.s.InterfaceService.retrieve -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error querying database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-2 - Connection is not available, request timed out after 30000ms.
+### The error may exist in class path resource [rose/mary/trace/database/mapper/m02/InterfaceMapper.xml]
+### The error may involve rose.mary.trace.database.mapper.m02.InterfaceMapper.retrieveList
+### The error occurred while executing a query
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-2 - Connection is not available, request timed out after 30000ms.
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:150)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141)
+        at rose.mary.trace.database.service.InterfaceService.retrieve(InterfaceService.java:45)
+        at rose.mary.trace.apps.manager.InterfaceCacheManager$1.run(InterfaceCacheManager.java:96)
+        at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)
+        at org.springframework.scheduling.concurrent.ReschedulingRunnable.run(ReschedulingRunnable.java:93)
+        at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+        at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:180)
+        at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:293)
+        at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+        at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-2 - Connection is not available, request timed out after 30000ms.
+        at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:82)
+        at org.mybatis.spring.transaction.SpringManagedTransaction.openConnection(SpringManagedTransaction.java:82)
+        at org.mybatis.spring.transaction.SpringManagedTransaction.getConnection(SpringManagedTransaction.java:68)
+        at org.apache.ibatis.executor.BaseExecutor.getConnection(BaseExecutor.java:338)
+        at org.apache.ibatis.executor.SimpleExecutor.prepareStatement(SimpleExecutor.java:84)
+        at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:62)
+        at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:326)
+        at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+        at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+        at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:83)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:148)
+        ... 12 common frames omitted
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-2 - Connection is not available, request timed out after 30000ms.
+        at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:697)
+        at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:196)
+        at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:161)
+        at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+        at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:158)
+        at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:116)
+        at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:79)
+        ... 22 common frames omitted
+        
+----------------------------------------------------------------------------------------------------------------------------------------
+[처리완료]
+08-05 16:09:58 ERROR DatabasePolicyHandler.run - DatabasePolicyHandler exception:
+java.util.ConcurrentModificationException: null
+        at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:909)
+        at java.util.ArrayList$Itr.next(ArrayList.java:859)
+        at rose.mary.trace.apps.manager.BotLoaderManager.stop(BotLoaderManager.java:102)
+        at rose.mary.trace.apps.manager.BotLoaderManager.start(BotLoaderManager.java:89)
+        at rose.mary.trace.apps.TraceServer.startBotLoader(TraceServer.java:253)
+        at rose.mary.trace.apps.TraceServer.start(TraceServer.java:104)
+        at rose.mary.trace.apps.manager.ServerManager.startServer(ServerManager.java:40)
+        at rose.mary.trace.apps.handler.DatabasePolicyHandler.run(DatabasePolicyHandler.java:156)
+        at java.lang.Thread.run(Thread.java:748)
+
+[설명]
+List list = new ArrayList();
+list.add("apple");
+list.add("banana");
+list.add("melon");
+
+for(String str : list) {
+    if("melon".equals(str)) {
+        list.remove(str);
+    }
+}
+
+System.out.println(list);
+
+결과)
+Exception in thread "main" java.util.ConcurrentModificationException
+	at java.util.ArrayList$Itr.checkForComodification(ArrayList.java:859)
+	at java.util.ArrayList$Itr.next(ArrayList.java:831)
+
+[fix]
+우아한 방법은 Iterator를 사용하는 것입니다.
+
+ 
+
+List list = new ArrayList();
+list.add("apple");
+list.add("banana");
+list.add("melon");
+
+Iterator iter = list.iterator();
+while(iter.hasNext()) {
+    if("melon".equals(iter.next())) {
+        iter.remove();
+    }
+}
+
+System.out.println(list);
+
+결과)
+[apple, banana]
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+19-05 04:43:16.688 [Thread-4416] ERROR r.m.t.a.l.Loader.run -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error flushing statements.  Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+### Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:255)
+        at rose.mary.trace.database.service.TraceService.load(TraceService.java:58)
+        at rose.mary.trace.apps.loader.Loader.commit(Loader.java:95)
+        at rose.mary.trace.apps.loader.Loader.run(Loader.java:179)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:148)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+        at org.apache.ibatis.executor.CachingExecutor.flushStatements(CachingExecutor.java:114)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:253)
+        ... 4 common frames omitted
+Caused by: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:10345)
+        at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:230)
+        at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+        ... 8 common frames omitted
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+15-05 02:00:50.983 [Thread-80234] ERROR r.m.t.a.b.BotLoader.run -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error flushing statements.  Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.BotMapper.restore (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01653: IIPDMC.TOP0503 테이블을 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+### Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.BotMapper.restore (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01653: IIPDMC.TOP0503 테이블을 8192(으)>로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:255)
+        at rose.mary.trace.database.service.BotService.mergeBots(BotService.java:128)
+        at rose.mary.trace.apps.boter.BotLoader.commit(BotLoader.java:99)
+        at rose.mary.trace.apps.boter.BotLoader.run(BotLoader.java:168)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.BotMapper.restore (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01653: IIPDMC.TOP0503 테이블을 8192(으)>로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:148)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+        at org.apache.ibatis.executor.CachingExecutor.flushStatements(CachingExecutor.java:114)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:253)
+        ... 4 common frames omitted
+Caused by: java.sql.BatchUpdateException: ORA-01653: IIPDMC.TOP0503 테이블을 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:10345)
+        at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:230)
+        at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+        ... 8 common frames omitted
+
+----------------------------------------------------------------------------------------------------------------------------------------
+17-05 06:06:20.738 [Thread-4412] ERROR r.m.t.a.b.BotLoader.run -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error updating database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:200)
+        at rose.mary.trace.database.service.BotService.mergeBots(BotService.java:125)
+        at rose.mary.trace.apps.boter.BotLoader.commit(BotLoader.java:99)
+        at rose.mary.trace.apps.boter.BotLoader.run(BotLoader.java:168)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
+        at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:82)
+        at org.mybatis.spring.transaction.SpringManagedTransaction.openConnection(SpringManagedTransaction.java:82)
+        at org.mybatis.spring.transaction.SpringManagedTransaction.getConnection(SpringManagedTransaction.java:68)
+        at org.apache.ibatis.executor.BaseExecutor.getConnection(BaseExecutor.java:338)
+        at org.apache.ibatis.executor.BatchExecutor.doUpdate(BatchExecutor.java:69)
+        at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
+        at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:198)
+        ... 4 common frames omitted
+Caused by: java.sql.SQLTransientConnectionException: HikariPool-1 - Connection is not available, request timed out after 30000ms.
+        at com.zaxxer.hikari.pool.HikariPool.createTimeoutException(HikariPool.java:697)
+        at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:196)
+        at com.zaxxer.hikari.pool.HikariPool.getConnection(HikariPool.java:161)
+        at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:128)
+        at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:158)
+        at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:116)
+        at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:79)
+        ... 11 common frames omitted
+
+----------------------------------------------------------------------------------------------------------------------------------------
+ 
+17-05 19:46:02.165 [Thread-4416] ERROR r.m.t.a.l.Loader.run -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error flushing statements.  Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00001: 무결
+성 제약 조건(IIPDMC.PK_TOP0501)에 위배됩니다
+
+### Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00001: 무결성 제약 조건(IIPDMC.PK_TOP0501)에 위배됩니다
+
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:255)
+        at rose.mary.trace.database.service.TraceService.load(TraceService.java:58)
+        at rose.mary.trace.apps.loader.Loader.commit(Loader.java:95)
+        at rose.mary.trace.apps.loader.Loader.run(Loader.java:179)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00001: 무결성 제약 조건(IIPDMC.PK_TOP0501)에 위배됩니다
+
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:148)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+        at org.apache.ibatis.executor.CachingExecutor.flushStatements(CachingExecutor.java:114)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:253)
+        ... 4 common frames omitted
+Caused by: java.sql.BatchUpdateException: ORA-00001: 무결성 제약 조건(IIPDMC.PK_TOP0501)에 위배됩니다
+
+        at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:10345)
+        at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:230)
+        at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+        ... 8 common frames omitted
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+18-05 22:44:57 ERROR r.m.t.a.h.TraceErrorHandler.run - TraceErrorHandler exception:
+76083 org.infinispan.commons.CacheException: java.lang.OutOfMemoryError: Java heap space
+76084         at org.infinispan.interceptors.impl.InvocationContextInterceptor.rethrowException(InvocationContextInterceptor.java:134)
+76085         at org.infinispan.interceptors.impl.InvocationContextInterceptor.lambda$new$0(InvocationContextInterceptor.java:62)
+76086         at org.infinispan.interceptors.InvocationExceptionFunction.apply(InvocationExceptionFunction.java:25)
+76087         at org.infinispan.interceptors.impl.SimpleAsyncInvocationStage.addCallback(SimpleAsyncInvocationStage.java:70)
+76088         at org.infinispan.interceptors.InvocationStage.andExceptionally(InvocationStage.java:55)
+76089         at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextAndExceptionally(BaseAsyncInterceptor.java:128)
+76090         at org.infinispan.interceptors.impl.InvocationContextInterceptor.visitCommand(InvocationContextInterceptor.java:90)
+76091         at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:248)
+76092         at org.infinispan.cache.impl.CacheImpl.size(CacheImpl.java:491)
+76093         at org.infinispan.cache.impl.CacheImpl.size(CacheImpl.java:486)
+76094         at org.infinispan.commands.read.AbstractCloseableIteratorCollection.size(AbstractCloseableIteratorCollection.java:47)
+76095         at org.infinispan.util.CollectionMapper.size(CollectionMapper.java:34)
+76096         at rose.mary.trace.apps.handler.TraceErrorHandler.run(TraceErrorHandler.java:100)
+76097         at java.lang.Thread.run(Thread.java:748)
+76098         Suppressed: org.infinispan.util.logging.TraceException: null
+76099                 at org.infinispan.interceptors.impl.SimpleAsyncInvocationStage.get(SimpleAsyncInvocationStage.java:41)
+76100                 at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:250)
+76101                 ... 6 common frames omitted
+76102 Caused by: java.lang.OutOfMemoryError: Java heap space
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+18-05 13:25:44.521 [Thread-4417] ERROR r.m.t.a.l.Loader.run -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error flushing statements.  Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+### Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:255)
+        at rose.mary.trace.database.service.TraceService.load(TraceService.java:58)
+        at rose.mary.trace.apps.loader.Loader.commit(Loader.java:95)
+        at rose.mary.trace.apps.loader.Loader.run(Loader.java:179)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:148)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+        at org.apache.ibatis.executor.CachingExecutor.flushStatements(CachingExecutor.java:114)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:253)
+        ... 4 common frames omitted
+Caused by: java.sql.BatchUpdateException: ORA-01654: IIPDMC.PK_TOP0501 인덱스를 8192(으)로 IIPDMC_DAT_TBS 테이블스페이스에서 확장할 수 없습니다
+
+        at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:10345)
+        at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:230)
+        at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+        ... 8 common frames omitted
+
+        
+----------------------------------------------------------------------------------------------------------------------------------------
+
+19-05 20:42:13 ERROR r.m.t.a.h.BotErrorHandler.run - BotErrorHandler exception:
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+        at org.infinispan.cache.impl.EncoderCache$$Lambda$749/1689572787.get$Lambda(Unknown Source)
+        at java.lang.invoke.LambdaForm$DMH/20132171.invokeStatic_L_L(LambdaForm$DMH)
+        at java.lang.invoke.LambdaForm$MH/1066376662.linkToTargetMethod(LambdaForm$MH)
+        at org.infinispan.cache.impl.EncoderCache.keySet(EncoderCache.java:710)
+        at rose.mary.trace.apps.cache.infinispan.InfinispanCacheProxy.keys(InfinispanCacheProxy.java:141)
+        at rose.mary.trace.apps.handler.BotErrorHandler.run(BotErrorHandler.java:97)
+        at java.lang.Thread.run(Thread.java:748)
+19-05 20:58:52 ERROR r.m.t.a.h.BotErrorHandler.run - BotErrorHandler exception:
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+19-05 04:29:10.985 [Thread-4424] ERROR r.m.t.a.h.UnmatchHandler.run -
+org.infinispan.commons.CacheException: java.lang.OutOfMemoryError: Java heap space
+        at org.infinispan.interceptors.impl.InvocationContextInterceptor.rethrowException(InvocationContextInterceptor.java:134)
+        at org.infinispan.interceptors.impl.InvocationContextInterceptor.lambda$new$0(InvocationContextInterceptor.java:62)
+        at org.infinispan.interceptors.InvocationExceptionFunction.apply(InvocationExceptionFunction.java:25)
+        at org.infinispan.interceptors.impl.SimpleAsyncInvocationStage.addCallback(SimpleAsyncInvocationStage.java:70)
+        at org.infinispan.interceptors.InvocationStage.andExceptionally(InvocationStage.java:55)
+        at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextAndExceptionally(BaseAsyncInterceptor.java:128)
+        at org.infinispan.interceptors.impl.InvocationContextInterceptor.visitCommand(InvocationContextInterceptor.java:90)
+        at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:248)
+        at org.infinispan.cache.impl.CacheImpl.size(CacheImpl.java:491)
+        at org.infinispan.cache.impl.CacheImpl.size(CacheImpl.java:486)
+        at org.infinispan.commands.read.AbstractCloseableIteratorCollection.size(AbstractCloseableIteratorCollection.java:47)
+        at org.infinispan.util.CollectionMapper.size(CollectionMapper.java:34)
+        at rose.mary.trace.apps.handler.UnmatchHandler.run(UnmatchHandler.java:88)
+        at java.lang.Thread.run(Thread.java:748)
+        Suppressed: org.infinispan.util.logging.TraceException: null
+                at org.infinispan.interceptors.impl.SimpleAsyncInvocationStage.get(SimpleAsyncInvocationStage.java:41)
+                at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:250)
+                ... 6 common frames omitted
+Caused by: java.lang.OutOfMemoryError: Java heap space
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+org.apache.ibatis.exceptions.PersistenceException:
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+### The error may exist in class path resource [rose/mary/trace/database/mapper/m02/InterfaceMapper.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT                               a.INTERFACE_ID                                                                                        ,b.BUSINESS_ID                                                                                         ,c.BUSINESS_NM                                                                                         ,a.INTERFACE_NM                                                                                        ,a.INTEGRATION_ID                                                                                    ,a.CHANNEL_ID                                                                                          ,d.CHANNEL_NM                                                                                          ,a.DATA_PR_DIR                                                                                         ,cd01.NM    AS DATA_PR_DIR_NM                                                                 ,a.DATA_PR_METHOD                                                                                      ,cd02.NM    AS DATA_PR_METHOD_NM                                                              ,a.APP_PR_METHOD                                                                                       ,cd03.NM    AS APP_PR_METHOD_NM                                                               ,e.SYSTEM_ID   as SND_SYSTEM_ID                                                                  ,f.SYSTEM_NM   AS SND_SYSTEM_NM                                                                  ,e.RESOURCE_TYPE  AS SND_RES_TYPE                                                                   ,cd04.NM    AS SND_RES_NM                                                                     ,g.SYSTEM_ID   AS RCV_SYSTEM_ID                                                                  ,h.SYSTEM_NM   AS RCV_SYSTEM_NM                                                                  ,g.RESOURCE_TYPE  AS RCV_RES_TYPE                                                                   ,cd05.NM    AS RCV_RES_NM     ,j.ORG_ID           AS SND_ORG_ID    ,J.ORG_NM   AS SND_ORG_NM    ,l.ORG_ID           AS RCV_ORG_ID    ,l.ORG_NM   AS RCV_ORG_NM    from TAN02011 a                                                                                         INNER JOIN TAN0101 b                                                                                     ON a.INTERFACE_ID = b.INTERFACE_ID                                                                    AND a.DEL_YN = 'N'                                                                                    INNER JOIN TIM0301 c                                                                                     ON b.BUSINESS_ID  = c.BUSINESS_ID                                                                    INNER JOIN TIM0002 d                                                                                     ON d.CHANNEL_ID   = a.CHANNEL_ID                                                                     INNER JOIN TAN0213 e                                                                                     ON e.INTERFACE_ID = a.INTERFACE_ID                                                                    AND e.NODE_TYPE = '0'                                                                                  AND e.SEQ = (SELECT max(seq) FROM tan0213 WHERE INTERFACE_ID = e.INTERFACE_ID AND NODE_TYPE = '0')     AND e.DEL_YN = 'N'                                                                                    INNER JOIN TIM0101 f                                                                                     ON f.SYSTEM_ID = e.SYSTEM_ID                                                                         INNER JOIN TAN0213 g                                                                                     ON g.INTERFACE_ID = a.INTERFACE_ID                                                                    AND g.NODE_TYPE = '2'                                                                                  AND g.SEQ = (SELECT max(seq) FROM tan0213 WHERE INTERFACE_ID = g.INTERFACE_ID AND NODE_TYPE = '2')     AND g.DEL_YN = 'N'                                                                                    INNER JOIN TIM0101 h                                                                                     ON h.SYSTEM_ID = g.SYSTEM_ID       INNER JOIN TIM0403 i                                                                                     ON i.SYSTEM_ID = f.SYSTEM_ID     AND i.DEL_YN = 'N'    INNER JOIN TIM0401 j                                                                                     ON j.ORG_ID = i.ORG_ID    INNER JOIN TIM0403 k                                                                                     ON k.SYSTEM_ID = h.SYSTEM_ID     AND k.DEL_YN = 'N'    INNER JOIN TIM0401 l                                                                                     ON l.ORG_ID = k.ORG_ID                                                                          INNER JOIN TSU0301 cd01                                                                                  ON cd01.CD = a.DATA_PR_DIR                                                                            AND cd01.LEVEL1 = 'IM'                                                                                 AND cd01.LEVEL2 = '01'                                                                                 AND cd01.DEL_YN = 'N'                                                                                 INNER JOIN TSU0301 cd02                                                                                  ON cd02.CD = a.DATA_PR_METHOD                                                                         AND cd02.LEVEL1 = 'IM'                                                                                 AND cd02.LEVEL2 = '12'                                                                                 AND cd02.DEL_YN = 'N'                                                                                 INNER JOIN TSU0301 cd03                                                                                  ON cd03.CD = a.APP_PR_METHOD                                                                          AND cd03.LEVEL1 = 'IM'                                                                                 AND cd03.LEVEL2 = '02'                                                                                 AND cd03.DEL_YN = 'N'                                                                                 INNER JOIN TSU0301 cd04                                                                                  ON cd04.CD = e.RESOURCE_TYPE                                                                          AND cd04.LEVEL1 = 'IM'                                                                                 AND cd04.LEVEL2 = '04'                                                                                 AND cd04.DEL_YN = 'N'                                                                                 INNER JOIN TSU0301 cd05                                                                                  ON cd05.CD = g.RESOURCE_TYPE                                                                          AND cd05.LEVEL1 = 'IM'                                                                                 AND cd05.LEVEL2 = '04'                                                                                 AND cd05.DEL_YN = 'N'                                                                                 ORDER BY a.INTERFACE_ID
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:150)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141)
+        at rose.mary.trace.database.service.InterfaceService.retrieve(InterfaceService.java:46)
+        at rose.mary.trace.database.service.InterfaceService$$FastClassBySpringCGLIB$$a8d1a24b.invoke(<generated>)
+----------------------------------------------------------------------------------------------------------------------------------------
+19-05 09:05:29.223 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext.refresh - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 't9': Unsatisfied dependency expressed through field 'interfaceCacheManager'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'interfaceCacheManager' defined in class path resource [rose/mary/trace/config/ApplicationConfig.class]: Invocation of init method failed; nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+----------------------------------------------------------------------------------------------------------------------------------------
+20-05 12:34:37.801 [loader1] ERROR r.m.t.a.l.Loader.run -
+org.apache.ibatis.exceptions.PersistenceException:
+### Error flushing statements.  Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00942: 테이
+블 또는 뷰가 존재하지 않습니다
+
+### Cause: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니
+다
+
+        at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:255)
+        at rose.mary.trace.database.service.TraceService.load(TraceService.java:58)
+        at rose.mary.trace.database.service.TraceService$$FastClassBySpringCGLIB$$622a983f.invoke(<generated>)
+        at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:769)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+        at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+        at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+        at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+        at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+        at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+        at rose.mary.trace.database.service.TraceService$$EnhancerBySpringCGLIB$$3e483211.load(<generated>)
+        at rose.mary.trace.apps.loader.Loader.commit(Loader.java:98)
+        at rose.mary.trace.apps.loader.Loader.run(Loader.java:182)
+        at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니
+다
+
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:148)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+        at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+        at org.apache.ibatis.executor.CachingExecutor.flushStatements(CachingExecutor.java:114)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:253)
+        ... 17 common frames omitted
+Caused by: java.sql.BatchUpdateException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+        at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:10345)
+        at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:230)
+        at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+        at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+        ... 21 common frames omitted
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+21-05 10:48:55.390 [main] ERROR c.z.h.p.HikariPool.throwPoolInitializationException - HikariPool-1 - Exception during pool initialization.
+java.sql.SQLRecoverableException: IO 오류: The Network Adapter could not establish the connection
+        at oracle.jdbc.driver.T4CConnection.logon(T4CConnection.java:458)
+        at oracle.jdbc.driver.PhysicalConnection.<init>(PhysicalConnection.java:546)
+        at oracle.jdbc.driver.T4CConnection.<init>(T4CConnection.java:236)
+        at oracle.jdbc.driver.T4CDriverExtension.getConnection(T4CDriverExtension.java:32)
+        at oracle.jdbc.driver.OracleDriver.connect(OracleDriver.java:521)
+        at com.zaxxer.hikari.util.DriverDataSource.getConnection(DriverDataSource.java:138)
+        at com.zaxxer.hikari.pool.PoolBase.newConnection(PoolBase.java:353)
+        at com.zaxxer.hikari.pool.PoolBase.newPoolEntry(PoolBase.java:201)
+        at com.zaxxer.hikari.pool.HikariPool.createPoolEntry(HikariPool.java:473)
+        at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:562)
+        at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:115)
+        at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:112)
+        at org.springframework.jdbc.datasource.DataSourceUtils.fetchConnection(DataSourceUtils.java:158)
+        at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:116)
+        at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:79)
+        at org.mybatis.spring.transaction.SpringManagedTransaction.openConnection(SpringManagedTransaction.java:82)
+        at org.mybatis.spring.transaction.SpringManagedTransaction.getConnection(SpringManagedTransaction.java:68)
+        at org.apache.ibatis.executor.BaseExecutor.getConnection(BaseExecutor.java:338)
+        at org.apache.ibatis.executor.SimpleExecutor.prepareStatement(SimpleExecutor.java:84)
+        at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:62)
+        at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:326)
+        at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+        at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+        at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:83)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:148)
+        at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141)
+        at rose.mary.trace.database.service.InterfaceService.retrieve(InterfaceService.java:46)
+        at rose.mary.trace.apps.manager.InterfaceCacheManager.refresh(InterfaceCacheManager.java:65)
+        at rose.mary.trace.apps.manager.InterfaceCacheManager.prepare(InterfaceCacheManager.java:79)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+        at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+        at java.lang.reflect.Method.invoke(Method.java:498)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeCustomInitMethod(AbstractAutowireCapableBeanFactory.java:1922)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1864)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1792)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+        at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+        at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:276)
+        at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1287)
+        at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1207)
+        at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:640)
+        at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:116)
+        at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:399)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1422)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:594)
+        at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+        at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+        at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+        at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:879)
+        at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:878)
+        at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550)
+        at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+        at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747)
+        at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+        at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+        at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:140)
+        at rose.mary.trace.T9.main(T9.java:150)
+        at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+        at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+25-05 14:02:32.983 [traceErrorHandler] ERROR o.i.i.i.InvocationContextInterceptor.rethrowException - ISPN000136: Error executing command RemoveCommand on Cache 'ec01', writing keys [BMALEALT01@20200524012115525525@host2@node2]
+org.infinispan.persistence.spi.PersistenceException: java.nio.channels.ClosedChannelException
+	at org.infinispan.persistence.file.SingleFileStore.delete(SingleFileStore.java:434)
+	at org.infinispan.persistence.manager.PersistenceManagerImpl.deleteFromAllStores(PersistenceManagerImpl.java:519)
+	at org.infinispan.interceptors.impl.CacheWriterInterceptor.lambda$visitRemoveCommand$0(CacheWriterInterceptor.java:161)
+	at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextThenAccept(BaseAsyncInterceptor.java:105)
+	at org.infinispan.interceptors.impl.CacheWriterInterceptor.visitRemoveCommand(CacheWriterInterceptor.java:155)
+	at org.infinispan.commands.write.RemoveCommand.acceptVisitor(RemoveCommand.java:64)
+	at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNext(BaseAsyncInterceptor.java:54)
+	at org.infinispan.interceptors.impl.CacheLoaderInterceptor.visitDataCommand(CacheLoaderInterceptor.java:197)
+	at org.infinispan.interceptors.impl.CacheLoaderInterceptor.visitRemoveCommand(CacheLoaderInterceptor.java:164)
+	at org.infinispan.commands.write.RemoveCommand.acceptVisitor(RemoveCommand.java:64)
+	at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextThenAccept(BaseAsyncInterceptor.java:98)
+	at org.infinispan.interceptors.impl.EntryWrappingInterceptor.setSkipRemoteGetsAndInvokeNextForDataCommand(EntryWrappingInterceptor.java:671)
+	at org.infinispan.interceptors.impl.EntryWrappingInterceptor.visitRemoveCommand(EntryWrappingInterceptor.java:356)
+	at org.infinispan.commands.write.RemoveCommand.acceptVisitor(RemoveCommand.java:64)
+	at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextAndFinally(BaseAsyncInterceptor.java:150)
+	at org.infinispan.interceptors.locking.AbstractLockingInterceptor.lambda$nonTxLockAndInvokeNext$1(AbstractLockingInterceptor.java:297)
+	at org.infinispan.interceptors.SyncInvocationStage.addCallback(SyncInvocationStage.java:42)
+	at org.infinispan.interceptors.InvocationStage.andHandle(InvocationStage.java:65)
+	at org.infinispan.interceptors.locking.AbstractLockingInterceptor.nonTxLockAndInvokeNext(AbstractLockingInterceptor.java:292)
+	at org.infinispan.interceptors.locking.AbstractLockingInterceptor.visitNonTxDataWriteCommand(AbstractLockingInterceptor.java:128)
+	at org.infinispan.interceptors.locking.NonTransactionalLockingInterceptor.visitDataWriteCommand(NonTransactionalLockingInterceptor.java:40)
+	at org.infinispan.interceptors.locking.AbstractLockingInterceptor.visitRemoveCommand(AbstractLockingInterceptor.java:102)
+	at org.infinispan.commands.write.RemoveCommand.acceptVisitor(RemoveCommand.java:64)
+	at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextAndFinally(BaseAsyncInterceptor.java:150)
+	at org.infinispan.interceptors.impl.CacheMgmtInterceptor.visitRemoveCommand(CacheMgmtInterceptor.java:431)
+	at org.infinispan.commands.write.RemoveCommand.acceptVisitor(RemoveCommand.java:64)
+	at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNext(BaseAsyncInterceptor.java:54)
+	at org.infinispan.interceptors.DDAsyncInterceptor.handleDefault(DDAsyncInterceptor.java:54)
+	at org.infinispan.interceptors.DDAsyncInterceptor.visitRemoveCommand(DDAsyncInterceptor.java:65)
+	at org.infinispan.commands.write.RemoveCommand.acceptVisitor(RemoveCommand.java:64)
+	at org.infinispan.interceptors.BaseAsyncInterceptor.invokeNextAndExceptionally(BaseAsyncInterceptor.java:123)
+	at org.infinispan.interceptors.impl.InvocationContextInterceptor.visitCommand(InvocationContextInterceptor.java:90)
+	at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:248)
+	at org.infinispan.cache.impl.CacheImpl.executeCommandAndCommitIfNeeded(CacheImpl.java:1918)
+	at org.infinispan.cache.impl.CacheImpl.remove(CacheImpl.java:680)
+	at org.infinispan.cache.impl.CacheImpl.remove(CacheImpl.java:674)
+	at org.infinispan.cache.impl.AbstractDelegatingCache.remove(AbstractDelegatingCache.java:453)
+	at org.infinispan.cache.impl.EncoderCache.remove(EncoderCache.java:684)
+	at rose.mary.trace.apps.cache.infinispan.InfinispanCacheProxy.remove(InfinispanCacheProxy.java:134)
+	at rose.mary.trace.apps.handler.TraceErrorHandler.retry(TraceErrorHandler.java:242)
+	at rose.mary.trace.apps.handler.TraceErrorHandler.run(TraceErrorHandler.java:191)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.nio.channels.ClosedChannelException: null
+	at sun.nio.ch.FileChannelImpl.ensureOpen(FileChannelImpl.java:110)
+	at sun.nio.ch.FileChannelImpl.write(FileChannelImpl.java:752)
+	at org.infinispan.persistence.file.SingleFileStore.free(SingleFileStore.java:317)
+	at org.infinispan.persistence.file.SingleFileStore.delete(SingleFileStore.java:431)
+	... 41 common frames omitted
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+25-05 11:30:01.833 [botLoader0] ERROR r.m.t.a.b.BotLoader.run - 
+org.infinispan.IllegalLifecycleStateException: ISPN000323: Cache 'bc01' is in 'TERMINATED' state and so it does not accept new invocations. Either restart it or recreate the cache container.
+	at org.infinispan.interceptors.impl.InvocationContextInterceptor.ignoreCommand(InvocationContextInterceptor.java:98)
+	at org.infinispan.interceptors.impl.InvocationContextInterceptor.visitCommand(InvocationContextInterceptor.java:87)
+	at org.infinispan.interceptors.impl.AsyncInterceptorChainImpl.invoke(AsyncInterceptorChainImpl.java:248)
+	at org.infinispan.cache.impl.CacheImpl.executeCommandAndCommitIfNeeded(CacheImpl.java:1918)
+	at org.infinispan.cache.impl.CacheImpl.remove(CacheImpl.java:680)
+	at org.infinispan.cache.impl.CacheImpl.remove(CacheImpl.java:674)
+	at org.infinispan.cache.impl.AbstractDelegatingCache.remove(AbstractDelegatingCache.java:453)
+	at org.infinispan.cache.impl.EncoderCache.remove(EncoderCache.java:684)
+	at rose.mary.trace.apps.cache.infinispan.InfinispanCacheProxy.removeAll(InfinispanCacheProxy.java:78)
+	at rose.mary.trace.apps.boter.BotLoader.commit(BotLoader.java:110)
+	at rose.mary.trace.apps.boter.BotLoader.run(BotLoader.java:181)
+	at java.lang.Thread.run(Thread.java:748)
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+20-05 12:34:37 INFO  SystemLogger.info - message:rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+org.apache.ibatis.executor.BatchExecutorException: rose.mary.trace.database.mapper.m01.TraceMapper.insert (batch index #1) failed. Cause: java.sql.BatchUpdateException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+	at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:148)
+	at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:129)
+	at org.apache.ibatis.executor.BaseExecutor.flushStatements(BaseExecutor.java:122)
+	at org.apache.ibatis.executor.CachingExecutor.flushStatements(CachingExecutor.java:114)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.flushStatements(DefaultSqlSession.java:253)
+	at rose.mary.trace.database.service.TraceService.load(TraceService.java:58)
+	at rose.mary.trace.database.service.TraceService$$FastClassBySpringCGLIB$$622a983f.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:769)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at rose.mary.trace.database.service.TraceService$$EnhancerBySpringCGLIB$$3e483211.load(<generated>)
+	at rose.mary.trace.apps.loader.Loader.commit(Loader.java:98)
+	at rose.mary.trace.apps.loader.Loader.run(Loader.java:182)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.sql.BatchUpdateException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+	at oracle.jdbc.driver.OraclePreparedStatement.executeBatch(OraclePreparedStatement.java:10345)
+	at oracle.jdbc.driver.OracleStatementWrapper.executeBatch(OracleStatementWrapper.java:230)
+	at com.zaxxer.hikari.pool.ProxyStatement.executeBatch(ProxyStatement.java:128)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeBatch(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.BatchExecutor.doFlushStatements(BatchExecutor.java:122)
+	... 21 common frames omitted
+----------------------------------------------------------------------------------------------------------------------------------------
+28-05 10:31:12 ERROR DatabasePolicyHandler.runGracefully - DatabasePolicyHandler exception:
+org.springframework.jdbc.BadSqlGrammarException: 
+### Error querying database.  Cause: java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+### The error may exist in class path resource [rose/mary/trace/database/mapper/m02/SystemMapper.xml]
+### The error may involve defaultParameterMap
+### The error occurred while setting parameters
+### SQL: SELECT count(*)      FROM TOP05051 a     WHERE a.PACKAGE = 'system'       AND a.ATTRIBUTE_ID = 'database.health.check.date'       AND a.idx = 0
+### Cause: java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+; bad SQL grammar []; nested exception is java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:235)
+	at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:72)
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:73)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:446)
+	at com.sun.proxy.$Proxy103.selectOne(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:166)
+	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:83)
+	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:59)
+	at com.sun.proxy.$Proxy106.selectDatabaseHealthCheckDate(Unknown Source)
+	at rose.mary.trace.database.service.SystemService.databaseHealthCheck(SystemService.java:24)
+	at rose.mary.trace.database.service.SystemService$$FastClassBySpringCGLIB$$99c308d7.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:769)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+	at org.springframework.aop.aspectj.AspectJAfterThrowingAdvice.invoke(AspectJAfterThrowingAdvice.java:62)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:93)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:747)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:689)
+	at rose.mary.trace.database.service.SystemService$$EnhancerBySpringCGLIB$$8dbd1538.databaseHealthCheck(<generated>)
+	at rose.mary.trace.apps.handler.DatabasePolicyHandler.runGracefully(DatabasePolicyHandler.java:303)
+	at rose.mary.trace.apps.handler.DatabasePolicyHandler.run(DatabasePolicyHandler.java:114)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: java.sql.SQLSyntaxErrorException: ORA-00942: 테이블 또는 뷰가 존재하지 않습니다
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:445)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:396)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:879)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:450)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:192)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:531)
+	at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:207)
+	at oracle.jdbc.driver.T4CPreparedStatement.executeForDescribe(T4CPreparedStatement.java:884)
+	at oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:1167)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1289)
+	at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3584)
+	at oracle.jdbc.driver.OraclePreparedStatement.execute(OraclePreparedStatement.java:3685)
+	at oracle.jdbc.driver.OraclePreparedStatementWrapper.execute(OraclePreparedStatementWrapper.java:1376)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.query(PreparedStatementHandler.java:63)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.query(RoutingStatementHandler.java:79)
+	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:63)
+	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:326)
+	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:156)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:109)
+	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:83)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:148)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:141)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:77)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:433)
+	... 22 common frames omitted
+
+
+
+

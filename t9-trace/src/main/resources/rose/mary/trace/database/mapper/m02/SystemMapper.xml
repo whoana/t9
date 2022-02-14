@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rose.mary.trace.database.mapper.m02.SystemMapper">
+  	<!--
+  	<cache/>
+  	-->
+	<select id="selectDatabaseHealthCheckDate" resultType="int">
+		SELECT count(*) 
+		  FROM TOP0505 a 
+		 WHERE a.PACKAGE = 'system' 
+		   AND a.ATTRIBUTE_ID = 'database.health.check.date' 
+		   AND a.idx = 0  																					  			                                                                             
+	</select>
+
+	<update id="updateDatabaseHealthCheckDate" parameterType="string">
+		UPDATE TOP0505 a 
+		   SET a.ATTRIBUTE_VALUE = #{checkDate},
+		       a.MOD_USER        = 'iip',
+		       a.MOD_DATE        = #{checkDate}
+		 WHERE a.PACKAGE 		 = 'system' 
+		   AND a.ATTRIBUTE_ID    = 'database.health.check.date' 
+		   AND a.idx 			 = 0  																					  			                                                                             
+	</update>
+ 	
+ 	<insert id="insertDatabaseHealthCheckDate" parameterType="string">
+		INSERT INTO TOP0505 VALUES (
+			 PACKAGE
+			,ATTRIBUTE_ID
+			,IDX
+			,ATTRIBUTE_NM
+			,ATTRIBUTE_VALUE
+			,COMMENTS
+			,DEL_YN
+			,REG_DATE
+			,REG_USER
+		) VALUES (
+			 'system'
+			,'database.health.check.date'
+			,0
+			,'system.database.health.check.date'
+			,#{checkDate}
+			,'database health check 최종 일시'
+			,'N'
+			,#{checkDate}
+			,'iip'
+		)																				  			                                                                             
+	</insert>
+	
+	<select id="generateBadSqlGrammarException" resultType="int">
+		SELECT count(*) 
+		  FROM TOP0505dfasdfasdfadsf a 
+		 WHERE a.PACKAGE = 'system' 
+		   AND a.ATTRIBUTE_ID = 'database.health.check.date' 
+		   AND a.idx = 0  																					  			                                                                             
+	</select>
+</mapper>

@@ -1,0 +1,8 @@
+{
+	"spring": [ 		
+			{
+				"title"   : "1.스프링부트 설정 외부로 분리하기" , 
+				"contents": "java -jar boot-app.jar --spring.config.location={YOUR_PATH}/application.yml"
+			}	
+	]
+}

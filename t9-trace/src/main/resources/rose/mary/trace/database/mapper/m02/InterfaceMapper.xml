@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rose.mary.trace.database.mapper.m02.InterfaceMapper">
+  	<!--
+  	<cache/>
+  	-->
+	<select id="retrieveList" resultMap="interfaceInfoMap">
+		SELECT 																							  
+			 a.INTERFACE_ID                                                                                    
+			,b.BUSINESS_ID                                                                                     
+			,c.BUSINESS_NM                                                                                     
+			,a.INTERFACE_NM                                                                                    
+			,a.INTEGRATION_ID     	                                                                          
+			,a.CHANNEL_ID                                                                                      
+			,d.CHANNEL_NM                                                                                      
+			,a.DATA_PR_DIR                                                                                     
+			,cd01.NM 			AS DATA_PR_DIR_NM                                                             
+			,a.DATA_PR_METHOD                                                                                  
+			,cd02.NM 			AS DATA_PR_METHOD_NM                                                          
+			,a.APP_PR_METHOD                                                                                   
+			,cd03.NM 			AS APP_PR_METHOD_NM                                                           
+			,e.SYSTEM_ID 		as SND_SYSTEM_ID                                                              
+			,f.SYSTEM_NM 		AS SND_SYSTEM_NM                                                              
+			,e.RESOURCE_TYPE 	AS SND_RES_TYPE                                                               
+			,cd04.NM 			AS SND_RES_NM                                                                 
+			,g.SYSTEM_ID 		AS RCV_SYSTEM_ID                                                              
+			,h.SYSTEM_NM 		AS RCV_SYSTEM_NM                                                              
+			,g.RESOURCE_TYPE 	AS RCV_RES_TYPE                                                               
+			,cd05.NM 			AS RCV_RES_NM 
+			,j.ORG_ID           AS SND_ORG_ID
+			,J.ORG_NM			AS SND_ORG_NM
+			,l.ORG_ID           AS RCV_ORG_ID
+			,l.ORG_NM			AS RCV_ORG_NM
+			from TAN0201 a                                                                                     
+			INNER JOIN TAN0101 b                                                                               
+			  ON a.INTERFACE_ID = b.INTERFACE_ID                                                               
+			 AND a.DEL_YN = 'N'                                                                                
+			INNER JOIN TIM0301 c                                                                               
+			  ON b.BUSINESS_ID  = c.BUSINESS_ID                                                                
+			INNER JOIN TIM0002 d                                                                               
+			  ON d.CHANNEL_ID   = a.CHANNEL_ID                                                                 
+			INNER JOIN TAN0213 e                                                                               
+			  ON e.INTERFACE_ID = a.INTERFACE_ID                                                               
+			 AND e.NODE_TYPE = '0'                                                                             
+			 AND e.SEQ = (SELECT max(seq) FROM tan0213 WHERE INTERFACE_ID = e.INTERFACE_ID AND NODE_TYPE = '0')
+			 AND e.DEL_YN = 'N'                                                                                
+			INNER JOIN TIM0101 f                                                                               
+			  ON f.SYSTEM_ID = e.SYSTEM_ID                                                                     
+			INNER JOIN TAN0213 g                                                                               
+			  ON g.INTERFACE_ID = a.INTERFACE_ID                                                               
+			 AND g.NODE_TYPE = '2'                                                                             
+			 AND g.SEQ = (SELECT max(seq) FROM tan0213 WHERE INTERFACE_ID = g.INTERFACE_ID AND NODE_TYPE = '2')
+			 AND g.DEL_YN = 'N'                                                                                
+			INNER JOIN TIM0101 h                                                                               
+			  ON h.SYSTEM_ID = g.SYSTEM_ID			
+			INNER JOIN TIM0403 i                                                                               
+			  ON i.SYSTEM_ID = f.SYSTEM_ID
+			 AND i.DEL_YN = 'N'
+			INNER JOIN TIM0401 j                                                                               
+			  ON j.ORG_ID = i.ORG_ID
+			INNER JOIN TIM0403 k                                                                               
+			  ON k.SYSTEM_ID = h.SYSTEM_ID
+			 AND k.DEL_YN = 'N'
+			INNER JOIN TIM0401 l                                                                               
+			  ON l.ORG_ID = k.ORG_ID                                                                      
+			INNER JOIN TSU0301 cd01                                                                            
+			  ON cd01.CD = a.DATA_PR_DIR                                                                       
+			 AND cd01.LEVEL1 = 'IM'                                                                            
+			 AND cd01.LEVEL2 = '01'                                                                            
+			 AND cd01.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd02                                                                            
+			  ON cd02.CD = a.DATA_PR_METHOD                                                                    
+			 AND cd02.LEVEL1 = 'IM'                                                                            
+			 AND cd02.LEVEL2 = '12'                                                                            
+			 AND cd02.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd03                                                                            
+			  ON cd03.CD = a.APP_PR_METHOD                                                                     
+			 AND cd03.LEVEL1 = 'IM'                                                                            
+			 AND cd03.LEVEL2 = '02'                                                                            
+			 AND cd03.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd04                                                                            
+			  ON cd04.CD = e.RESOURCE_TYPE                                                                     
+			 AND cd04.LEVEL1 = 'IM'                                                                            
+			 AND cd04.LEVEL2 = '04'                                                                            
+			 AND cd04.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd05                                                                            
+			  ON cd05.CD = g.RESOURCE_TYPE                                                                     
+			 AND cd05.LEVEL1 = 'IM'                                                                            
+			 AND cd05.LEVEL2 = '04'                                                                            
+			 AND cd05.DEL_YN = 'N'                                                                             
+			ORDER BY a.INTERFACE_ID                                                                            
+	</select>
+
+
+	<select id="retrieve" resultMap="interfaceInfoMap">
+		SELECT 																							  
+			 a.INTERFACE_ID                                                                                    
+			,b.BUSINESS_ID                                                                                     
+			,c.BUSINESS_NM                                                                                     
+			,a.INTERFACE_NM                                                                                    
+			,a.INTEGRATION_ID     	                                                                          
+			,a.CHANNEL_ID                                                                                      
+			,d.CHANNEL_NM                                                                                      
+			,a.DATA_PR_DIR                                                                                     
+			,cd01.NM 			AS DATA_PR_DIR_NM                                                             
+			,a.DATA_PR_METHOD                                                                                  
+			,cd02.NM 			AS DATA_PR_METHOD_NM                                                          
+			,a.APP_PR_METHOD                                                                                   
+			,cd03.NM 			AS APP_PR_METHOD_NM                                                           
+			,e.SYSTEM_ID 		as SND_SYSTEM_ID                                                              
+			,f.SYSTEM_NM 		AS SND_SYSTEM_NM                                                              
+			,e.RESOURCE_TYPE 	AS SND_RES_TYPE                                                               
+			,cd04.NM 			AS SND_RES_NM                                                                 
+			,g.SYSTEM_ID 		AS RCV_SYSTEM_ID                                                              
+			,h.SYSTEM_NM 		AS RCV_SYSTEM_NM                                                              
+			,g.RESOURCE_TYPE 	as RCV_RES_TYPE                                                               
+			,cd05.NM 			as RCV_RES_NM 
+			,j.ORG_ID           AS SND_ORG_ID
+			,J.ORG_NM			AS SND_ORG_NM
+			,l.ORG_ID           AS RCV_ORG_ID
+			,l.ORG_NM			AS RCV_ORG_NM				                                                              
+			from TAN0201 a                                                                                     
+			INNER JOIN TAN0101 b                                                                               
+			  ON a.INTERFACE_ID = b.INTERFACE_ID
+			 AND a.INTEGRATION_ID = #{integrationId, jdbcType=VARCHAR}	                                                               
+			 AND a.DEL_YN = 'N'                                                                                
+			INNER JOIN TIM0301 c                                                                               
+			  ON b.BUSINESS_ID  = c.BUSINESS_ID                                                                
+			INNER JOIN TIM0002 d                                                                               
+			  ON d.CHANNEL_ID   = a.CHANNEL_ID                                                                 
+			INNER JOIN TAN0213 e                                                                               
+			  ON e.INTERFACE_ID = a.INTERFACE_ID                                                               
+			 AND e.NODE_TYPE = '0'                                                                             
+			 AND e.SEQ = (SELECT max(seq) FROM tan0213 WHERE INTERFACE_ID = e.INTERFACE_ID AND NODE_TYPE = '0')
+			 AND e.DEL_YN = 'N'                                                                                
+			INNER JOIN TIM0101 f                                                                               
+			  ON f.SYSTEM_ID = e.SYSTEM_ID                                                                     
+			INNER JOIN TAN0213 g                                                                               
+			  ON g.INTERFACE_ID = a.INTERFACE_ID                                                               
+			 AND g.NODE_TYPE = '2'                                                                             
+			 AND g.SEQ = (SELECT max(seq) FROM tan0213 WHERE INTERFACE_ID = g.INTERFACE_ID AND NODE_TYPE = '2')
+			 AND g.DEL_YN = 'N'                                                                                
+			INNER JOIN TIM0101 h                                                                               
+			  ON h.SYSTEM_ID = g.SYSTEM_ID  
+		   INNER JOIN TIM0403 i                                                                               
+			  ON i.SYSTEM_ID = f.SYSTEM_ID
+			 AND i.DEL_YN = 'N'
+			INNER JOIN TIM0401 j                                                                               
+			  ON j.ORG_ID = i.ORG_ID
+			INNER JOIN TIM0403 k                                                                               
+			  ON k.SYSTEM_ID = h.SYSTEM_ID
+			 AND k.DEL_YN = 'N'
+		   INNER JOIN TIM0401 l                                                                               
+			  ON l.ORG_ID = k.ORG_ID
+			INNER JOIN TSU0301 cd01                                                                            
+			  ON cd01.CD = a.DATA_PR_DIR                                                                       
+			 AND cd01.LEVEL1 = 'IM'                                                                            
+			 AND cd01.LEVEL2 = '01'                                                                            
+			 AND cd01.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd02                                                                            
+			  ON cd02.CD = a.DATA_PR_METHOD                                                                    
+			 AND cd02.LEVEL1 = 'IM'                                                                            
+			 AND cd02.LEVEL2 = '12'                                                                            
+			 AND cd02.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd03                                                                            
+			  ON cd03.CD = a.APP_PR_METHOD                                                                     
+			 AND cd03.LEVEL1 = 'IM'                                                                            
+			 AND cd03.LEVEL2 = '02'                                                                            
+			 AND cd03.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd04                                                                            
+			  ON cd04.CD = e.RESOURCE_TYPE                                                                     
+			 AND cd04.LEVEL1 = 'IM'                                                                            
+			 AND cd04.LEVEL2 = '04'                                                                            
+			 AND cd04.DEL_YN = 'N'                                                                             
+			INNER JOIN TSU0301 cd05                                                                            
+			  ON cd05.CD = g.RESOURCE_TYPE                                                                     
+			 AND cd05.LEVEL1 = 'IM'                                                                            
+			 AND cd05.LEVEL2 = '04'                                                                            
+			 AND cd05.DEL_YN = 'N'                                                                             
+			ORDER BY a.INTERFACE_ID                                                                            
+	</select>
+	
+	
+	<resultMap id="interfaceInfoMap" type="rose.mary.trace.data.common.InterfaceInfo" >
+		<id 	property = "interfaceId" 	 column = "INTERFACE_ID"/>		
+		<result property = "businessId" 	 column = "BUSINESS_ID"/>
+		<result property = "businessNm" 	 column = "BUSINESS_NM"/>
+		<result property = "interfaceNm" 	 column = "INTERFACE_NM"/>
+		<result property = "integrationId"   column = "INTEGRATION_ID"/>
+		<result property = "channelId"	 	 column = "CHANNEL_ID"/>
+		<result property = "channelNm"		 column = "CHANNEL_NM"/>
+		<result property = "dataPrDir"		 column = "DATA_PR_DIR"/>
+		<result property = "dataPrDirNm" 	 column = "DATA_PR_DIR_NM"/>
+		<result property = "dataPrMethod"	 column = "DATA_PR_METHOD"/>
+		<result property = "dataPrMethodNm"  column = "DATA_PR_METHOD_NM"/>
+		<result property = "appPrMethod" 	 column = "APP_PR_METHOD"/>
+		<result property = "appPrMethodNm"   column = "APP_PR_METHOD_NM"/>
+		<result property = "sendSystemId" 	 column = "SND_SYSTEM_ID"/>
+		<result property = "sendSystemNm" 	 column = "SND_SYSTEM_NM"/>
+		<result property = "sendResource" 	 column = "SND_RES_TYPE"/>
+		<result property = "sendResourceNm"  column = "SND_RES_NM"/>
+		<result property = "recvSystemId"  	 column = "RCV_SYSTEM_ID"/>
+		<result property = "recvSystemNm"  	 column = "RCV_SYSTEM_NM"/>
+		<result property = "recvResource"  	 column = "RCV_RES_TYPE"/>
+		<result property = "recvResourceNm"  column = "RCV_RES_NM"/>
+		<result property = "sendOrgId"  	 column = "SND_ORG_ID"/>
+		<result property = "sendOrgNm"  	 column = "SND_ORG_NM"/>
+		<result property = "recvOrgId"  	 column = "RCV_ORG_ID"/>
+		<result property = "recvOrgNm"  	 column = "RCV_ORG_NM"/>
+		
+	</resultMap>
+
+</mapper>

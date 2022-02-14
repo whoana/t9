@@ -1,0 +1,10 @@
+server:
+  port: 8092
+  
+spring:
+  boot:
+    admin:
+      ui:
+        title: Project T9 Admin
+        brand: <span>Project T9 Admin</span>
+        //brand: <img src="assets/img/icon-spring-boot-admin.svg"><span>Project T9 Admin</span>        

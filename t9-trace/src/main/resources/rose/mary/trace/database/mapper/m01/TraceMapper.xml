@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rose.mary.trace.database.mapper.m01.TraceMapper">
+  	<!--
+  	<cache/>
+  	-->
+	<insert id="insert">
+		insert into TOP0501(             
+			 ID                               
+			,INTEGRATION_ID                     
+			,TRACKING_DATE                    
+			,ORG_HOST_ID                      
+			,STATUS                           
+			,NODE_TYPE                        
+			,START_DATE                       
+			,END_DATE                         
+			,SEQ                              
+			,HOST_ID                          
+			,PROCESS_ID                       
+			,IP                               
+			,OS                               
+			,APP_NM                           
+			,ERROR_CD                         
+			,ERROR_MSG                        
+			,RECORD_CNT                       
+			,DATA_AMT                         
+			,CMP                              
+			,DIRECTORY                        
+			,FILE_NM                          
+			,FILE_SIZE                         
+			,REG_DATE                         
+		) values (                            
+			 #{id,	 		 	jdbcType=VARCHAR}
+			,#{integrationId,	jdbcType=VARCHAR}
+			,#{date,			jdbcType=VARCHAR}
+			,#{originHostId,	jdbcType=VARCHAR}
+			,#{status,		 	jdbcType=VARCHAR}
+			,#{type,			jdbcType=VARCHAR}
+			,#{processDate,	 	jdbcType=VARCHAR}
+			,#{processEndDate,	jdbcType=VARCHAR}
+			,#{seq,				jdbcType=NUMERIC}                                
+			,#{hostId,		 	jdbcType=VARCHAR}
+			,#{processId,	 	jdbcType=VARCHAR}
+			,#{ip,			 	jdbcType=VARCHAR}
+			,#{os,			 	jdbcType=VARCHAR}
+			,#{app,			 	jdbcType=VARCHAR}
+			,#{errorCode,	 	jdbcType=VARCHAR}
+			,#{errorMessage,	jdbcType=VARCHAR}
+			,#{recordCount,	 	jdbcType=NUMERIC}
+			,#{dataSize,		jdbcType=NUMERIC}
+			,#{compress,		jdbcType=VARCHAR}
+			,''                               
+			,''                               
+			,''
+			,#{regDate,		 	jdbcType=VARCHAR}
+		)                                                                     
+	</insert>
+ 
+ 
+ 	<select id="exist" resultType="int">
+ 		select count(*) 
+ 		  from TOP0501
+ 		 where ID = #{id, jdbcType=VARCHAR} 
+ 	</select>
+
+</mapper>

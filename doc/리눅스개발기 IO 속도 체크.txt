@@ -1,0 +1,32 @@
+리눅스 디스크 IO 속도 체크 
+서버 : ssh mqm@10.10.1.10
+
+[쓰기 속도]
+[mqm@ora18host bin]$ dd if=/dev/zero bs=1024k count=100 of=test_file oflag=direct
+100+0 records in
+100+0 records out
+104857600 bytes (105 MB) copied, 7.21457 s, 14.5 MB/s
+
+[읽기속도] 
+[mqm@ora18host bin]$ dd if=test_file of=/dev/null bs=1024k
+100+0 records in
+100+0 records out
+104857600 bytes (105 MB) copied, 0.0178028 s, 5.9 GB/s
+
+[개발 노트북 맥북]
+[쓰기 속도] 2.3GB/sec
+whoana@MacBook-Pro t9 % time dd if=/dev/zero bs=1024k of=tstfile count=1024
+1024+0 records in
+1024+0 records out
+1073741824 bytes transferred in 0.451855 secs (2376296356 bytes/sec)
+dd if=/dev/zero bs=1024k of=tstfile count=1024  0.00s user 0.34s system 74% cpu 0.462 total
+
+[읽기 속도] 1.6GB/sec  
+whoana@MacBook-Pro t9 % time dd if=tstfile bs=1024k of=/dev/null
+0+1 records in
+0+1 records out
+409600 bytes transferred in 0.000249 secs (1645581339 bytes/sec)
+dd if=tstfile bs=1024k of=/dev/null  0.00s user 0.00s system 77% cpu 0.004 total
+
+
+

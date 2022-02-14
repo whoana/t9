@@ -1,0 +1,10 @@
+[ToDo List]
+1 1차 개발 freesing
+	1.1 피니셔 로직 확장
+	    조건 추가 가능하도록 플러그인 개발
+	    [조건 플러그인]  
+	    - 완료 처리 Bot 삭제 : done plugin
+	    - 기준 시간 초과 Bot 삭제 : timeout plugin
+	    - backup plugin
+	    - batch ?
+	    - 
