@@ -1,1 +1,1 @@
- gradle rdist dist zpkg -x test
+./gradlew rdist dist zpkg -x test
