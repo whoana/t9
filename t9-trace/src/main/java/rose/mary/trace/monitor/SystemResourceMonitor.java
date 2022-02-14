@@ -5,10 +5,7 @@ package rose.mary.trace.monitor;
 
 import java.io.File;
 import java.lang.management.ManagementFactory;
-//import com.sun.management.OperatingSystemMXBean;
-import java.lang.management.OperatingSystemMXBean;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import com.sun.management.OperatingSystemMXBean;
 
 
 /**
@@ -75,20 +72,6 @@ public class SystemResourceMonitor extends Monitor<SystemResource> {
 	*/
 	
 	
-	public static Long getSystemCpuLoad() throws ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{ 
-		 
-		OperatingSystemMXBean os = ManagementFactory.getOperatingSystemMXBean();
-		if (Class.forName("com.sun.management.OperatingSystemMXBean").isInstance(os)) {
-			Method memorySize = os.getClass().getDeclaredMethod("getSystemCpuLoad");
-			memorySize.setAccessible(true);
-			return (Long) memorySize.invoke(os);
-		}else{
-			return 0L;
-		}
-		 
-	}
-
-
 	/**
 	 * @param watchTime
 	 */
