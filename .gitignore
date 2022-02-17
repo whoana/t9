@@ -1,5 +1,6 @@
 ### My ignore list ###
 /dist/
+/home/
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,eclipse,macos,maven,gradle,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,eclipse,macos,maven,gradle,java
 ### Eclipse ###
