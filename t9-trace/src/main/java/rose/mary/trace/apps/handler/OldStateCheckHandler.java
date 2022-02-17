@@ -232,17 +232,17 @@ public class OldStateCheckHandler implements StateCheckHandler{
 		//--------------------------------------------------
 		{
 			int finishNodeCount = state.getFinishNodeCount();
-			if(finishNodeCount >= todoNodeCount) {			
-				if(state.isFinishSender()) {				
-					state.setFinish(true);
+			if(finishNodeCount >= todoNodeCount) {//처리해야할 노드 숫자와 발생된 트래킹 노드 수가 일치하면 	
+				if(state.isFinishSender()) {//첫번째 트래킹을 받았을 경우 		
+					state.setFinish(true); //완료처리 
 				}else {
-					state.setFinish(false);
+					state.setFinish(false);//미완료, 첫번째 건이 오지 않음.(이런 경우가 없을 듯 한데. 흠...)
 				}
 			} else {
-				if(state.isFinishSender() && statusFail.equals(status)) {				
-					state.setFinish(true);
+				if(state.isFinishSender() && statusFail.equals(status)) { //첫번째 트래킹이 발생하고 에러일 경우 			
+					state.setFinish(true); 								  //완료(에러)로 봄 
 				}else {
-					state.setFinish(false);
+					state.setFinish(false);                               //첫번째 트래킹이 
 				}
 			}
 		}

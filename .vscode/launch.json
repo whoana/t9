@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch SystemResourceMonitor",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.monitor.SystemResourceMonitor",
+            "projectName": "t9-trace"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-T9<t9-trace>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "rose.mary.trace.T9",
+            "projectName": "t9-trace",
+            "args": "",
+            "vmArgs": "-Drose.mary.home=/Users/whoana/Documents/workspace-vsc/t9/home"
+        }
+    ]
+}

@@ -122,7 +122,14 @@
 	</update>
 	
 	
-	
+	 
+	<!-- 
+		PostgreSQL for merge sentence.
+		WITH UPSERT AS( UPDATE comtnauthorinfo 
+		SET author_nm = '테스트권한' ,author_dc = '테스트권한' ,author_creat_de = '2020-09-01' WHERE author_code = 'ROL_TEST' RETURNING * ) 
+		INSERT INTO comtnauthorinfo (author_code, author_nm, author_dc, author_creat_de) 
+		SELECT 'ROL_TEST', '테스트권한1', '테스트권한1', CURRENT_TIMESTAMP WHERE NOT EXISTS(SELECT * FROM UPSERT);
+	-->
 	<update id="updateUnmatch" parameterType="rose.mary.trace.data.common.Unmatch">
 		<![CDATA[
 		merge into TOP0504 a

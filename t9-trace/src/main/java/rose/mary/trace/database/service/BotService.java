@@ -137,7 +137,13 @@ public class BotService {
 	
 	
 	
-	
+	/**
+	 * <pre>
+	 * 	인터페이스 리스트에 존재하지 않는 건들을 재처리
+	 * </pre>
+	 * @param unmatchCache
+	 * @throws Exception
+	 */
 	public void updateUnmatch(CacheProxy<String, Unmatch> unmatchCache) throws Exception {
 		boolean autoCommit = false;
 		SqlSession session = null; 
