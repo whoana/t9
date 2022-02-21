@@ -12,6 +12,9 @@
       V
     a.STATUS = case a.STATUS  when '00' then  a.STATUS  when '99' then  a.STATUS  else  #{state.status,jdbcType=VARCHAR} end			
      -->
+
+
+	 
 	<update id="restore" parameterType="rose.mary.trace.data.common.Bot">
 		<![CDATA[
 		merge into TOP0503 a
