@@ -16,7 +16,7 @@
             "mainClass": "rose.mary.trace.T9",
             "projectName": "t9-trace",
             "args": "",
-            "vmArgs": "-Drose.mary.home=/Users/whoana/Documents/workspace-vsc/t9/home"
+            "vmArgs": "-Drose.mary.home=/Users/whoana/DEV/workspace-vs/t9/home"
         }
     ]
 }

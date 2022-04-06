@@ -189,6 +189,8 @@ public class Boter implements Runnable{
 						String botId = Util.join(trace.getIntegrationId(),"@", trace.getDate(), "@", trace.getOriginHostId());
  						State state = finCache.get(botId);
  						boolean first = false;
+
+						//final cache 에서 이전 트레킹 상태가 존재하지 않으면 최초 상태를 생성한다.
 						if(state == null) {
 							long currentDate = System.currentTimeMillis();
 							state = new State();
@@ -196,11 +198,29 @@ public class Boter implements Runnable{
 							state.setBotId(botId);
 							first = true;													 
 						}
-						
+
+						//----------------------------------------------------------------
+						//StateCheckHandler 는 Trace 정보를 이용하여 State 정보를 업데이트한다. 
+						//기존 MTE 포멧을 이용하여 State 값을 만들기 위해  아래 인터페이스 구현제를 사용한다.
+						//	rose.mary.trace.apps.handler.OldStateCheckHandler 
+						//checkAndSet 내에서 처리되는 주요 내용은
+						//트레킹 단계별 상태값, 에러 정보 업데이트 들이다.
+						//더 자세한 내용을 아래 인터페이스 구현체를 참고
+						// 	rose.mary.trace.apps.handler.OldStateCheckHandler 
+						//----------------------------------------------------------------
 						trace.getStateCheckHandler().checkAndSet(first, trace, state);	
 						
+						//----------------------------------------------------------------
+						//현재 상태 단계가 BRKR, REPL 단계이면 트레킹 상태값의 디비적재를 처리하지 않도록 
+						//skip 값이 false 일때만 finalCache 에 상태값을 등록하고 
+						//동시에 디비로드를 위한 bot cache 로 라우팅한다. 
+						//----------------------------------------------------------------
 						if(!state.skip()) {
 							finCache.put(botId, state); 
+							//--------------------------------------------------------------
+							//트레킹 상태값을 디비로 로드하기위해 botCache 에 상택값 적재
+							//botCache 내의 state 값들은 BotLoader 에 듸해 데이터베이스에 적재된다.
+							//--------------------------------------------------------------
 							routeToBotCache(botId, state);
 						}
 						
@@ -320,7 +340,7 @@ public class Boter implements Runnable{
 		logger.info(Util.join("stop boter:[" + name + "]"));
 		 
 	}
- 
+
 	private void routeToBotCache(String id, State state) throws Exception {
 		Integer index = getBotCacheIndex(id);
 		
