@@ -73,9 +73,9 @@ public class Trace implements Serializable{
 	
 	String errorMessage;
 	
-	String recordCount = "0";
+	int recordCount = 0;
 	
-	String dataSize = "0";
+	int dataSize = 0;
 	
 	String compress;
 	
@@ -266,28 +266,28 @@ public class Trace implements Serializable{
 	/**
 	 * @return the recordCount
 	 */
-	public String getRecordCount() {
+	public int getRecordCount() {
 		return recordCount;
 	}
 
 	/**
 	 * @param recordCount the recordCount to set
 	 */
-	public void setRecordCount(String recordCount) {
+	public void setRecordCount(int recordCount) {
 		this.recordCount = recordCount;
 	}
 
 	/**
 	 * @return the dataSize
 	 */
-	public String getDataSize() {
+	public int getDataSize() {
 		return dataSize;
 	}
 
 	/**
 	 * @param dataSize the dataSize to set
 	 */
-	public void setDataSize(String dataSize) {
+	public void setDataSize(int dataSize) {
 		this.dataSize = dataSize;
 	}
 

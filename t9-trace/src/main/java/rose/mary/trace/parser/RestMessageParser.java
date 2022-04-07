@@ -63,9 +63,9 @@ public class RestMessageParser extends Parser {
 		trace.setErrorCode(errorCode);
 		trace.setErrorMessage(errorMessage);
 		
-		trace.setRecordCount(Util.isEmpty(recordCount) ? "0" : recordCount );
+		trace.setRecordCount(Util.isEmpty(recordCount) ? 0 : Integer.parseInt(recordCount));
 		
-		trace.setDataSize(Util.isEmpty(dataSize) ? "0" : dataSize );
+		trace.setDataSize(Util.isEmpty(dataSize) ? 0 : Integer.parseInt(dataSize));
 		
 		trace.setCompress(compress);
 		trace.setData(data.getBytes());

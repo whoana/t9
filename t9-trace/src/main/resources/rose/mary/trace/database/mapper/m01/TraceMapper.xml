@@ -53,7 +53,7 @@
 			,#{compress,		jdbcType=VARCHAR}
 			,''                               
 			,''                               
-			,''
+			,0
 			,#{regDate,		 	jdbcType=VARCHAR}
 		)                                                                     
 	</insert>

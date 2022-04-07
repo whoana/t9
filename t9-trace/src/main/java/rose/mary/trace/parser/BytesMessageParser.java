@@ -216,8 +216,8 @@ public class BytesMessageParser extends Parser {
 					else if(field.equals(MTEStruct.d_error_code))    trace.setErrorCode(buffer.toString().trim());
 					else if(field.equals(MTEStruct.d_error_message)) trace.setErrorMessage(buffer.toString().trim());
 				}else if(MTEStruct.g.equals(category) && field != null) {
-					if(field.equals(MTEStruct.g_data_size))          trace.setDataSize(buffer.toString().trim());
-					else if(field.equals(MTEStruct.g_record_cnt))    trace.setRecordCount(buffer.toString().trim());
+					if(field.equals(MTEStruct.g_data_size))          trace.setDataSize(Integer.parseInt(buffer.toString().trim()));
+					else if(field.equals(MTEStruct.g_record_cnt))    trace.setRecordCount(Integer.parseInt(buffer.toString().trim()));
 					else if(field.equals(MTEStruct.g_data_compress)) trace.setCompress(buffer.toString().trim());
 				}
 			}

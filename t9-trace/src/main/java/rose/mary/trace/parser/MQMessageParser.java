@@ -70,8 +70,8 @@ public class MQMessageParser extends Parser {
 			String status = "";
 			String errorCode = "";
 			String errorMessage = "";
-			String recordCount = "0";
-			String dataSize = "0";
+			int recordCount = 0;
+			int dataSize = 0;
 			String compress = "0";
 			String timezone = "UTC+9";
 			String elapsedTime = "";
@@ -127,8 +127,8 @@ public class MQMessageParser extends Parser {
 			// set g:usr.mte_info.data_info
 			// -------------------------------------------------------------------
 			Element dataInfo = parseElement(mteInfo, MTEStruct.g, true);
-			dataSize    = parseStringValue(dataInfo, MTEStruct.g_data_size, true);
-			recordCount = parseStringValue(dataInfo, MTEStruct.g_record_cnt, true);
+			dataSize    = parseIntValue(dataInfo, MTEStruct.g_data_size, true);
+			recordCount = parseIntValue(dataInfo, MTEStruct.g_record_cnt, true);
 			compress    = parseStringValue(dataInfo, MTEStruct.g_data_compress, true);
 
 			msg.readFully(data);
