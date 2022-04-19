@@ -7,25 +7,25 @@
   	<cache/>
   	-->
 	<select id="selectDatabaseHealthCheckDate" resultType="int">
-		SELECT count(*) 
-		  FROM TOP0505 a 
-		 WHERE a.PACKAGE = 'system' 
-		   AND a.ATTRIBUTE_ID = 'database.health.check.date' 
-		   AND a.idx = 0  																					  			                                                                             
+		SELECT count(*)
+		  FROM TOP0505 a
+		 WHERE a.PACKAGE = 'system'
+		   AND a.ATTRIBUTE_ID = 'database.health.check.date'
+		   AND a.idx = 0
 	</select>
 
 	<update id="updateDatabaseHealthCheckDate" parameterType="string">
-		UPDATE TOP0505 a 
+		UPDATE TOP0505 a
 		   SET a.ATTRIBUTE_VALUE = #{checkDate},
 		       a.MOD_USER        = 'iip',
 		       a.MOD_DATE        = #{checkDate}
-		 WHERE a.PACKAGE 		 = 'system' 
-		   AND a.ATTRIBUTE_ID    = 'database.health.check.date' 
-		   AND a.idx 			 = 0  																					  			                                                                             
+		 WHERE a.PACKAGE 		 = 'system'
+		   AND a.ATTRIBUTE_ID    = 'database.health.check.date'
+		   AND a.idx 			 = 0
 	</update>
- 	
+
  	<insert id="insertDatabaseHealthCheckDate" parameterType="string">
-		INSERT INTO TOP0505 VALUES (
+		INSERT INTO TOP0505 (
 			 PACKAGE
 			,ATTRIBUTE_ID
 			,IDX
@@ -45,14 +45,14 @@
 			,'N'
 			,#{checkDate}
 			,'iip'
-		)																				  			                                                                             
+		)
 	</insert>
-	
+
 	<select id="generateBadSqlGrammarException" resultType="int">
-		SELECT count(*) 
-		  FROM TOP0505dfasdfasdfadsf a 
-		 WHERE a.PACKAGE = 'system' 
-		   AND a.ATTRIBUTE_ID = 'database.health.check.date' 
-		   AND a.idx = 0  																					  			                                                                             
+		SELECT count(*)
+		  FROM TOP0505dfasdfasdfadsf a
+		 WHERE a.PACKAGE = 'system'
+		   AND a.ATTRIBUTE_ID = 'database.health.check.date'
+		   AND a.idx = 0
 	</select>
 </mapper>

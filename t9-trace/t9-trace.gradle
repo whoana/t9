@@ -5,7 +5,7 @@ plugins {
 //	id 'eclipse-wtp'
 	//id 'org.springframework.boot' version '2.1.3.RELEASE'
 }
- 
+
 
 group = 'rose.mary.trace'
 description = 't9-trace project'
@@ -13,26 +13,28 @@ version = '1.0.0'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
+
+
 //-----------------------------------------------------------------------------------------------
 // dependencies
 //-----------------------------------------------------------------------------------------------
 dependencies {
 	//spring-boot
-	
-	
+
+
 	implementation('org.springframework.boot:spring-boot-starter'){
 		exclude group: 'org.springframework.boot', 	module: 'spring-boot-starter-logging'
 	}
-	
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
-	
+
 	compile('de.codecentric:spring-boot-admin-starter-client:2.2.2')
 
  	//For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
  	compile('com.fasterxml.jackson.module:jackson-module-kotlin')
- 
+
 	runtime group: 'org.springframework.shell', name: 'spring-shell', 					version:'1.2.0.RELEASE'
 	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', 	version:'2.1.3.RELEASE'
 	//database
@@ -49,7 +51,7 @@ dependencies {
 		exclude group: 'org.slf4j', 					module: 'jcl-over-slf4j'
 		exclude group: 'org.slf4j',                     module: 'slf4j-log4j12'
 		exclude group: 'log4j',     					module: 'log4j'
-		
+
 		exclude group: 'ch.qos.logback', 				module: 'logback-classic'
 		//jackson
 		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-core'
@@ -72,26 +74,26 @@ dependencies {
 		exclude group: 'junit', 						module: 'junit'
 
 	}
-	
+
 	//ehcache
 	compile group: 'org.ehcache', name: 'ehcache', version: '3.7.0'
 	//compile group: 'org.ehcache', name: 'ehcache-transactions', version: '3.7.0'
-	 
- 
+
+
 	//infinispan
 	compile group: 'org.infinispan', name: 'infinispan-core', version: '9.4.16.Final'
-	
+
 	//mapdb
 	compile group: 'org.mapdb', name: 'mapdb', version: '3.0.7'
-	
+
 	//com.hazelcast:hazelcast
 	compile 'com.hazelcast:hazelcast:3.12.2'
-	
+
 	// https://mvnrepository.com/artifact/net.openhft/chronicle-map
 	compile group: 'net.openhft', name: 'chronicle-map', version: '3.17.4'
 	// https://mvnrepository.com/artifact/net.openhft/chronicle-queue
 	compile group: 'net.openhft', name: 'chronicle-queue', version: '5.17.22'
-	
+
 	//apache
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
 	compile group: 'commons-io', name: 'commons-io', version: '2.4'
@@ -101,22 +103,30 @@ dependencies {
 	compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
 	compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version:'2.11.2'
 	compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.25'
-	
+
 	//iLink
 	compile fileTree (dir: 'lib', include:['ILinkAPI-6.1.0.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
 	//compile fileTree (dir: 'lib', include:['ILinkAPI.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
 	//compile fileTree (dir: 'lib', include:['ILinkAPI_20130412.jar','mi_link_wrapper.jar','mi_common.jar','javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
 	//wmq
 	//compile fileTree (dir: 'lib/wmq/lib', include:['**/*.jar'])
-	
+
 	// https://mvnrepository.com/artifact/oracle/ojdbc6
 	//compile group: 'oracle', name: 'ojdbc6', version: '11.2.0.3'
 	compile 'com.oracle:ojdbc6:11.2.0.3' // 추가하기
 
+	//jdbc for postgres
+	// https://mvnrepository.com/artifact/org.postgresql/postgresql
+	implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.4'
+
+
+
+
+
 	// jackson-dataformat-xml
 	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
-	
-	//----------------------------------------------------------------------------	
+
+	//----------------------------------------------------------------------------
 	//websocket
 	//----------------------------------------------------------------------------
 	compile("org.springframework.boot:spring-boot-starter-websocket")
@@ -130,4 +140,4 @@ dependencies {
     compile("org.webjars:bootstrap:3.3.7")
     compile("org.webjars:jquery:3.1.0")
 }
- 
+

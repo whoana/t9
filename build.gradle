@@ -8,16 +8,16 @@
 
 
 description = 'project t9'
-allprojects { 
+allprojects {
 	group = 'rose.mary.trace'
 }
 
 
- 
 subprojects {
-    apply plugin: 'maven'
+    apply plugin: 'maven' //for gradle version 6.x
+    //apply plugin:'maven-publish'
 	apply plugin: 'java'
-	
+
 
 	tasks.withType(JavaCompile) {
 		options.encoding = 'UTF-8'
@@ -30,14 +30,14 @@ subprojects {
 		mavenCentral()
 		mavenLocal()
 		maven { url "http://idc.mocomsys.com:28081/nexus/content/groups/public"}
-		maven { url "https://code.lds.org/nexus/content/groups/main-repo"} 
+		maven { url "https://code.lds.org/nexus/content/groups/main-repo"}
 	}
 
 	dependencies {
 		// Use JUnit test framework
 		testImplementation 'junit:junit:4.12'
 	}
- 
+
 }
 
 
@@ -49,70 +49,70 @@ task rdist(type: Delete) {
 
 
 task dist {
-	
+
 	doLast {
 		println('[start distribute]')
-	
+
 		rdist
-		
-		println('copy t9 lib')		
+
+		println('copy t9 lib')
 		copy {
 			from "$projectDir/t9-console/build/libs/t9-console-1.0.0.jar", "$projectDir/t9-trace/build/libs/t9-trace-1.0.0.jar"
 			into "$projectDir/dist/t9/lib"
 		}
-		
+
 		println('copy t9 resources')
 		copy {
-			from "$projectDir/t9-trace/build/resources/main/config/config.json", 
-			     "$projectDir/t9-trace/build/resources/main/config/sqlerror.json", 
-			     "$projectDir/t9-trace/build/resources/main/config/application.yml", 
+			from "$projectDir/t9-trace/build/resources/main/config/config.json",
+			     "$projectDir/t9-trace/build/resources/main/config/sqlerror.json",
+			     "$projectDir/t9-trace/build/resources/main/config/application.yml",
 			     "$projectDir/t9-trace/build/resources/main/config/logback-spring.xml"
 			into "$projectDir/dist/t9/config"
 		}
-		
-		
-		println('copy t9-admin lib') 
+
+
+		println('copy t9-admin lib')
 		copy {
 			from "$projectDir/t9-admin/build/libs/t9-admin-1.0.0.jar"
 			into "$projectDir/dist/t9-admin/lib"
 		}
-		
-		println('copy t9-admin resources')		
+
+		println('copy t9-admin resources')
 		copy {
-			from "$projectDir/t9-admin/build/resources/main/config/application.yml", 
-			     "$projectDir/t9-admin/build/resources/main/config/logback-spring.xml"			     
+			from "$projectDir/t9-admin/build/resources/main/config/application.yml",
+			     "$projectDir/t9-admin/build/resources/main/config/logback-spring.xml"
 			into "$projectDir/dist/t9-admin/config"
 		}
-		
-	}	
+
+	}
 }
 
 task ddocker {
-	
+
 	doLast {
 		println('[start docker]')
 		if(file("$projectDir/docker/t9-linux/t9").exists()){
-			
+
 			println('copy dcoker lib')
 			delete "$projectDir/docker/t9-linux/t9/lib"
 			copy {
 				from "$projectDir/t9-console/build/libs/t9-console-1.0.0.jar", "$projectDir/t9-trace/build/libs/t9-trace-1.0.0.jar"
 				into "$projectDir/docker/t9-linux/t9/lib"
 			}
-			
-			
+
+
 			println('copy docker resources')
 			delete "$projectDir/docker/t9-linux/t9/config"
 			copy {
-				from "$projectDir/t9-trace/build/resources/main/config/config.json", 
-			     	     "$projectDir/t9-trace/build/resources/main/config/sqlerror.json", 
-				     "$projectDir/t9-trace/build/resources/main/config/application.yml", 
+				from "$projectDir/t9-trace/build/resources/main/config/config.json",
+			     	     "$projectDir/t9-trace/build/resources/main/config/sqlerror.json",
+				     "$projectDir/t9-trace/build/resources/main/config/application.yml",
 				     "$projectDir/t9-trace/build/resources/main/config/logback-spring.xml"
-				     
+
 				into "$projectDir/docker/t9-linux/t9/config"
 			}
-		} 
-	}	
+		}
+	}
 }
 
 task zpkg(type: Zip) {
@@ -120,7 +120,7 @@ task zpkg(type: Zip) {
     def formattedDate = date.format('yyyyMMddHHmmss')
     archiveFileName = "t9-V1.0.0-" + formattedDate + ".zip"
     destinationDirectory = file("$projectDir/dist")
-    from "$projectDir/dist/t9"   
+    from "$projectDir/dist/t9"
 }
 
 task zpkgAdmin(type: Zip) {
@@ -128,5 +128,5 @@ task zpkgAdmin(type: Zip) {
     def formattedDate = date.format('yyyyMMddHHmmss')
     archiveFileName = "t9-admin-V1.0.0-" + formattedDate + ".zip"
     destinationDirectory = file("$projectDir/dist")
-    from "$projectDir/dist/t9-admin"   
+    from "$projectDir/dist/t9-admin"
 }

@@ -28,16 +28,16 @@ public class RestChannelControllerTest {
         System.setProperty("rose.mary.home", "/Users/whoana/Documents/gitlab/t9/t9-trace/bin/main");
     }
 
-	
+
 	@Autowired
     TestRestTemplate testRestTemplate;
 
- 
-	@Test
+
+//	@Test
 	public void testTrace() {
  		Map<String, Object> trace = new HashMap<String, Object>();
- 		 
-		
+
+
  		trace.put("integrationId"	, "EG_SCMEGS_BD_003");
  		trace.put("originHostId" 	, "host1");
  		trace.put("hostId"       	, "host1");
@@ -48,10 +48,10 @@ public class RestChannelControllerTest {
  		trace.put("type"			, "RCVR");
  		trace.put("todoNodeCount"	, 1);
  		trace.put("status"			, "00");
- 		
+
 		Map result = testRestTemplate.postForObject("/traces", trace, Map.class);
         assertThat(result).containsKeys("cd","msg");
- 
+
 	}
 
 }
