@@ -15,13 +15,13 @@
 	</select>
 
 	<update id="updateDatabaseHealthCheckDate" parameterType="string">
-		UPDATE TOP0505 a
-		   SET a.ATTRIBUTE_VALUE = #{checkDate},
-		       a.MOD_USER        = 'iip',
-		       a.MOD_DATE        = #{checkDate}
-		 WHERE a.PACKAGE 		 = 'system'
-		   AND a.ATTRIBUTE_ID    = 'database.health.check.date'
-		   AND a.idx 			 = 0
+		UPDATE TOP0505
+		   SET ATTRIBUTE_VALUE = #{checkDate},
+		       MOD_USER        = 'iip',
+		       MOD_DATE        = #{checkDate}
+		 WHERE PACKAGE 		   = 'system'
+		   AND ATTRIBUTE_ID    = 'database.health.check.date'
+		   AND idx 			   = 0
 	</update>
 
  	<insert id="insertDatabaseHealthCheckDate" parameterType="string">
