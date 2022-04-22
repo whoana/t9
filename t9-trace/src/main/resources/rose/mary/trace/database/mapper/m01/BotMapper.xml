@@ -13,7 +13,7 @@
 				with UPDATE_TABLE as (
 					update TOP0503 
 					set 
-						STATUS 	= case a.STATUS  when '00' then  a.STATUS  when '99' then  a.STATUS  else  #{state.status,jdbcType=VARCHAR} end			
+						 STATUS 	= case STATUS  when '00' then  STATUS  when '99' then  STATUS  else  #{state.status,jdbcType=VARCHAR} end			
 						,RECORD_CNT	= #{state.recordCount,		jdbcType=NUMERIC}
 						,DATA_AMT 	= #{state.dataAmount,	 	jdbcType=NUMERIC}
 						,CMP		= #{state.compress,			jdbcType=VARCHAR}

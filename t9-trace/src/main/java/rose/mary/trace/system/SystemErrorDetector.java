@@ -94,6 +94,10 @@ public class SystemErrorDetector {
 		SystemError error = databaseErrorDetect(jp, exception);
 		
 		try {
+			//에러 부분은 캐시에 넣지 않도록 하자. 
+			//에러 대량 발생시 디스크 용량에 부담을 줄수 있다. 
+			//아마도 이부분은 나중에 분석을 위하여 추가 개발을 고려한 듯 하니 일단. 
+			//system.log 에 남기는 것으로 제한한다. 2022.04.22 
 			systemErrorCache.put(error.getId(), error);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
