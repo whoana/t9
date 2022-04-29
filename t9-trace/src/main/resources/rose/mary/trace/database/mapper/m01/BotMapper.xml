@@ -46,10 +46,12 @@
 					,ERROR_CD			
 					,ERROR_MSG
 					,BUSINESS_ID
+					,BUSINESS_CD
 					,BUSINESS_NM 		
 					,INTERFACE_NM     
 					,INTERFACE_ID   
-					,CHANNEL_ID       
+					,CHANNEL_ID 
+					,CHANNEL_CD       
 					,CHANNEL_NM       
 					,DATA_PR_DIR      
 					,DATA_PR_DIR_NM  
@@ -57,17 +59,21 @@
 					,DATA_PR_METHOD_NM
 					,APP_PR_METHOD    
 					,APP_PR_METHOD_NM 
-					,SND_SYSTEM_ID    
+					,SND_SYSTEM_ID
+					,SND_SYSTEM_CD    
 					,SND_SYSTEM_NM    
 					,SND_RES_TYPE     
 					,SND_RES_NM 
 					,SND_ORG_ID
+					,SND_ORG_CD
 					,SND_ORG_NM
-					,RCV_SYSTEM_ID    
+					,RCV_SYSTEM_ID
+					,RCV_SYSTEM_CD    
 					,RCV_SYSTEM_NM    
 					,RCV_RES_TYPE     
 					,RCV_RES_NM
 					,RCV_ORG_ID
+					,RCV_ORG_CD
 					,RCV_ORG_NM           			
 					,REG_DATE     			
 				)
@@ -87,10 +93,12 @@
 					,#{state.errorCode,	 			jdbcType=VARCHAR}
 					,#{state.errorMessage,			jdbcType=VARCHAR}
 					,#{interfaceInfo.businessId,	jdbcType=VARCHAR}
+					,#{interfaceInfo.businessCd,	jdbcType=VARCHAR}
 					,#{interfaceInfo.businessNm,	jdbcType=VARCHAR}
 					,#{interfaceInfo.interfaceNm,	jdbcType=VARCHAR}
 					,#{interfaceInfo.interfaceId,	jdbcType=VARCHAR}
 					,#{interfaceInfo.channelId,		jdbcType=VARCHAR}
+					,#{interfaceInfo.channelCd,		jdbcType=VARCHAR}
 					,#{interfaceInfo.channelNm,		jdbcType=VARCHAR}
 					,#{interfaceInfo.dataPrDir,		jdbcType=VARCHAR}
 					,#{interfaceInfo.dataPrDirNm,	jdbcType=VARCHAR}
@@ -99,16 +107,20 @@
 					,#{interfaceInfo.appPrMethod,	jdbcType=VARCHAR}
 					,#{interfaceInfo.appPrMethodNm, jdbcType=VARCHAR}
 					,#{interfaceInfo.sendSystemId,	jdbcType=VARCHAR}
+					,#{interfaceInfo.sendSystemCd,	jdbcType=VARCHAR}
 					,#{interfaceInfo.sendSystemNm,	jdbcType=VARCHAR}
 					,#{interfaceInfo.sendResource,	jdbcType=VARCHAR}
 					,#{interfaceInfo.sendResourceNm,jdbcType=VARCHAR}
 					,#{interfaceInfo.sendOrgId,		jdbcType=VARCHAR}
+					,#{interfaceInfo.sendOrgCd,		jdbcType=VARCHAR}
 					,#{interfaceInfo.sendOrgNm,		jdbcType=VARCHAR}
 					,#{interfaceInfo.recvSystemId,	jdbcType=VARCHAR}
+					,#{interfaceInfo.recvSystemCd,	jdbcType=VARCHAR}
 					,#{interfaceInfo.recvSystemNm,	jdbcType=VARCHAR}
 					,#{interfaceInfo.recvResource,	jdbcType=VARCHAR}
 					,#{interfaceInfo.recvResourceNm,jdbcType=VARCHAR}
 					,#{interfaceInfo.recvOrgId,		jdbcType=VARCHAR}
+					,#{interfaceInfo.recvOrgCd,		jdbcType=VARCHAR}
 					,#{interfaceInfo.recvOrgNm,		jdbcType=VARCHAR}
 					,#{regDate,		 				jdbcType=VARCHAR}	
 				where not exists (select * from UPDATE_TABLE)
@@ -153,10 +165,12 @@
 					,a.ERROR_CD			
 					,a.ERROR_MSG
 					,a.BUSINESS_ID
+					,a.BUSINESS_CD
 					,a.BUSINESS_NM 		
 					,a.INTERFACE_NM     
 					,a.INTERFACE_ID   
-					,a.CHANNEL_ID       
+					,a.CHANNEL_ID
+					,a.CHANNEL_CD       
 					,a.CHANNEL_NM       
 					,a.DATA_PR_DIR      
 					,a.DATA_PR_DIR_NM  
@@ -165,20 +179,24 @@
 					,a.APP_PR_METHOD    
 					,a.APP_PR_METHOD_NM 
 					,a.SND_SYSTEM_ID    
+					,a.SND_SYSTEM_CD    
 					,a.SND_SYSTEM_NM    
 					,a.SND_RES_TYPE     
 					,a.SND_RES_NM 
 					,a.SND_ORG_ID
+					,a.SND_ORG_CD
 					,a.SND_ORG_NM
 					,a.RCV_SYSTEM_ID    
+					,a.RCV_SYSTEM_CD    
 					,a.RCV_SYSTEM_NM    
 					,a.RCV_RES_TYPE     
 					,a.RCV_RES_NM
 					,a.RCV_ORG_ID
+					,a.RCV_ORG_CD
 					,a.RCV_ORG_NM           			
 					,a.REG_DATE                    
 				) values (                            
-					#{state.integrationId,			jdbcType=VARCHAR}
+					 #{state.integrationId,			jdbcType=VARCHAR}
 					,#{state.trackingDate,	 		jdbcType=VARCHAR}
 					,#{state.orgHostId,				jdbcType=VARCHAR}
 					,#{state.status,		 		jdbcType=VARCHAR}
@@ -194,9 +212,11 @@
 					,#{state.errorMessage,			jdbcType=VARCHAR}
 					,#{interfaceInfo.businessId,	jdbcType=VARCHAR}
 					,#{interfaceInfo.businessNm,	jdbcType=VARCHAR}
+					,#{interfaceInfo.businessCd,	jdbcType=VARCHAR}
 					,#{interfaceInfo.interfaceNm,	jdbcType=VARCHAR}
 					,#{interfaceInfo.interfaceId,	jdbcType=VARCHAR}
 					,#{interfaceInfo.channelId,		jdbcType=VARCHAR}
+					,#{interfaceInfo.channelCd,		jdbcType=VARCHAR}
 					,#{interfaceInfo.channelNm,		jdbcType=VARCHAR}
 					,#{interfaceInfo.dataPrDir,		jdbcType=VARCHAR}
 					,#{interfaceInfo.dataPrDirNm,	jdbcType=VARCHAR}
@@ -205,16 +225,20 @@
 					,#{interfaceInfo.appPrMethod,	jdbcType=VARCHAR}
 					,#{interfaceInfo.appPrMethodNm, jdbcType=VARCHAR}
 					,#{interfaceInfo.sendSystemId,	jdbcType=VARCHAR}
+					,#{interfaceInfo.sendSystemCd,	jdbcType=VARCHAR}
 					,#{interfaceInfo.sendSystemNm,	jdbcType=VARCHAR}
 					,#{interfaceInfo.sendResource,	jdbcType=VARCHAR}
 					,#{interfaceInfo.sendResourceNm,jdbcType=VARCHAR}
 					,#{interfaceInfo.sendOrgId,		jdbcType=VARCHAR}
+					,#{interfaceInfo.sendOrgCd,		jdbcType=VARCHAR}
 					,#{interfaceInfo.sendOrgNm,		jdbcType=VARCHAR}
 					,#{interfaceInfo.recvSystemId,	jdbcType=VARCHAR}
+					,#{interfaceInfo.recvSystemCd,	jdbcType=VARCHAR}
 					,#{interfaceInfo.recvSystemNm,	jdbcType=VARCHAR}
 					,#{interfaceInfo.recvResource,	jdbcType=VARCHAR}
 					,#{interfaceInfo.recvResourceNm,jdbcType=VARCHAR}
 					,#{interfaceInfo.recvOrgId,		jdbcType=VARCHAR}
+					,#{interfaceInfo.recvOrgCd,		jdbcType=VARCHAR}
 					,#{interfaceInfo.recvOrgNm,		jdbcType=VARCHAR}
 					,#{regDate,		 				jdbcType=VARCHAR}			
 				) 

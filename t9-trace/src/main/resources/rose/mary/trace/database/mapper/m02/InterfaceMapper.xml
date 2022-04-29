@@ -11,9 +11,11 @@
 			 a.INTERFACE_ID                                                                                    
 			,b.BUSINESS_ID                                                                                     
 			,c.BUSINESS_NM                                                                                     
+			,c.BUSINESS_CD
 			,a.INTERFACE_NM                                                                                    
 			,a.INTEGRATION_ID     	                                                                          
-			,a.CHANNEL_ID                                                                                      
+			,a.CHANNEL_ID
+			,d.CHANNEL_CD
 			,d.CHANNEL_NM                                                                                      
 			,a.DATA_PR_DIR                                                                                     
 			,cd01.NM 			AS DATA_PR_DIR_NM                                                             
@@ -23,16 +25,20 @@
 			,cd03.NM 			AS APP_PR_METHOD_NM                                                           
 			,e.SYSTEM_ID 		as SND_SYSTEM_ID                                                              
 			,f.SYSTEM_NM 		AS SND_SYSTEM_NM                                                              
+			,f.SYSTEM_CD 		AS SND_SYSTEM_CD
 			,e.RESOURCE_TYPE 	AS SND_RES_TYPE                                                               
 			,cd04.NM 			AS SND_RES_NM                                                                 
 			,g.SYSTEM_ID 		AS RCV_SYSTEM_ID                                                              
-			,h.SYSTEM_NM 		AS RCV_SYSTEM_NM                                                              
+			,h.SYSTEM_NM 		AS RCV_SYSTEM_NM
+			,h.SYSTEM_CD 		AS RCV_SYSTEM_CD                                                              
 			,g.RESOURCE_TYPE 	AS RCV_RES_TYPE                                                               
 			,cd05.NM 			AS RCV_RES_NM 
 			,j.ORG_ID           AS SND_ORG_ID
 			,J.ORG_NM			AS SND_ORG_NM
+			,j.ORG_CD 			AS SND_ORG_CD	
 			,l.ORG_ID           AS RCV_ORG_ID
 			,l.ORG_NM			AS RCV_ORG_NM
+			,l.ORG_CD			AS RCV_ORG_CD
 			from TAN0201 a                                                                                     
 			INNER JOIN TAN0101 b                                                                               
 			  ON a.INTERFACE_ID = b.INTERFACE_ID                                                               
@@ -99,9 +105,11 @@
 			 a.INTERFACE_ID                                                                                    
 			,b.BUSINESS_ID                                                                                     
 			,c.BUSINESS_NM                                                                                     
+			,c.BUSINESS_CD
 			,a.INTERFACE_NM                                                                                    
 			,a.INTEGRATION_ID     	                                                                          
-			,a.CHANNEL_ID                                                                                      
+			,a.CHANNEL_ID
+			,d.CHANNEL_CD
 			,d.CHANNEL_NM                                                                                      
 			,a.DATA_PR_DIR                                                                                     
 			,cd01.NM 			AS DATA_PR_DIR_NM                                                             
@@ -111,16 +119,20 @@
 			,cd03.NM 			AS APP_PR_METHOD_NM                                                           
 			,e.SYSTEM_ID 		as SND_SYSTEM_ID                                                              
 			,f.SYSTEM_NM 		AS SND_SYSTEM_NM                                                              
+			,f.SYSTEM_CD 		AS SND_SYSTEM_CD
 			,e.RESOURCE_TYPE 	AS SND_RES_TYPE                                                               
 			,cd04.NM 			AS SND_RES_NM                                                                 
 			,g.SYSTEM_ID 		AS RCV_SYSTEM_ID                                                              
-			,h.SYSTEM_NM 		AS RCV_SYSTEM_NM                                                              
-			,g.RESOURCE_TYPE 	as RCV_RES_TYPE                                                               
-			,cd05.NM 			as RCV_RES_NM 
+			,h.SYSTEM_NM 		AS RCV_SYSTEM_NM
+			,h.SYSTEM_CD 		AS RCV_SYSTEM_CD                                                              
+			,g.RESOURCE_TYPE 	AS RCV_RES_TYPE                                                               
+			,cd05.NM 			AS RCV_RES_NM 
 			,j.ORG_ID           AS SND_ORG_ID
 			,J.ORG_NM			AS SND_ORG_NM
+			,j.ORG_CD 			AS SND_ORG_CD	
 			,l.ORG_ID           AS RCV_ORG_ID
-			,l.ORG_NM			AS RCV_ORG_NM				                                                              
+			,l.ORG_NM			AS RCV_ORG_NM
+			,l.ORG_CD			AS RCV_ORG_CD				                                                              
 			from TAN0201 a                                                                                     
 			INNER JOIN TAN0101 b                                                                               
 			  ON a.INTERFACE_ID = b.INTERFACE_ID
@@ -187,9 +199,11 @@
 		<id 	property = "interfaceId" 	 column = "INTERFACE_ID"/>		
 		<result property = "businessId" 	 column = "BUSINESS_ID"/>
 		<result property = "businessNm" 	 column = "BUSINESS_NM"/>
+		<result property = "businessCd" 	 column = "BUSINESS_CD"/>
 		<result property = "interfaceNm" 	 column = "INTERFACE_NM"/>
 		<result property = "integrationId"   column = "INTEGRATION_ID"/>
 		<result property = "channelId"	 	 column = "CHANNEL_ID"/>
+		<result property = "channelCd"	 	 column = "CHANNEL_CD"/>
 		<result property = "channelNm"		 column = "CHANNEL_NM"/>
 		<result property = "dataPrDir"		 column = "DATA_PR_DIR"/>
 		<result property = "dataPrDirNm" 	 column = "DATA_PR_DIR_NM"/>
@@ -198,16 +212,20 @@
 		<result property = "appPrMethod" 	 column = "APP_PR_METHOD"/>
 		<result property = "appPrMethodNm"   column = "APP_PR_METHOD_NM"/>
 		<result property = "sendSystemId" 	 column = "SND_SYSTEM_ID"/>
+		<result property = "sendSystemCd" 	 column = "SND_SYSTEM_CD"/>
 		<result property = "sendSystemNm" 	 column = "SND_SYSTEM_NM"/>
 		<result property = "sendResource" 	 column = "SND_RES_TYPE"/>
 		<result property = "sendResourceNm"  column = "SND_RES_NM"/>
 		<result property = "recvSystemId"  	 column = "RCV_SYSTEM_ID"/>
+		<result property = "recvSystemCd"  	 column = "RCV_SYSTEM_CD"/>
 		<result property = "recvSystemNm"  	 column = "RCV_SYSTEM_NM"/>
 		<result property = "recvResource"  	 column = "RCV_RES_TYPE"/>
 		<result property = "recvResourceNm"  column = "RCV_RES_NM"/>
 		<result property = "sendOrgId"  	 column = "SND_ORG_ID"/>
+		<result property = "sendOrgCd"  	 column = "SND_ORG_CD"/>
 		<result property = "sendOrgNm"  	 column = "SND_ORG_NM"/>
 		<result property = "recvOrgId"  	 column = "RCV_ORG_ID"/>
+		<result property = "recvOrgCd"  	 column = "RCV_ORG_CD"/>
 		<result property = "recvOrgNm"  	 column = "RCV_ORG_NM"/>
 		
 	</resultMap>
