@@ -121,8 +121,8 @@ public class TraceServer {
 		if(startBotErrorHandler) startBotErrorHandler();
 		startUnmatchHandler();
 		//startDatabasePolicyHandler();
-	
-		if(configurationManager.getConfig().getSystemErrorTestManagerConfig().isStartOnLoad()) {
+		
+		if(configurationManager.getConfig().getSystemErrorTestManagerConfig() != null && configurationManager.getConfig().getSystemErrorTestManagerConfig().isStartOnLoad()) {
 			systemErrorTestManager.start();
 		}
 		
