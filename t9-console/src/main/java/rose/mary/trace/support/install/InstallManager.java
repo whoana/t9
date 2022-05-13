@@ -85,10 +85,12 @@ public class InstallManager {
 	
 	public static void main(String[] args) {
 
-		/*
-		 * InstallManager im = null; try { im = new InstallManager(); im.install();
-		 * }catch(Exception e) { e.printStackTrace(); }
-		 */
+		
+		 InstallManager im = null; try { im = new InstallManager(); im.install();
+		 }catch(Exception e) { e.printStackTrace(); }
+		
+
+		 /*
 		try {
 			Path path = FileSystems.getDefault().getPath("/Users/whoana/DEV/workspace-tracking/projectq-support/a");
 			//Path path = FileSystems.getDefault().getPath(".");
@@ -103,7 +105,7 @@ public class InstallManager {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+		*/
 //		Iterable<Path> dirs = FileSystems.getDefault().getRootDirectories();
 //		for (Path name: dirs) {
 //		    System.err.println(name);
