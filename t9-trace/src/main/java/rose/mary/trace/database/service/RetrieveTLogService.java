@@ -9,19 +9,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import rose.mary.trace.data.common.TLog;
-import rose.mary.trace.database.mapper.m01.RetrieveTraceMapper;
+import rose.mary.trace.database.mapper.m01.RetrieveTLogMapper;
 
 
 @Service
-public class RetrieveTraceService {
+public class RetrieveTLogService {
     
     Logger logger = LoggerFactory.getLogger(getClass());     
     
     @Autowired
-    RetrieveTraceMapper retrieveTraceMapper;
+    RetrieveTLogMapper retrieveTLogMapper;
 
     public List<TLog> retrieve(Map params) throws Exception{
-        return retrieveTraceMapper.retrieve(params);
+        return retrieveTLogMapper.retrieve(params);
     }
 
 }

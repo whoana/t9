@@ -28,7 +28,8 @@ spring:
   datasources:
     datasource01:
       #jdbcUrl: jdbc:oracle:thin:@10.10.1.35:1521:iip
-      jdbcUrl: jdbc:postgresql://127.0.0.1:5432/iipdb
+      #jdbcUrl: jdbc:postgresql://127.0.0.1:5432/iipdb
+      jdbcUrl: jdbc:postgresql://10.10.1.10:5432/iipdb
       driver-class-name: org.postgresql.Driver
       username: iip
       password: iip

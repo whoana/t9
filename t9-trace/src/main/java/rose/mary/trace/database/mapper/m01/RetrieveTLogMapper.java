@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import rose.mary.trace.data.common.TLog;
 
 @Mapper
-public interface RetrieveTraceMapper {
+public interface RetrieveTLogMapper {
     
     List<TLog> retrieve(Map params) throws Exception;
     
