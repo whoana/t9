@@ -11,5 +11,7 @@ import rose.mary.trace.data.common.TLog;
 public interface RetrieveTLogMapper {
     
     List<TLog> retrieve(Map params) throws Exception;
+
+    int getTotalCount(Map params) throws Exception;
     
 }

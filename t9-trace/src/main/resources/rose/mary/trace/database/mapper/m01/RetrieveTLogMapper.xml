@@ -8,8 +8,8 @@
   	--> 
 
     <sql id="whereClause">
-        WHERE tracking_date <![CDATA[>=]]> '20220427000000000000'
-          AND tracking_date <![CDATA[<=]]> to_char(now(), 'yyyymmdd') || '999999999999'
+        WHERE tracking_date <![CDATA[>=]]> #{fromDate} || '000000'
+          AND tracking_date <![CDATA[<=]]> #{toDate}   || '999999'
           <if test="integrationId != null and integrationId != ''">
           AND integration_id = #{integrationId}
           </if>    
@@ -27,7 +27,7 @@
           FROM top0503 
          <include refid="whereClause" />
       ORDER BY tracking_date desc
-        OFFSET #{offset} ROWS FETCH FIRST #{rowCount} ROWS ONLY
+        OFFSET #{offset} LIMIT #{rowCount}
 	</select>
 	
 	

@@ -26,6 +26,8 @@ public class RetrieveTLogServiceTest {
     public void retrieve() throws Exception {
         Map params = new HashMap();
         params.put("integrationId", "TEST004");
+        params.put("offset", 10);
+        params.put("rowCount", 10);
         List<TLog> list = service.retrieve(params);
         assertNotNull(list);
     }

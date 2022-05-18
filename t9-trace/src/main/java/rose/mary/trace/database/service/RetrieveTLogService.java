@@ -24,4 +24,7 @@ public class RetrieveTLogService {
         return retrieveTLogMapper.retrieve(params);
     }
 
+    public int getTotalCount(Map params) throws Exception{
+        return retrieveTLogMapper.getTotalCount(params);
+    }
 }
