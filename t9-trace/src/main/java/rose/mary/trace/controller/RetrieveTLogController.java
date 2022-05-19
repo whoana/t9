@@ -44,8 +44,11 @@ public class RetrieveTLogController {
             params.put("toDate", toDate);
             params.put("offset", 0);
             params.put("rowCount", 10);
+            params.put("firstSearch", true);
         }
-        int totalCount = service.getTotalCount(params);
+
+        boolean firstSearch = params.get("firstSearch") == null ? false : (Boolean) params.get("firstSearch");
+        int totalCount = firstSearch ? service.getTotalCount(params) : 0; // 최초 조회시에만 전체 카운트 조회
         List<TLog> list = service.retrieve(params);
         Map response = new HashMap();
         response.put("totalCount", totalCount);

@@ -183,3 +183,20 @@ gradle-app.setting
 # JDT-specific (Eclipse Java Development Tools)
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,eclipse,macos,maven,gradle,java
+t9-trace/src/main/resources/static/front/asset-manifest.json
+t9-trace/src/main/resources/static/front/favicon.ico
+t9-trace/src/main/resources/static/front/index.html
+t9-trace/src/main/resources/static/front/logo192.png
+t9-trace/src/main/resources/static/front/logo512.png
+t9-trace/src/main/resources/static/front/manifest.json
+t9-trace/src/main/resources/static/front/robots.txt
+t9-trace/src/main/resources/static/front/static/css/main.6aa490a9.css
+t9-trace/src/main/resources/static/front/static/css/main.6aa490a9.css.map
+t9-trace/src/main/resources/static/front/static/js/787.47b910e5.chunk.js
+t9-trace/src/main/resources/static/front/static/js/787.47b910e5.chunk.js.map
+t9-trace/src/main/resources/static/front/static/js/main.78d98f13.js
+t9-trace/src/main/resources/static/front/static/js/main.78d98f13.js.LICENSE.txt
+t9-trace/src/main/resources/static/front/static/js/main.78d98f13.js.map
+t9-front/.env
+t9-front/package-lock.json
+.gitignore
