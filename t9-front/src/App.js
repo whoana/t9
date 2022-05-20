@@ -6,6 +6,8 @@ import { Grid, GridColumn } from "@progress/kendo-react-grid";
 import { DateInput } from "@progress/kendo-react-dateinputs";
 import { Loader } from "@progress/kendo-react-indicators";
 import { orderBy } from "@progress/kendo-data-query";
+import { Label } from "@progress/kendo-react-labels";
+import { Input } from "@progress/kendo-react-inputs";
 import axios from "axios";
 import * as moment from "moment";
 
@@ -23,25 +25,46 @@ const initialSort = [
 ];
 
 const now1 = moment();
-const now2 = now1.add(-3, "h");
+const now2 = moment().add(-3, "h");
 
-const Title = styled.div`
-  margin: 10px;
+//Layout components
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const TitleContainer = styled.div`
+  padding: 10px 0px 0px 10px;
+  background-color: #845ef7;
+  color: #ff6b6b;
+  //border-radius: 20px;
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  flex-direction: row;
   padding: 10px;
   background-color: #845ef7;
   color: #ff6b6b;
-  border-radius: 20px;
+  //border-radius: 20px;
 `;
 
-const TitleItem = styled.div`
-  margin: 10px;
+const BodyContainer = styled.div`
   padding: 10px;
-  color: #ffe3e3;
+  background-color: #e8eaf6;
 `;
 
-const Contents = styled.div`
-  margin: 10px;
-  padding: 10px;
+const FilterItems = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+`;
+
+const ButtonItems = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  flex: 1;
 `;
 
 function App() {
@@ -51,6 +74,7 @@ function App() {
 
   const [fromDate, setFromDate] = React.useState(now2.toDate());
   const [toDate, setToDate] = React.useState(now1.toDate());
+  const [integrationId, setIntegrationId] = React.useState(null);
 
   const [searchable, setSearchable] = React.useState(true);
 
@@ -64,20 +88,28 @@ function App() {
     setToDate(event.value);
   };
 
+  const changeIntegrationId = (event) => {
+    setIntegrationId(event.value);
+  };
+
   const handleSearch = (firstSearch, offset) => {
     if (firstSearch) {
       setLogs([]);
       setLogsLength(0);
     }
     setSearchable(false);
-    //url: "http://127.0.0.1:8090/trace/services/tlogs?method=GET",
+    let fromDateString = moment(fromDate).format("YYYYMMDDHHmmss").toString();
+    let toDateString = moment(toDate).format("YYYYMMDDHHmmss").toString();
+    let startTime = moment().format("YYYYMMDDHHmmssSSS").toString();
+    //let url = "http://10.10.1.10:8090/trace/services/tlogs?method=GET";
+    let url =
+      "http://" +
+      window.location.hostname +
+      ":" +
+      window.location.port +
+      "/trace/services/tlogs?method=GET";
     const options = {
-      url:
-        "http://" +
-        window.location.hostname +
-        ":" +
-        window.location.port +
-        "/trace/services/tlogs?method=GET",
+      url: url,
       method: "POST",
       header: {
         Accept: "application/json",
@@ -86,13 +118,14 @@ function App() {
       data: {
         objectType: "ComMessage",
         requestObject: {
-          fromDate: moment(fromDate).format("YYYYMMDDhhmmss").toString(), //"20220513000000",
-          toDate: moment(toDate).format("YYYYMMDDhhmmss").toString(), //"20220513235959",
+          fromDate: fromDateString,
+          toDate: toDateString,
           offset: offset,
           rowCount: ROW_COUNT,
+          integrationId: integrationId,
           firstSearch: firstSearch,
         },
-        startTime: moment().format("YYYYMMDDhhmmssSSS").toString(),
+        startTime: startTime,
         endTime: null,
         errorCd: "0",
         errorMsg: "",
@@ -124,82 +157,105 @@ function App() {
   };
 
   return (
-    <div>
-      <Title>
-        <h1>Search TLog</h1>
-        <TitleItem>
-          From date:
-          <DateInput
-            format="yyyy-MM-dd HH:mm:ss"
-            value={fromDate}
-            onChange={changeFromDate}
-          />
-        </TitleItem>
-
-        <TitleItem>
-          To date:
-          <DateInput
-            format="yyyy-MM-dd HH:mm:ss"
-            value={toDate}
-            onChange={changeToDate}
-          />
-        </TitleItem>
-
-        <TitleItem>
-          {searchable ? (
-            <Button
-              themeColor={"primary"}
-              disabled={!searchable}
-              onClick={() => {
-                handleSearch(true, 0);
-              }}
-            >
-              Search
-            </Button>
-          ) : (
-            <div className="col-4">
-              <Loader type={"converging-spinner"} size={"medium"} />
+    <>
+      <Container>
+        <TitleContainer>
+          <h2>Search TLog</h2>
+        </TitleContainer>
+        <FilterContainer>
+          <FilterItems>
+            <div className="col-12 col-md-6 example-col">
+              <Label editorId={"formDateInput"}>First Date:&nbsp;</Label>
+              <DateInput
+                id={"formDateInput"}
+                format="yyyy-MM-dd HH:mm:ss"
+                value={fromDate}
+                onChange={changeFromDate}
+                width={"180px"}
+              />
             </div>
-          )}
-        </TitleItem>
-      </Title>
-      <Contents>
-        <Grid
-          style={{
-            height: "600px",
-            width: "100%",
-          }}
-          data={orderBy(logs, sort)}
-          reorderable={true}
-          skip={page.skip}
-          take={page.take}
-          total={logsLength}
-          pageable={true}
-          onPageChange={pageChange}
-          sortable={true}
-          sort={sort}
-          onSortChange={(e) => {
-            setSort(e.sort);
-          }}
-          resizable={true}
-        >
-          <GridColumn field="integrationId" />
-          <GridColumn field="trackingDate" />
-          <GridColumn field="orgHostId" />
-          <GridColumn field="interfaceId" />
-          <GridColumn field="interfaceNm" />
-          <GridColumn field="status" />
-          <GridColumn field="businessNm" />
-          <GridColumn field="channelNm" />
-          <GridColumn field="dataPrDirNm" />
-          <GridColumn field="appPrMethodNm" />
-          <GridColumn field="sndSystemNm" />
-          <GridColumn field="sndResNm" />
-          <GridColumn field="rcvSystemNm" />
-          <GridColumn field="rcvResNm" />
-        </Grid>
-      </Contents>
-    </div>
+          </FilterItems>
+          <FilterItems>
+            <div className="col-12 col-md-6 example-col">
+              <Label editorId={"toDateInput"}>To Date:&nbsp;</Label>
+              <DateInput
+                id={"toDateInput"}
+                format="yyyy-MM-dd HH:mm:ss"
+                value={toDate}
+                onChange={changeToDate}
+                width={"180px"}
+              />
+            </div>
+          </FilterItems>
+          <FilterItems>
+            <div className="col-12 col-md-6 example-col">
+              <Label editorId={"integrationId"}>InterfaceId:&nbsp;</Label>
+              <Input
+                id={"integrationId"}
+                value={integrationId}
+                onChange={changeIntegrationId}
+                style={{ width: "180px" }}
+              />
+            </div>
+          </FilterItems>
+          <FilterItems>
+            <div className="col-12 col-md-6 example-col">
+              {searchable ? (
+                <Button
+                  themeColor={"primary"}
+                  disabled={!searchable}
+                  onClick={() => {
+                    handleSearch(true, 0);
+                  }}
+                >
+                  Search
+                </Button>
+              ) : (
+                <div className="col-4">
+                  <Loader type={"converging-spinner"} size={"medium"} />
+                </div>
+              )}
+            </div>
+          </FilterItems>
+        </FilterContainer>
+        <BodyContainer>
+          <Grid
+            style={{
+              height: "600px",
+              width: "100%",
+            }}
+            data={orderBy(logs, sort)}
+            reorderable={true}
+            skip={page.skip}
+            take={page.take}
+            total={logsLength}
+            pageable={true}
+            onPageChange={pageChange}
+            sortable={true}
+            sort={sort}
+            onSortChange={(e) => {
+              setSort(e.sort);
+            }}
+            resizable={true}
+          >
+            <GridColumn field="integrationId" />
+            <GridColumn field="trackingDate" />
+            <GridColumn field="orgHostId" />
+            <GridColumn field="interfaceId" />
+            <GridColumn field="interfaceNm" />
+            <GridColumn field="status" />
+            <GridColumn field="businessNm" />
+            <GridColumn field="channelNm" />
+            <GridColumn field="dataPrDirNm" />
+            <GridColumn field="appPrMethodNm" />
+            <GridColumn field="sndSystemNm" />
+            <GridColumn field="sndResNm" />
+            <GridColumn field="rcvSystemNm" />
+            <GridColumn field="rcvResNm" />
+          </Grid>
+        </BodyContainer>
+      </Container>
+    </>
   );
 }
 
