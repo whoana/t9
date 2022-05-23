@@ -261,7 +261,7 @@
 	"databasePolicyConfig": {
 		"name": "databasePolicyConfig",
 		"policy": 100,
-		"policyCheckDelay": 60000, 
+		"policyCheckDelay": 10000, 
 		"exceptionDelay": 1000,
 		"policyCount": 2
 	}, 
