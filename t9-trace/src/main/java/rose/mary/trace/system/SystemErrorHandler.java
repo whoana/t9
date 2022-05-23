@@ -161,7 +161,7 @@ public class SystemErrorHandler implements Runnable{
 //		}
 //	}
  
-	int continuousHealthCheckCount = 0 ;
+	int healthCheckFailCount = 0 ;
 	 
 	public void runAsap() {
 		logger.info(Util.join("start SystemErrorHandler:[" + name + "]"));
@@ -174,11 +174,11 @@ public class SystemErrorHandler implements Runnable{
 				logger.info("**************************************************");
 				logger.info("* DatabasePolicy[" + policy + "] Info ");
 				logger.info("**************************************************");
-				logger.info("continuousCheckCount:" + continuousHealthCheckCount);
+				logger.info("continuousCheckCount:" + healthCheckFailCount);
 				logger.info("policyCount:" + policyCount);
 				boolean databaseHealth = false;
 				if(systemService.databaseHealthCheck()) {
-					continuousHealthCheckCount = 0;
+					healthCheckFailCount = 0;
 					logger.info("database health check result : true");
 					databaseHealth = true;
 					switch(policy.getPolicy()) {
@@ -221,9 +221,9 @@ public class SystemErrorHandler implements Runnable{
 					}
 					
 				}else {
-					continuousHealthCheckCount ++;
+					healthCheckFailCount ++;
 					logger.info("database health check result : fasle");
-					if(continuousHealthCheckCount >= policyCount) {
+					if(healthCheckFailCount >= policyCount) {
 						databaseHealth = false;
 					}
 				}
@@ -295,11 +295,11 @@ public class SystemErrorHandler implements Runnable{
 				logger.info("**************************************************");
 				logger.info("* DatabasePolicy[" + policy + "] Info ");
 				logger.info("**************************************************");
-				logger.info("continuousCheckCount:" + continuousHealthCheckCount);
+				logger.info("healthCheckFailCount:" + healthCheckFailCount);
 				logger.info("policyCount:" + policyCount);
 				boolean databaseHealth = false;
 				if(systemService.databaseHealthCheck()) {
-					continuousHealthCheckCount = 0;
+					healthCheckFailCount = 0;
 					logger.info("database health check result : true");
 					databaseHealth = true;
 					switch(policy.getPolicy()) {
@@ -340,9 +340,9 @@ public class SystemErrorHandler implements Runnable{
 					}
 					
 				}else {
-					continuousHealthCheckCount ++;
+					healthCheckFailCount ++;
 					logger.info("database health check result : fasle");
-					if(continuousHealthCheckCount >= policyCount) {
+					if(healthCheckFailCount >= policyCount) {
 						databaseHealth = false;
 					}
 				}

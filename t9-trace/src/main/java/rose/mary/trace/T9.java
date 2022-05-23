@@ -139,6 +139,7 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 		if(isRecoveryMode) {
 			try {
 				SystemLogger.info("recovery mode starting");
+				//ToDo: not implemented yet
 				//recoveryHandler.start();
 			}finally { 
 				
