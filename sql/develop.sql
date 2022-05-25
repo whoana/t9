@@ -54,4 +54,52 @@ select
    and tr.tracking_date <= to_char(now(), 'yyyymmdd') || '999999999999'
 ;
 
+insert into tba0001 
+select 
+    '18' as job_id,
+    grp_id,
+    '시간별트레킹집계' as job_nm,
+    'pep.per.mint.batch.job.su.TSU0803T9Job' as impl_class,
+    type,
+    table_nm,
+    '시간별트레킹집계' as comments
+  from tba0001
+where job_id = '14'; 
+commit;
+select * from tba0001;
+
+select * from tba0003;
+select * from tba0004;
+select * from tba0005 order by start_date desc;
+
+insert into tba0003 values ('18', '시간별트레킹집계', 'Y');
+commit;
+
+insert into tba0004 values (
+    '18', '18', '1', '0', '0', '0 0-59 * * * ?'
+);
+
+select * from tsu0302 where package='system'
+and attribute_nm like '%batch%';
+
+insert into tsu0302 values ('system', 'batch.run.standalone', 1, 'system.batch.run.standalone', TRUE, '독립실행여부', 'N', to_char(now(), 'yyyymmddHH24miss'), 'iip', '','')
+;
+
+select * from tsu0803;
+
+select * from tsu0803;
+
+SELECT
+        interface_id								 as "interfaceId",
+        substring(tracking_date, 1,10) 				 as "trDate",
+        sum(data_amt) 								 as "dataSize",
+        sum(case status when '00' then 1 else 0 end) as "successCnt",
+        sum(case status when '99' then 1 else 0 end) as "errorCnt",
+        sum(case status when '01' then 1 else 0 end) as "processCnt"
+    FROM top0503
+   where tracking_date between '2022052412' || '0000000000' and '2022052415' || '9999999999'
+group by interface_id, substring(tracking_date, 1,10)
+
+
+
  

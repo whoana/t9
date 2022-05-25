@@ -2,7 +2,6 @@
  * Copyright 2020 portal.mocomsys.com All Rights Reserved.
  */
 package rose.mary.trace.apps.channel;
- 
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,18 +17,19 @@ import rose.mary.trace.data.common.Trace;
 import rose.mary.trace.exception.HaveNoTraceInfoException;
 import rose.mary.trace.exception.NoMoreMessageException;
 import rose.mary.trace.monitor.ThroughputMonitor;
-import rose.mary.trace.parser.Parser; 
+import rose.mary.trace.parser.Parser;
 
 /**
  * <pre>
  * Channel
- * 다양한 채널로부터 트레킹 메시지를 받아들이기 위해 디자인된 최상위 채널클래스   
+ * 다양한 채널로부터 트레킹 메시지를 받아들이기 위해 디자인된 최상위 채널클래스
  * </pre>
+ * 
  * @author whoana
  * @since Jul 29, 2019
  */
-public abstract class Channel implements Runnable{
-	
+public abstract class Channel implements Runnable {
+
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public static final int TYPE_WMQ = 0;
@@ -41,47 +41,46 @@ public abstract class Channel implements Runnable{
 	public static final int TYPE_TEST = 6;
 
 	protected final static int DEFAULT_COMMIT_COUNT = 1000;
-	
+
 	protected boolean isShutdown = true;
-	
-	Thread thread = null; 
-	
+
+	Thread thread = null;
+
 	protected StateCheckHandler sch;
-	
+
 	protected ChannelExceptionHandler channelExceptionHandler;
-	
+
 	protected CacheProxy<String, Trace> cache;
-	
+
 	int maxCacheSize = 100;
-	
-	long delayForMaxCache = 1000;//cache 유량 제어 
-	
+
+	long delayForMaxCache = 1000;// cache 유량 제어
+
 	protected ThroughputMonitor tpm;
 
 	int commitCount = DEFAULT_COMMIT_COUNT;
-	
-	protected boolean autoCommit = false; 
-	 
+
+	protected boolean autoCommit = false;
+
 	protected Parser parser = null;
-	
+
 	String name;
-		
+
 	ChannelWriter channelWriter;
-	
+
 	protected boolean healthCheck = false;
-	 
-	
+
 	long delayOnException = 5000;
 	long delayForNoMessage = 1000;
 	long commitLapse = System.currentTimeMillis();
-	long maxCommitWait = 100; 
+	long maxCommitWait = 100;
 
 	int totalCommitCount = 0;
-	 
+
 	int waitForInitialize = 5000;
-	
-	
-	public Channel(String name, boolean autoCommit, int commitCount, long maxCommitWait, long delayForNoMessage, long delayOnException, int maxCacheSize, long delayForMaxCache,CacheProxy<String, Trace> cache) {
+
+	public Channel(String name, boolean autoCommit, int commitCount, long maxCommitWait, long delayForNoMessage,
+			long delayOnException, int maxCacheSize, long delayForMaxCache, CacheProxy<String, Trace> cache) {
 		this.name = name;
 		this.commitCount = commitCount;
 		this.autoCommit = autoCommit;
@@ -89,330 +88,333 @@ public abstract class Channel implements Runnable{
 		this.maxCacheSize = maxCacheSize;
 		this.delayForMaxCache = delayForMaxCache;
 		this.delayForNoMessage = delayForNoMessage;
-		this.delayOnException  = delayOnException;
-		this.cache = cache; 
-		//if(!autoCommit) channelWriter = new ChannelWriter(this); 
-	} 	
-	
+		this.delayOnException = delayOnException;
+		this.cache = cache;
+		// if(!autoCommit) channelWriter = new ChannelWriter(this);
+	}
+
 	protected abstract Object trace() throws Exception;
-	
+
 	protected abstract void initialize() throws Exception;
-	
+
 	protected abstract void commit() throws Exception;
-	
+
 	protected abstract void rollback() throws Exception;
-	
+
 	public abstract boolean ping();
-	
-	public static final int STATE_INIT     = 0;
-	public static final int STATE_RUNNING  = 1;
+
+	public static final int STATE_INIT = 0;
+	public static final int STATE_RUNNING = 1;
 	public static final int STATE_SHUTDOWN = 2;
-	
+
 	int state = STATE_SHUTDOWN;
-	
+
 	public int getState() {
 		return state;
 	}
-	
+
 	public void setThroughputMonitor(ThroughputMonitor tpm) {
 		this.tpm = tpm;
 	}
-	
+
 	public ThroughputMonitor getThroughputMonitor() {
 		return tpm;
 	}
-	
+
 	public void start() throws Exception {
-		if(thread != null && thread.isAlive()) stop();
+		if (thread != null && thread.isAlive())
+			stop();
 		thread = new Thread(this, name);
 
 		state = STATE_INIT;
-		while(true) {			
+		while (true) {
 			try {
-				logger.info(Util.join("initailizing channel:" , name ));
+				logger.info(Util.join("initailizing channel:", name));
 				initialize();
-				logger.info(Util.join("finish initailizing channel:" , name ));
+				logger.info(Util.join("finish initailizing channel:", name));
 				break;
-			}catch(Exception e) {
-				logger.error("fail to initailize channel:" , name," error:", e);
-				try{
+			} catch (Exception e) {
+				logger.error("fail to initailize channel:", name, " error:", e);
+				try {
 					Thread.sleep(delayOnException);
-				}catch(InterruptedException ie) {
+				} catch (InterruptedException ie) {
 					logger.error("", ie);
 				}
-			}			
+			}
 		}
-		
-		logger.info(Util.join("success to initailize channel:" , name));
+
+		logger.info(Util.join("success to initailize channel:", name));
 		thread.start();
 	}
-	
+
 	public void stop() {
-		if(Variables.startStopAsap) { 
+		if (Variables.startStopAsap) {
 			stopAsap();
 		} else {
 			stopGracefully();
 		}
 	}
-	
+
 	public void run() {
-		if(Variables.startStopAsap) { 
+		if (Variables.startStopAsap) {
 			runAsap();
 		} else {
 			runGracefully();
 		}
 	}
+
 	public void stopGracefully() {
 		isShutdown = true;
-		if(thread != null) {
+		if (thread != null) {
 			try {
 				thread.join();
 			} catch (InterruptedException e) {
-				logger.error("",e);
+				logger.error("", e);
 			}
 		}
 	}
-	
+
 	public void stopAsap() {
 		isShutdown = true;
-		if(thread != null) thread.interrupt();		
+		if (thread != null)
+			thread.interrupt();
 	}
-	
+
 	public void runAsap() {
-		
+
 		isShutdown = false;
-		logger.info(Util.join("start channel:" , name ));
+		logger.info(Util.join("start channel:", name));
 		state = STATE_RUNNING;
-		
-		while(true) {
+
+		while (true) {
 			try {
-				
-				if(thread.isInterrupted()) break;
-				
-				if( (cacheMap.size() > 0 && (cacheMap.size() % commitCount == 0 || (System.currentTimeMillis() - commitLapse >= maxCommitWait)))) {
+
+				if (thread.isInterrupted())
+					break;
+
+				if ((cacheMap.size() > 0 && (cacheMap.size() % commitCount == 0
+						|| (System.currentTimeMillis() - commitLapse >= maxCommitWait)))) {
 					try {
 						commit();
 						totalCommitCount = totalCommitCount + cacheMap.size();
 
 					} finally {
-						commitLapse = System.currentTimeMillis();					
+						commitLapse = System.currentTimeMillis();
 					}
 				}
 
-				 
-				if(cache.size() >= maxCacheSize) {
-					
-					try { 
-						Thread.sleep(delayForMaxCache); 
-					} catch (InterruptedException e) { 
+				if (cache.size() >= maxCacheSize) {
+
+					try {
+						Thread.sleep(delayForMaxCache);
+					} catch (InterruptedException e) {
 						isShutdown = true;
 						break;
 					}
-					
+
 					continue;
 				}
-				
-				
+
 				Object msg = trace();
-				if(msg != null) { 
+				if (msg != null) {
 					try {
 						Trace trace = parser.parse(msg);
 						trace.setStateCheckHandler(sch);
 						cacheMap.put(trace.getId(), trace);
-					}catch(Exception me) {
-						//메시지 파싱시 예외난 것들은 롤백 처리하지 않고 로그만 남기도록 한다.
-						//handler에서는 메시지 원본을 어떻게 처리할지 고민해 본다. 
-						if(channelExceptionHandler != null) {
+					} catch (Exception me) {
+						// 메시지 파싱시 예외난 것들은 롤백 처리하지 않고 로그만 남기도록 한다.
+						// handler에서는 메시지 원본을 어떻게 처리할지 고민해 본다.
+						if (channelExceptionHandler != null) {
 							channelExceptionHandler.handleParserException("parser exception:", me, msg);
-						}else {
+						} else {
 							msg.toString();
 							logger.error("parser exception:", me);
 						}
-						try { 
-							Thread.sleep(delayOnException); 
-						} catch (InterruptedException e1) { 
+						try {
+							Thread.sleep(delayOnException);
+						} catch (InterruptedException e1) {
 							isShutdown = true;
 							break;
 						}
-					}finally {
-						if(tpm != null) tpm.count();							
+					} finally {
+						if (tpm != null)
+							tpm.count();
 					}
 				}
-				
+
 			} catch (NoMoreMessageException e) {
-				try { 
-					Thread.sleep(delayForNoMessage); 
-				} catch (InterruptedException e1) { 
+				try {
+					Thread.sleep(delayForNoMessage);
+				} catch (InterruptedException e1) {
 					isShutdown = true;
 					break;
 				}
 			} catch (HaveNoTraceInfoException e) {
 				byte[] data = e.getData();
-				//에러 캐시에 따로 보관할지 옵션처리해주자 
-				//errorMessageCache.put(UUID.randomUUID(),d);
-				if(data != null) {
+				// 에러 캐시에 따로 보관할지 옵션처리해주자
+				// errorMessageCache.put(UUID.randomUUID(),d);
+				if (data != null) {
 					logger.info("The data (having no header):(len: " + data.length + ")" + new String(data));
 				}
-				try { 
-					Thread.sleep(delayForNoMessage); 
-				} catch (InterruptedException e1) { 
+				try {
+					Thread.sleep(delayForNoMessage);
+				} catch (InterruptedException e1) {
 					isShutdown = true;
 					break;
 				}
-				
+
 			} catch (Exception e) {
-				
+
 				try {
 					rollback();
 				} catch (Exception e2) {
 					logger.error("", e2);
 				}
-				
-				if(channelExceptionHandler != null) {
+
+				if (channelExceptionHandler != null) {
 					channelExceptionHandler.handleException("", e);
-				}else {
+				} else {
 					logger.error("", e);
 				}
-				
-				try { 
-					Thread.sleep(delayOnException); 
-				} catch (InterruptedException e1) { 
+
+				try {
+					Thread.sleep(delayOnException);
+				} catch (InterruptedException e1) {
 					isShutdown = true;
 					break;
 				}
-				
+
 			}
-		}		
-		
-		isShutdown = true; 
+		}
+
+		isShutdown = true;
 		state = STATE_SHUTDOWN;
-		logger.info(Util.join("stop channel:" , name));
-		//logger.info(Util.join("totalCommitCount:", totalCommitCount));
-		
+		logger.info(Util.join("stop channel:", name));
+		logger.info(Util.join("totalCommitCount:", totalCommitCount));
+
 	}
-	
+
 	public void runGracefully() {
 		isShutdown = false;
-		logger.info(Util.join("start channel:" , name ));
+		logger.info(Util.join("start channel:", name));
 		state = STATE_RUNNING;
-		
-		while(Thread.currentThread() == thread && !isShutdown) {
+
+		while (Thread.currentThread() == thread && !isShutdown) {
 			try {
-				
-				
-				if( (cacheMap.size() > 0 && (cacheMap.size() % commitCount == 0 || (System.currentTimeMillis() - commitLapse >= maxCommitWait)))) {
+
+				if ((cacheMap.size() > 0 && (cacheMap.size() % commitCount == 0
+						|| (System.currentTimeMillis() - commitLapse >= maxCommitWait)))) {
 					try {
 						commit();
 						totalCommitCount = totalCommitCount + cacheMap.size();
 
 					} finally {
-						commitLapse = System.currentTimeMillis();					
+						commitLapse = System.currentTimeMillis();
 					}
 				}
 
-				 
-				if(cache.size() >= maxCacheSize) {
-					
-					try { 
-						Thread.sleep(delayForMaxCache); 
-					} catch (InterruptedException e) { 
+				if (cache.size() >= maxCacheSize) {
+
+					try {
+						Thread.sleep(delayForMaxCache);
+					} catch (InterruptedException e) {
 						isShutdown = true;
-						return;
+						// return;
+						break;
 					}
-					
+
 					continue;
 				}
-				
-				
+
 				Object msg = trace();
-				if(msg != null) { 
+				if (msg != null) {
 					try {
 						Trace trace = parser.parse(msg);
 						trace.setStateCheckHandler(sch);
 						cacheMap.put(trace.getId(), trace);
-					}catch(Exception me) {
-						//메시지 파싱시 예외난 것들은 롤백 처리하지 않고 로그만 남기도록 한다.
-						//handler에서는 메시지 원본을 어떻게 처리할지 고민해 본다. 
-						if(channelExceptionHandler != null) {
+					} catch (Exception me) {
+						// 메시지 파싱시 예외난 것들은 롤백 처리하지 않고 로그만 남기도록 한다.
+						// handler에서는 메시지 원본을 어떻게 처리할지 고민해 본다.
+						if (channelExceptionHandler != null) {
 							channelExceptionHandler.handleParserException("parser exception:", me, msg);
-						}else {
+						} else {
 							msg.toString();
 							logger.error("parser exception:", me);
 						}
-						try { 
-							Thread.sleep(delayOnException); 
-						} catch (InterruptedException e1) { 
+						try {
+							Thread.sleep(delayOnException);
+						} catch (InterruptedException e1) {
 							isShutdown = true;
-							return;
+							// return;
+							break;
 						}
-					}finally {
-						if(tpm != null) tpm.count();							
+					} finally {
+						if (tpm != null)
+							tpm.count();
 					}
 				}
-				
+
 			} catch (NoMoreMessageException e) {
-				try { 
-					Thread.sleep(delayForNoMessage); 
-				} catch (InterruptedException e1) { 
+				try {
+					Thread.sleep(delayForNoMessage);
+				} catch (InterruptedException e1) {
 					isShutdown = true;
-					return;
+					// return;
+					break;
 				}
 			} catch (HaveNoTraceInfoException e) {
 				byte[] data = e.getData();
-				//에러 캐시에 따로 보관할지 옵션처리해주자 
-				//errorMessageCache.put(UUID.randomUUID(),d);
-				if(data != null) {
+				// 에러 캐시에 따로 보관할지 옵션처리해주자
+				// errorMessageCache.put(UUID.randomUUID(),d);
+				if (data != null) {
 					logger.info("The data (having no header):(len: " + data.length + ")" + new String(data));
 				}
-				try { 
-					Thread.sleep(delayForNoMessage); 
-				} catch (InterruptedException e1) { 
+				try {
+					Thread.sleep(delayForNoMessage);
+				} catch (InterruptedException e1) {
 					isShutdown = true;
-					return;
+					// return;
+					break;
 				}
-				
+
 			} catch (Exception e) {
-				
+
 				try {
 					rollback();
 				} catch (Exception e2) {
 					logger.error("", e2);
 				}
-				
-				if(channelExceptionHandler != null) {
+
+				if (channelExceptionHandler != null) {
 					channelExceptionHandler.handleException("", e);
-				}else {
+				} else {
 					logger.error("", e);
 				}
-				
-				try { 
-					Thread.sleep(delayOnException); 
-				} catch (InterruptedException e1) { 
-					isShutdown = true;
-					return;
-				}
-				
-			}
-		}		
-		
-		isShutdown = true; 
-		state = STATE_SHUTDOWN;
-		logger.info(Util.join("stop channel:" , name));
-		logger.info(Util.join("totalCommitCount:", totalCommitCount));
-		 
 
-		
+				try {
+					Thread.sleep(delayOnException);
+				} catch (InterruptedException e1) {
+					isShutdown = true;
+					// return;
+					break;
+				}
+
+			}
+		}
+
+		isShutdown = true;
+		state = STATE_SHUTDOWN;
+		logger.info(Util.join("stop channel:", name));
+		logger.info(Util.join("totalCommitCount:", totalCommitCount));
+
 	}
- 
-	 
-	 
 
 	protected Map<String, Trace> cacheMap = new ConcurrentHashMap<String, Trace>();
-	
+
 	public int uncommitedSize() {
 		return cacheMap.size();
 	}
-	
+
 	public Map<String, Trace> uncommitedMap() {
 		return cacheMap;
 	}
@@ -437,7 +439,6 @@ public abstract class Channel implements Runnable{
 	public CacheProxy<String, Trace> getCache() {
 		return cache;
 	}
- 
 
 	/**
 	 * @return the parser
@@ -488,27 +489,24 @@ public abstract class Channel implements Runnable{
 		return name;
 	}
 
-	
 	public long getMaxCommitWait() {
 		return maxCommitWait;
 	}
-	
+
 	public long getDelayForNoMessage() {
 		return delayForNoMessage;
 	}
-	
+
 	public void setHealthCheck(boolean healthCheck) {
 		this.healthCheck = healthCheck;
 	}
-	
+
 	public boolean isHealthCheck() {
 		return healthCheck;
 	}
-	
+
 	public boolean isShutdown() {
 		return isShutdown;
 	}
-	
-	
 
 }

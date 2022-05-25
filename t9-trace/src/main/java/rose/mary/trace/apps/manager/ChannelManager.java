@@ -292,7 +292,7 @@ public class ChannelManager {
 				}
 				channels.clear();
 				if(restChannel != null) restChannel = null; 
-				logger.info("channels stoppd");
+				logger.info("channels stopped");
 			}
 			channelsStarted = false;
 			state = STATE_CHANNEL_STOPPED;

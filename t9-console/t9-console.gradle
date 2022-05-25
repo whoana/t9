@@ -7,15 +7,15 @@
  */
  
 plugins {
-//	 id 'java'
+	 id 'java'
 	 id 'application'
  }
  
- 
- sourceCompatibility = 1.8
- targetCompatibility = 1.8
+ group = 'rose.mary.trace'
  description = 't9-console project'
  version = '1.0.0'
+ sourceCompatibility = 1.8
+ targetCompatibility = 1.8
  application {
 	 mainClassName = 'App'
  }
@@ -30,6 +30,37 @@ plugins {
 	 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
 	 
 	 compile group: 'org.fusesource.jansi', name: 'jansi', version:'1.11'
+
+	 //compile group: 'pep.per', name: 'mint-common', version:'3.0.0'
+
+	 compile('pep.per:mint-common:3.0.0') {
+		exclude group: 'org.slf4j', 					module: 'slf4j-api'
+		exclude group: 'org.slf4j', 					module: 'jcl-over-slf4j'
+		exclude group: 'org.slf4j',                     module: 'slf4j-log4j12'
+		exclude group: 'log4j',     					module: 'log4j'
+
+		exclude group: 'ch.qos.logback', 				module: 'logback-classic'
+		//jackson
+		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-core'
+		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-databind'
+		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-annotations'
+		//spring
+		exclude group: 'org.springframework', 			module: 'spring-core'
+		exclude group: 'org.springframework', 			module: 'spring-context'
+		exclude group: 'org.springframework', 			module: 'spring-context-support'
+		exclude group: 'org.springframework', 			module: 'spring-webmvc'
+		exclude group: 'org.springframework', 			module: 'spring-jdbc'
+		exclude group: 'org.springframework', 			module: 'spring-tx'
+		exclude group: 'org.springframework', 			module: 'spring-test'
+		exclude group: 'org.springframework', 			module: 'spring-orm'
+		exclude group: 'org.aspectj', 					module: 'aspectjrt'
+		exclude group: 'org.aspectj', 					module: 'aspectjrt'
+		//apache
+		exclude group: 'xerces', 						module: 'xercesImpl'
+		exclude group: 'commons-codec', 				module: 'commons-codec'
+		exclude group: 'junit', 						module: 'junit'
+	}
+	
  }
  
  jar {
