@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch SystemConsole",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.support.console.SystemConsole",
+            "projectName": "t9-console"
+        },
+        {
+            "type": "java",
             "name": "Launch InstallManager",
             "request": "launch",
             "mainClass": "rose.mary.trace.support.install.InstallManager",

@@ -29,6 +29,7 @@ plugins {
 	 compile 'org.springframework:spring-web:5.1.5.RELEASE'
 
 	 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
+	 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version:'2.9.8'
 
 	 compile group: 'org.fusesource.jansi', name: 'jansi', version:'1.11'
 
@@ -42,7 +43,10 @@ plugins {
 		//jackson
 		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-core'
 		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-databind'
-		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-annotations'
+ 		exclude group: 'com.fasterxml.jackson.core', 	module: 'jackson-annotations'
+		
+		
+
 		//spring
 		exclude group: 'org.springframework', 			module: 'spring-core'
 		exclude group: 'org.springframework', 			module: 'spring-context'
@@ -59,6 +63,28 @@ plugins {
 		exclude group: 'commons-codec', 				module: 'commons-codec'
 		exclude group: 'junit', 						module: 'junit'
 	}
+
+	//----------------------------------------------------------------------------
+	//logging
+	//----------------------------------------------------------------------------
+	compile group: 'ch.qos.logback', name: 'logback-classic', version:'1.2.3'
+	compile group: 'org.apache.logging.log4j', name: 'log4j-to-slf4j', version:'2.11.2'
+	compile group: 'org.slf4j', name: 'jul-to-slf4j', version:'1.7.25'
+
+	//wmq
+	//compile group: 'com.ibm.mq', 				name: 'com.ibm.mq.allclient', 			version: '9.1.3.0'
+	compile group: 'com.ibm.mq', 				name: 'com.ibm.mq.allclient', 			version: '9.2.0.1'
+
+	compile fileTree (dir: '../t9-trace/lib', include:['ILinkAPI-6.1.0.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
+
+	// https://mvnrepository.com/artifact/oracle/ojdbc6
+	//compile group: 'oracle', name: 'ojdbc6', version: '11.2.0.3'
+	compile 'com.oracle:ojdbc6:11.2.0.3' // 추가하기
+
+	//jdbc for postgres
+	// https://mvnrepository.com/artifact/org.postgresql/postgresql
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.3.4'
+	
  }
 
  jar {
