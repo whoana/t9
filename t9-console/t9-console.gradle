@@ -5,12 +5,13 @@
  * For more details take a look at the Java Libraries chapter in the Gradle
  * user guide available at https://docs.gradle.org/4.10.2/userguide/java_library_plugin.html
  */
- 
+
 plugins {
 	 id 'java'
 	 id 'application'
+	 id 'io.spring.dependency-management' version '1.0.8.RELEASE'
  }
- 
+
  group = 'rose.mary.trace'
  description = 't9-console project'
  version = '1.0.0'
@@ -19,19 +20,17 @@ plugins {
  application {
 	 mainClassName = 'App'
  }
- 
+
  dependencies {
-	 
+
 	 // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
 	 compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.11'
-	 
-	 compile 'org.springframework:spring-web:5.1.5.RELEASE'
-	 
-	 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
-	 
-	 compile group: 'org.fusesource.jansi', name: 'jansi', version:'1.11'
 
-	 //compile group: 'pep.per', name: 'mint-common', version:'3.0.0'
+	 compile 'org.springframework:spring-web:5.1.5.RELEASE'
+
+	 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
+
+	 compile group: 'org.fusesource.jansi', name: 'jansi', version:'1.11'
 
 	 compile('pep.per:mint-common:3.0.0') {
 		exclude group: 'org.slf4j', 					module: 'slf4j-api'
@@ -60,11 +59,10 @@ plugins {
 		exclude group: 'commons-codec', 				module: 'commons-codec'
 		exclude group: 'junit', 						module: 'junit'
 	}
-	
  }
- 
+
  jar {
-	 //exclude ('**/console.properties')	 
+	 //exclude ('**/console.properties')
 	 manifest {
 		 attributes 'Main-Class': 'App'
 	 }
@@ -74,5 +72,4 @@ plugins {
 		 }
 	 }
  }
- 
- 
+
