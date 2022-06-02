@@ -42,6 +42,30 @@ subprojects {
  
 }
 
+task removeInstall(type: Delete) {
+	println('[delete install files]')
+	delete "$projectDir/t9-install-linux/lib"
+	followSymlinks = true
+}
+
+task makeInstall {
+
+	doLast {
+		println('[start makeInstall]')
+
+		//removeInstall
+		println('[delete install files]')
+		delete "$projectDir/t9-install-linux/lib"
+
+		println('copy t9 lib')
+		copy {
+			from "$projectDir/t9-console/build/libs/t9-console-1.0.0.jar", "$projectDir/t9-trace/build/libs/t9-trace-1.0.0.jar"
+			into "$projectDir/t9-install-linux/lib"
+		}
+	}
+}
+
+
 
 task rdist(type: Delete) {
 	println('[delete files]')

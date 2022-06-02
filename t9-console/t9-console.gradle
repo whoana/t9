@@ -64,6 +64,10 @@ plugins {
 		exclude group: 'junit', 						module: 'junit'
 	}
 
+	//apache common-io 
+	// https://mvnrepository.com/artifact/commons-io/commons-io
+	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
+
 	//----------------------------------------------------------------------------
 	//logging
 	//----------------------------------------------------------------------------
@@ -87,15 +91,28 @@ plugins {
 	
  }
 
- jar {
-	 //exclude ('**/console.properties')
-	 manifest {
-		 attributes 'Main-Class': 'App'
-	 }
-	 from {
-		 configurations.compile.collect {
-			 it.isDirectory() ? it : zipTree(it)
-		 }
-	 }
- }
+//  jar {
+	 
+// 	 manifest {
+// 		 attributes 'Main-Class': 'App'
+// 	 }
+// 	 from {
+// 		 configurations.compile.collect {
+// 			 it.isDirectory() ? it : zipTree(it)
+// 		 }
+		 
+// 	 }
+//  }
+jar {
+    manifest {
+        attributes(
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'App'
+        )
+    }
+
+    from(configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude 'META-INF/*.RSA', 'META-INF/*.SF', 'META-INF/*.DSA'
+    }
+}
 

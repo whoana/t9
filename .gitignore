@@ -219,3 +219,5 @@ install/config/logback-spring.xml
 install/config/sqlerror.json
 install/lib/t9-console-1.0.0.jar
 install/lib/t9-trace-1.0.0.jar
+t9-install-linux/lib/t9-console-1.0.0.jar
+t9-install-linux/lib/t9-trace-1.0.0.jar
