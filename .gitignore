@@ -5,6 +5,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,eclipse,macos,maven,gradle,java
 ### Eclipse ###
 .metadata
+app/
 bin/
 tmp/
 *.tmp
@@ -221,3 +222,4 @@ install/lib/t9-console-1.0.0.jar
 install/lib/t9-trace-1.0.0.jar
 t9-install-linux/lib/t9-console-1.0.0.jar
 t9-install-linux/lib/t9-trace-1.0.0.jar
+app/t9home/install.txt

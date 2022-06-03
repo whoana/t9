@@ -41,6 +41,8 @@ public class GenerateTraceMsgService {
 			int port;					//-po
 			String hostname; 			//-ho
 			String qmgrName; 			//-qm
+			String userId; 				//-um
+			String password; 			//-ps
 			String channelName; 		//-ch
 			String queueName; 			//-qu
 			String module;				//-mo
@@ -52,6 +54,8 @@ public class GenerateTraceMsgService {
 	
 			if (checkParams(params)) {
 				qmgrName = params.get("qmgrName");
+				userId = params.get("userId");
+				password = params.get("password");
 				queueName = params.get("queueName");
 				hostname = params.get("hostname");
 				channelName = params.get("channelName");
@@ -86,7 +90,7 @@ public class GenerateTraceMsgService {
 			}	
 			 
 			
-			TraceMsgGenerator tmg = new TraceMsgGenerator(hostname, port, qmgrName, channelName, queueName, module, generateCount, commitCount, data, tmc, cacheManager.getInterfaceCache());
+			TraceMsgGenerator tmg = new TraceMsgGenerator(hostname, port, qmgrName, userId, password, channelName, queueName, module, generateCount, commitCount, data, tmc, cacheManager.getInterfaceCache());
 			
 			logger.info("------------------------------------------");
 			logger.info("- start task information");

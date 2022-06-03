@@ -19,8 +19,6 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
 
-import javax.management.RuntimeOperationsException;
-
 import com.ibm.mq.MQException;
 import com.ibm.mq.MQGetMessageOptions;
 import com.ibm.mq.MQQueue;
@@ -64,6 +62,9 @@ public class InstallManager {
 
 	public void install() throws Exception {
 
+		File logFileSrc = new File(System.getProperty("user.dir"), "t9-install.log");
+		logFileSrc.deleteOnExit();
+
 		INSTALL_SRC_DIR = System.getProperty("src.dir", INSTALL_SRC_DIR);
 
 		console = new Scanner(System.in);
@@ -86,13 +87,11 @@ public class InstallManager {
 		println("> T9 설치를 완료하였습니다.");
 		println("> " + Util.getFormatedDate(Util.DEFAULT_DATE_FORMAT));
 
-		File src = new File(System.getProperty("user.dir"), "t9-install.log");
-		src.deleteOnExit();
 		File desc = new File(T9_HOME, "t9-install.log");
-		copyFile(src, desc);
+		copyFile(logFileSrc, desc);
 
 		if (runOption) {
-			Runtime.getRuntime().exec(T9_HOME + "/bin/run.sh");
+			Runtime.getRuntime().exec(T9_HOME + "/bin/run.sh"); // 이거 실행이 잘 안된다. 문제가 뭐지 , 202206
 			println("> 설치위치[" + T9_HOME + "]의 t9을 실행하였습니다.");
 			println("> 설치위치[" + T9_HOME + "]로 이동하여 quickstart.txt 파일을 읽어보세요.");
 		} else {
@@ -268,8 +267,9 @@ public class InstallManager {
 
 	}
 
-	void setQmgr() {
+	Map<String, Object> qmgrParams = new HashMap<String, Object>();
 
+	void setQmgr() {
 		String hostName = null;
 		String qmgrName = null;
 		int port = 0;
@@ -291,11 +291,17 @@ public class InstallManager {
 			qmgrName = console.nextLine();
 			println("> qmgrName: " + qmgrName);
 
-			println("> 큐매니저 접속 리스너 port 를 입력해주세요 :");
-			printIn();
-			port = console.nextInt();
-			println("> port: " + port);
-
+			while (true) {
+				println("> 큐매니저 접속 리스너 port 를 입력해주세요 :");
+				printIn();
+				try {
+					port = console.nextInt();
+				} catch (java.util.InputMismatchException e) {
+					println("> 리스너 port 는 숫자값 이어야합니다.");
+				}
+				println("> port: " + port);
+				break;
+			}
 			println("> userId를 입력해주세요 :");
 			printIn();
 			userId = console.next();
@@ -349,19 +355,17 @@ public class InstallManager {
 
 			try {
 
-				Map<String, Object> maps = new HashMap<String, Object>();
-				maps.put("%hostName%", hostName);
-				maps.put("%qmgrName%", qmgrName);
-				maps.put("%port%", port + "");
-				maps.put("%userId%", userId);
-
-				maps.put("%password%", password);
-				maps.put("%channelName%", channelName);
-				maps.put("%queueName%", queueName);
+				qmgrParams.put("%hostName%", hostName);
+				qmgrParams.put("%qmgrName%", qmgrName);
+				qmgrParams.put("%port%", port + "");
+				qmgrParams.put("%userId%", userId);
+				qmgrParams.put("%password%", password);
+				qmgrParams.put("%channelName%", channelName);
+				qmgrParams.put("%queueName%", queueName);
 
 				File template = new File(T9_HOME, "/config/config.json.tpl");
 				File target = new File(T9_HOME, "/config/config.json");
-				replaceFileContents(template, target, maps);
+				replaceFileContents(template, target, qmgrParams);
 				template.deleteOnExit();
 			} catch (Exception e) {
 				println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 처리 후 다시 시도해 주십시요. ");
@@ -385,6 +389,7 @@ public class InstallManager {
 			File template = new File(T9_HOME, "/bin/run.sh.tpl");
 			File target = new File(T9_HOME, "/bin/run.sh");
 			replaceFileContents(template, target, params);
+			target.setExecutable(true);
 			template.deleteOnExit();
 		} catch (Exception e) {
 			String msg = "run.sh 스크립트 설치시 예외 발생:";
@@ -399,6 +404,7 @@ public class InstallManager {
 			File template = new File(T9_HOME, "/bin/stop.sh.tpl");
 			File target = new File(T9_HOME, "/bin/stop.sh");
 			replaceFileContents(template, target, params);
+			target.setExecutable(true);
 			template.deleteOnExit();
 		} catch (Exception e) {
 			String msg = "stop.sh 스크립트 설치시 예외 발생:";
@@ -406,7 +412,19 @@ public class InstallManager {
 			throw new Exception(msg, e);
 		}
 
-		Runtime.getRuntime().exec("chmod +x " + T9_HOME + "/bin/*.sh");
+		try {
+			File template = new File(T9_HOME, "/bin/curl-wmq-msg.sh.tpl");
+			File target = new File(T9_HOME, "/bin/curl-wmq-msg.sh");
+			replaceFileContents(template, target, qmgrParams);
+			target.setExecutable(true);
+			template.deleteOnExit();
+		} catch (Exception e) {
+			String msg = "curl-wmq-msg.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			// throw new Exception(msg, e);
+		}
+
+		// Runtime.getRuntime().exec("chmod +x " + T9_HOME + "/bin/*.sh");
 		println("> 스크립트 설치를 완료하였습니다.");
 	}
 
@@ -480,6 +498,7 @@ public class InstallManager {
 
 	void copyFile(File sourceFile, File destinationFile) throws IOException {
 		FileUtils.copyFile(sourceFile, destinationFile);
+
 	}
 
 	void replaceFileContents(File template, File dest, Map<String, Object> params) throws IOException {

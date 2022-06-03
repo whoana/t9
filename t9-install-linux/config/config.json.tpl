@@ -16,7 +16,7 @@
 		"channelConfigs": [
 			{
 				"name": "RestChannel",
-				"threadCount": 2,
+				"threadCount": 4,
 				"type": 2,
 				"hostName": "localhost",
 				"qmgrName": "",
@@ -36,7 +36,7 @@
 				"commitCount": 100,
 				"maxCacheSize":100, 
 				"delayForMaxCache":1000,
-				"cacheIndex": [0],
+				"cacheIndex": [0,1,2,3],
 				"healthCheck": false,
 				"disable":false
 			},
@@ -62,7 +62,7 @@
 				"commitCount": 100,
 				"maxCacheSize":100, 
 				"delayForMaxCache":1000,				
-				"cacheIndex": [0],
+				"cacheIndex": [0,1,2,3],
 				"healthCheck": true,
 				"disable":false
 			}
@@ -77,6 +77,27 @@
 		"distributeCacheConfigs": [
 			{
 				"name": "dc01",
+				"memoryUnit": 3,
+				"heapSize": 10000,
+				"diskSize": 1,
+				"maxEntries": 100000
+			},
+			{
+				"name": "dc02",
+				"memoryUnit": 3,
+				"heapSize": 10000,
+				"diskSize": 1,
+				"maxEntries": 100000
+			},
+			{
+				"name": "dc03",
+				"memoryUnit": 3,
+				"heapSize": 10000,
+				"diskSize": 1,
+				"maxEntries": 100000
+			},
+			{
+				"name": "dc04",
 				"memoryUnit": 3,
 				"heapSize": 10000,
 				"diskSize": 1,
@@ -100,6 +121,27 @@
 		"botCacheConfigs": [
 			{
 				"name": "bc01",
+				"memoryUnit": 3,
+				"heapSize": 10000,
+				"diskSize": 1,
+				"maxEntries": 100000
+			},
+			{
+				"name": "bc02",
+				"memoryUnit": 3,
+				"heapSize": 10000,
+				"diskSize": 1,
+				"maxEntries": 100000
+			},
+			{
+				"name": "bc03",
+				"memoryUnit": 3,
+				"heapSize": 10000,
+				"diskSize": 1,
+				"maxEntries": 100000
+			},
+			{
+				"name": "bc04",
 				"memoryUnit": 3,
 				"heapSize": 10000,
 				"diskSize": 1,
@@ -229,22 +271,22 @@
 		"repeatDelaySec":  300,
 		"paramsList": [
 			{
-			  	"port":"41414",
-			  	"hostname":"10.10.1.10",
-			  	"qmgrName":"IIP",
-			  	"channelName":"SYSTEM.DEF.SVRCONN",
-			  	"queueName":"TRACE.EQ",
+				"port": %port%,
+				"hostName": "%hostName%",
+				"qmgrName": "%qmgrName%",				
+				"channelName": "%channelName%",
+				"queueName": "%queueName%",
 			  	"module":"w",
 			  	"generateCount":"10000",
 			  	"commitCount":"1000",
 			  	"traceMsgCreator":"rose.mary.trace.simulator.DefaultTraceMsgCreator",
 			  	"data": "한글1234567890qwertyuiop"
 			},{
-			  	"port":"10000",
-			  	"hostname":"10.10.1.10",
-			  	"qmgrName":"IIP",
-			  	"channelName":"SYSTEM.DEF.SVRCONN",
-			  	"queueName":"TRACE.EQ",
+				"port": %port%,
+				"hostName": "%hostName%",
+				"qmgrName": "%qmgrName%",				
+				"channelName": "%channelName%",
+				"queueName": "%queueName%",
 			  	"module":"i",
 			  	"generateCount":"10000",
 			  	"commitCount":"1000",

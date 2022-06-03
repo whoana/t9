@@ -47,6 +47,9 @@ public class TraceMsgGenerator {
 	String module;				//-mo
 	int generateCount = 1000; 	//-ge
 	int commitCount = 100;		//-co
+	String userId; 
+	String password;
+
 	String data = "abcdefghijklmnop1234567890가나다라마바!@#$%^&*()";
 	
 	MsgHandler tmh;
@@ -65,6 +68,8 @@ public class TraceMsgGenerator {
 		String hostname,
 		int port,
 		String qmgrName,
+		String userId, 
+		String password,
 		String channelName,
 		String queueName,
 		String module,
@@ -77,6 +82,8 @@ public class TraceMsgGenerator {
 		this.hostname = hostname;
 		this.port = port;
 		this.qmgrName = qmgrName;
+		this.userId = userId;
+		this.password = password;
 		this.channelName = channelName;
 		this.queueName = queueName;
 		this.module = module;
@@ -111,7 +118,7 @@ public class TraceMsgGenerator {
 		tmc = tmc == null ? new DefaultTraceMsgCreator() : tmc;
 		
 		if(MsgHandler.MODULE_MQ.equalsIgnoreCase(module)) {
-			tmh = new MQMsgHandler(qmgrName, hostname, port, channelName, null, null, 1208, 1208, false, false);
+			tmh = new MQMsgHandler(qmgrName, hostname, port, channelName, userId, password, 1208, 1208, false, false);
 		}else if(MODULE_ILINK.equalsIgnoreCase(module)) {
 			tmh = new ILinkMsgHandler(qmgrName, hostname, port, channelName);
 		}else {
@@ -198,6 +205,8 @@ public class TraceMsgGenerator {
 			int port;					//-po
 			String hostname; 			//-ho
 			String qmgrName; 			//-qm
+			String userId;              //-uo
+			String password;            //-ps
 			String channelName; 		//-ch
 			String queueName; 			//-qu
 			String module;				//-mo
@@ -219,7 +228,9 @@ public class TraceMsgGenerator {
 	
 			if (checkParams(params)) {
 				qmgrName = params.get("-qm");
-				queueName = params.get("-qu");
+				userId   = params.get("-uo");
+				password = params.get("-ps");
+				queueName = params.get("-qu");				
 				hostname = params.get("-ho");
 				channelName = params.get("-ch");
 				module = params.get("-mo");
@@ -253,7 +264,7 @@ public class TraceMsgGenerator {
 				throw new IllegalArgumentException();
 			}	
 			 
-			TraceMsgGenerator tmg = new TraceMsgGenerator(hostname, port, qmgrName, channelName, queueName, module, generateCount, commitCount, data, tmc, null);
+			TraceMsgGenerator tmg = new TraceMsgGenerator(hostname, port, qmgrName, userId, password, channelName, queueName, module, generateCount, commitCount, data, tmc, null);
 			
 			System.out.println("------------------------------------------");
 			System.out.println("- start task information");

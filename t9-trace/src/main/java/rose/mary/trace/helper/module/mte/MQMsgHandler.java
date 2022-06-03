@@ -2,12 +2,12 @@
  * Copyright 2020 portal.mocomsys.com All Rights Reserved.
  */
 package rose.mary.trace.helper.module.mte;
- 
+
 import java.util.Hashtable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
- 
+
 import com.ibm.mq.MQException;
 import com.ibm.mq.MQGetMessageOptions;
 import com.ibm.mq.MQMessage;
@@ -37,7 +37,7 @@ import rose.mary.trace.exception.NoMoreMessageException;
 public class MQMsgHandler implements MsgHandler {
 
 	Logger logger = LoggerFactory.getLogger(MQMsgHandler.class);
-	
+
 	MQQueueManager qmgr;
 
 	MQQueue queue;
@@ -52,15 +52,15 @@ public class MQMsgHandler implements MsgHandler {
 	int characterSet;
 	boolean autoCommit = true;
 	boolean bindMode = true;
-	
+
 	static MQSimpleConnectionManager myConnMan = new MQSimpleConnectionManager();
-	
+
 	public MQMsgHandler(
-			String qmgrName, 
-			String hostName, 
-			int port, 
-			String channelName, 
-			String userId, 
+			String qmgrName,
+			String hostName,
+			int port,
+			String channelName,
+			String userId,
 			String password,
 			int ccsid,
 			int characterSet,
@@ -81,30 +81,29 @@ public class MQMsgHandler implements MsgHandler {
 
 	MQGetMessageOptions gmo = null;
 	MQPutMessageOptions pmo = null;
- 
-	
+
 	@Override
 	public synchronized void open(String queueName, int openOpt) throws Exception {
-		
+
 		Hashtable<String, Object> params = new Hashtable<String, Object>();
 		params.put(CMQC.CHANNEL_PROPERTY, channelName);
 		params.put(CMQC.HOST_NAME_PROPERTY, hostName);
 		params.put(CMQC.PORT_PROPERTY, new Integer(port));
 		params.put(CMQC.CCSID_PROPERTY, ccsid);
-		if (userId != null) params.put(CMQC.USER_ID_PROPERTY, userId);
-		if (userId != null) params.put(CMQC.PASSWORD_PROPERTY, password);
-  
-		if(bindMode) {
-			params.put(CMQC.TRANSPORT_PROPERTY, CMQC.TRANSPORT_MQSERIES_BINDINGS);//binding mode connect			
-		} 
-		
+		if (userId != null)
+			params.put(CMQC.USER_ID_PROPERTY, userId);
+		if (userId != null)
+			params.put(CMQC.PASSWORD_PROPERTY, password);
+
+		if (bindMode) {
+			params.put(CMQC.TRANSPORT_PROPERTY, CMQC.TRANSPORT_MQSERIES_BINDINGS);// binding mode connect
+		}
+
 		MQException.log = null;
-		
-		//myConnMan.setActive(MQSimpleConnectionManager.MODE_ACTIVE);
-		//qmgr = new MQQueueManager(qmgrName, params, myConnMan);
+
+		// myConnMan.setActive(MQSimpleConnectionManager.MODE_ACTIVE);
+		// qmgr = new MQQueueManager(qmgrName, params, myConnMan);
 		qmgr = new MQQueueManager(qmgrName, params);
-
-
 
 		if (Q_OPEN_OPT_PUT == openOpt) {
 			int openOptions = CMQC.MQOO_OUTPUT + CMQC.MQOO_FAIL_IF_QUIESCING;
@@ -116,14 +115,15 @@ public class MQMsgHandler implements MsgHandler {
 
 		} else if (Q_QPEN_OPT_GET == openOpt) {
 			int openOptions = CMQC.MQOO_INPUT_AS_Q_DEF + CMQC.MQOO_FAIL_IF_QUIESCING;
-		 
+
 			queue = qmgr.accessQueue(queueName, openOptions);
 
 			gmo = new MQGetMessageOptions();
-			//gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_FAIL_IF_QUIESCING + CMQC.MQGMO_NO_WAIT;
-			//gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_NO_WAIT;
+			// gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 +
+			// CMQC.MQGMO_FAIL_IF_QUIESCING + CMQC.MQGMO_NO_WAIT;
+			// gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_NO_WAIT;
 			gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_FAIL_IF_QUIESCING + CMQC.MQGMO_WAIT;
-			
+
 			if (!autoCommit)
 				gmo.options = gmo.options + CMQC.MQGMO_SYNCPOINT;
 
@@ -153,7 +153,7 @@ public class MQMsgHandler implements MsgHandler {
 		// set mcd
 		rfh2.setFieldValue(MTEStruct.mcd, MTEStruct.msd, header.getMcdMsd());
 		rfh2.setFieldValue(MTEStruct.mcd, MTEStruct.set, header.getMcdSet());
-		rfh2.setFieldValue(MTEStruct.mcd, MTEStruct.type,header.getMcdType());
+		rfh2.setFieldValue(MTEStruct.mcd, MTEStruct.type, header.getMcdType());
 		rfh2.setFieldValue(MTEStruct.mcd, MTEStruct.fmt, header.getMcdFmt());
 
 		Element mteInfo = rfh2.getFolder(MTEStruct.usr, true).addElement(MTEStruct.mte_info);
@@ -161,20 +161,20 @@ public class MQMsgHandler implements MsgHandler {
 		// set a:usr.mte_info.interface_info
 		// -------------------------------------------------------------------
 		Element interfaceInfo = mteInfo.addElement(MTEStruct.a);
-		interfaceInfo.setValue(MTEStruct.a_group_id,  header.getaGroupId());
-		interfaceInfo.setValue(MTEStruct.a_host_id,   header.getaHostId());
-		interfaceInfo.setValue(MTEStruct.a_intf_id,   header.getaIntfId());
-		interfaceInfo.setValue(MTEStruct.a_date,      header.getaDate());
-		interfaceInfo.setValue(MTEStruct.a_time, 	  header.getaTime());
+		interfaceInfo.setValue(MTEStruct.a_group_id, header.getaGroupId());
+		interfaceInfo.setValue(MTEStruct.a_host_id, header.getaHostId());
+		interfaceInfo.setValue(MTEStruct.a_intf_id, header.getaIntfId());
+		interfaceInfo.setValue(MTEStruct.a_date, header.getaDate());
+		interfaceInfo.setValue(MTEStruct.a_time, header.getaTime());
 		interfaceInfo.setValue(MTEStruct.a_global_id, header.getaGlobalId());
-		
+
 		// -------------------------------------------------------------------
 		// set j:usr.mte_info.prev_host_info
 		// -------------------------------------------------------------------
 		Element prevHostInfo = mteInfo.addElement(MTEStruct.j);
-		prevHostInfo.setValue(MTEStruct.j_host_id,    header.getjHostId());
+		prevHostInfo.setValue(MTEStruct.j_host_id, header.getjHostId());
 		prevHostInfo.setValue(MTEStruct.j_process_id, header.getjProcessId());
-		
+
 		// -------------------------------------------------------------------
 		// set b:usr.mte_info.host_info
 		// -------------------------------------------------------------------
@@ -198,7 +198,7 @@ public class MQMsgHandler implements MsgHandler {
 		processInfo.setValue(MTEStruct.c_appl_type, header.getcApplType());
 		processInfo.setValue(MTEStruct.c_timezone, header.getcTimezone());
 		processInfo.setValue(MTEStruct.c_elaspsed_time, header.getcElaspsedTime());
-		
+
 		// -------------------------------------------------------------------
 		// set d:usr.mte_info.status_info
 		// -------------------------------------------------------------------
@@ -260,27 +260,27 @@ public class MQMsgHandler implements MsgHandler {
 		queue.put(putMsg, pmo);
 
 	}
- 
-	 
-	
+
 	@Override
 	public Object get(int waitTime) throws Exception {
-		  
+
 		MQMessage msg = new MQMessage();
 		msg.characterSet = characterSet;
 		gmo.waitInterval = waitTime;
 		try {
-			
+
 			queue.get(msg, gmo);
-			 
+
 		} catch (com.ibm.mq.MQException mqe) {
-			if (mqe.getReason() == 2033) throw new NoMoreMessageException("The queue (" + queue.getName().trim() + ") does not have message anymore.");
-		} catch(Exception e) {
+			if (mqe.getReason() == 2033)
+				throw new NoMoreMessageException(
+						"The queue (" + queue.getName().trim() + ") does not have message anymore.");
+		} catch (Exception e) {
 			throw e;
-		} 
+		}
 		return msg;
 	}
- 
+
 	@Override
 	public void startTransaction() throws Exception {
 		// qmgr.begin();
@@ -313,56 +313,81 @@ public class MQMsgHandler implements MsgHandler {
 					e.printStackTrace();
 				}
 			}
-		}finally {
-			//myConnMan.setActive(MQSimpleConnectionManager.MODE_INACTIVE);
+		} finally {
+			// myConnMan.setActive(MQSimpleConnectionManager.MODE_INACTIVE);
 		}
 	}
 
-	
 	@Override
 	public boolean ping() {
-		PCFMessageAgent agent = null;
-		PCFMessage   request = null;
-	    PCFMessage[] responses = null;
-	    boolean ok = false;
+
+		boolean ok = false;
+		MQQueueManager mqQmgr = null;
 		try {
-			if(qmgr != null) { 
-				agent = new PCFMessageAgent(qmgr);
-				request = new PCFMessage(CMQCFC.MQCMD_PING_Q_MGR);
-				
-				responses = agent.send(request);
-				
-				
-				
-				for (int i = 0; i < responses.length; i++) {
-					if(responses[i].getCompCode() == CMQC.MQCC_OK) {
-						ok = true;
-						break;
-					}
-	//	            if(responses[i].getCompCode() == CMQC.MQCC_OK) {
-	//	            	System.out.println("ok responses["+ i + "]:" + responses[i].toString());
-	//	            }else {
-	//	            	System.out.println("not ok responses["+ i + "]:" + responses[i].getCompCode());
-	//	            }
-				}
-			}else {
-				ok = false;
+
+			Hashtable<String, Object> params = new Hashtable<String, Object>();
+			params.put(CMQC.CHANNEL_PROPERTY, channelName);
+			params.put(CMQC.HOST_NAME_PROPERTY, hostName);
+			params.put(CMQC.PORT_PROPERTY, new Integer(port));
+			params.put(CMQC.CCSID_PROPERTY, ccsid);
+			if (userId != null)
+				params.put(CMQC.USER_ID_PROPERTY, userId);
+			if (userId != null)
+				params.put(CMQC.PASSWORD_PROPERTY, password);
+
+			if (bindMode) {
+				params.put(CMQC.TRANSPORT_PROPERTY, CMQC.TRANSPORT_MQSERIES_BINDINGS);// binding mode connect
 			}
-			
-			 
+
+			MQException.log = null;
+
+			mqQmgr = new MQQueueManager(qmgrName, params);
+			ok = true;
 		} catch (Exception e) {
 			logger.error("", e);
 			ok = false;
-		}finally {
+		} finally {
 			try {
-				if(agent != null) agent.disconnect();
-			} catch (MQDataException e) {
+				if (mqQmgr != null)
+					mqQmgr.close();
+			} catch (Exception e) {
 			}
 		}
-		
-		
-		
 		return ok;
 	}
+
+	// @Override
+	// public boolean ping() {
+	// PCFMessageAgent agent = null;
+	// PCFMessage request = null;
+	// PCFMessage[] responses = null;
+	// boolean ok = false;
+	// try {
+	// if(qmgr != null) {
+	// agent = new PCFMessageAgent(qmgr);
+	// request = new PCFMessage(CMQCFC.MQCMD_PING_Q_MGR);
+
+	// responses = agent.send(request);
+
+	// for (int i = 0; i < responses.length; i++) {
+	// if(responses[i].getCompCode() == CMQC.MQCC_OK) {
+	// ok = true;
+	// break;
+	// }
+	// }
+	// }else {
+	// ok = false;
+	// }
+	// } catch (Exception e) {
+	// logger.error("", e);
+	// ok = false;
+	// }finally {
+	// try {
+	// if(agent != null) agent.disconnect();
+	// } catch (MQDataException e) {
+	// }
+	// }
+	// return ok;
+	// }
 
 }

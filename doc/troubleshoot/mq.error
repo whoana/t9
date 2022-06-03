@@ -1,0 +1,17 @@
+.t.helper.module.mte.MQMsgHandler     : 
+
+com.ibm.mq.headers.MQExceptionWrapper: MQJE001: 완료 코드 '2', 이유 '2035'
+        at sun.reflect.GeneratedConstructorAccessor66.newInstance(Unknown Source)
+        at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+        at java.lang.reflect.Constructor.newInstance(Constructor.java:423)
+        at com.ibm.mq.headers.MQDataException.getMQDataException(MQDataException.java:303)
+        at com.ibm.mq.headers.pcf.PCFAgent.open(PCFAgent.java:634)
+        at com.ibm.mq.headers.pcf.PCFAgent.open(PCFAgent.java:494)
+        at com.ibm.mq.headers.pcf.PCFAgent.connect(PCFAgent.java:251)
+        at com.ibm.mq.headers.pcf.PCFAgent.<init>(PCFAgent.java:188)
+        at com.ibm.mq.headers.pcf.PCFMessageAgent.<init>(PCFMessageAgent.java:133)
+        at rose.mary.trace.helper.module.mte.MQMsgHandler.ping(MQMsgHandler.java:330)
+        at rose.mary.trace.apps.channel.mom.MOMChannel.ping(MOMChannel.java:143)
+        at rose.mary.trace.apps.handler.DatabasePolicyHandler.runGracefully(DatabasePolicyHandler.java:328)
+        at rose.mary.trace.apps.handler.DatabasePolicyHandler.run(DatabasePolicyHandler.java:113)
+        at java.lang.Thread.run(Thread.java:748)

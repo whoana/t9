@@ -16,7 +16,7 @@
 		"channelConfigs": [
 			{
 				"name": "RestChannel",
-				"threadCount": 2,
+				"threadCount": 4,
 				"type": 2,
 				"hostName": "localhost",
 				"qmgrName": "",
