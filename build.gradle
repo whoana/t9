@@ -141,6 +141,12 @@ task ddocker {
 	}
 }
 
+task zipinstall(type: Zip) {
+    archiveFileName = "t9-install-linux.zip"
+    destinationDirectory = file("$projectDir")
+    from "$projectDir/t9-install-linux"
+}
+
 task zpkg(type: Zip) {
     def date = new Date();
     def formattedDate = date.format('yyyyMMddHHmmss')

@@ -31,6 +31,8 @@ const now2 = moment().add(-3, "h");
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 80px;
+  margin: 0;
 `;
 
 const TitleContainer = styled.div`

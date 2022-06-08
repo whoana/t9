@@ -64,8 +64,33 @@
 				"delayForMaxCache":1000,				
 				"cacheIndex": [0,1,2,3],
 				"healthCheck": true,
-				"disable":false
-			}
+				"disable": %wmqDisable%
+			},{
+				"name": "ILinkChannel",
+				"threadCount": 4,
+				"type": 0,
+				"hostName": "%hostName%",
+				"qmgrName": "%qmgrName%",
+				"port": %port%,
+				"userId": "%userId%",
+				"password": "%password%",
+				"channelName": "%channelName%",
+				"queueName": "%queueName%",
+				"waitTime":1000,
+				"module": "i",
+				"ccsid": 1208,
+				"characterSet": 1208,
+				"autoCommit": false,
+				"bindMode": false,
+				"maxCommitWait": 100,
+				"delayForNoMessage": 1000,
+				"commitCount": 100,
+				"maxCacheSize":100,
+				"delayForMaxCache":1000,
+				"cacheIndex": [0,1,2,3],        
+				"healthCheck": true,
+				"disable": %iLinkDisable%
+		    }
 		],
 		"delayOnException" : 5000,
 		"translateMsgOnException" : false

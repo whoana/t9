@@ -1,1 +1,1 @@
-./gradlew build makeInstall -x test
+./gradlew build makeInstall zipinstall -x test

@@ -109,7 +109,7 @@ public class InstallManager {
 		println("> 사용자홈:" + userHome);
 		while (true) {
 
-			println("> 설치 디렉토리 T9_HOME을 입력해주세요.(존재하지 않으면 직접 생성, 쓰기권한 필요) :");
+			println("> 설치 디렉토리 T9_HOME을 입력해주세요.(입력된 디렉토리가 없는 디렉토리일 경우 생성됨, 설치계정에 쓰기권한 필요) :");
 			printIn();
 			String home = console.nextLine();
 			println("> T9_HOME: " + home);
@@ -182,40 +182,76 @@ public class InstallManager {
 		}
 	}
 
+	final static int DBMS_POSTGRES = 1;
+	final static int DBMS_ORACLE = 2;
+
 	void setJdbc() throws IOException {
 		String dirverName = null;
 		String url = null;
 		String username = null;
 		String password = null;
 		println("> [JDBC 정보 설정]");
-		outer: while (true) {
 
-			while (true) {
-				println("> JDBC Driver Class Name 을 입력해 주세요. :");
-				println("> ex) org.postgresql.Driver");
-				printIn();
-				dirverName = console.nextLine();
-				if (!"org.postgresql.Driver".equals(dirverName) || !"org.postgresql.Driver".equals(dirverName)) {
-					println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
-					continue;
-				}
-				if (checkOption)
-					try {
-						Class.forName(dirverName);
-					} catch (Exception e) {
-						println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
-						writeToLogFile(e);
-						e.printStackTrace();
-						continue;
-					}
+		// ORACLE, Postgres 분기처리 작성 after
+		while (true) {
+			println("> 사용할 DBMS 제품을 선택하세요.:");
+			println("> 1) Postgres		2) Oracle  (숫자를 입력하세요.)");
+			printIn();
+			int dbmsType = console.nextInt();
+			console.nextLine();
+			if (dbmsType == DBMS_POSTGRES) {
+				dirverName = "org.postgresql.Driver";
+				println("> 선택된 DBMS : Postgres");
+			} else if (dbmsType == DBMS_ORACLE) {
+				dirverName = "oracle.jdbc.OracleDriver";
+				println("> 선택된 DBMS : Oracle");
+			} else {
+				println("> 입력된 값  : " + dbmsType);
+				println("> 현재 지원가능한 DBMS 제품은 1) Oracle 과 2) Postgres 입니다. 둘 중 하나를 선택하세요.");
+				continue;
+			}
 
-				break;
+			try {
+				Class.forName(dirverName);
+			} catch (Exception e) {
+				writeToLogFile(e);
+				e.printStackTrace();
+				continue;
 			}
 			println("> JDBC dirverName: " + dirverName);
+			break;
+		}
+
+		outer: while (true) {
+
+			// while (true) {
+			// println("> JDBC Driver Class Name 을 입력해 주세요. :");
+			// println("> ex) org.postgresql.Driver");
+			// printIn();
+			// dirverName = console.nextLine();
+			// if (!"org.postgresql.Driver".equals(dirverName) ||
+			// !"org.postgresql.Driver".equals(dirverName)) {
+			// println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
+			// continue;
+			// }
+			// if (checkOption)
+			// try {
+			// Class.forName(dirverName);
+			// } catch (Exception e) {
+			// println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
+			// writeToLogFile(e);
+			// e.printStackTrace();
+			// continue;
+			// }
+
+			// break;
+			// }
+			// println("> JDBC dirverName: " + dirverName);
 
 			while (true) {
 				println("> 트래킹적재 데이터베이스 JDBC URL을 입력해주세요. :");
-				println("> ex) jdbc:postgresql://127.0.0.1:5432/iipdb");
+				println("> ex) Postgres --> jdbc:postgresql://127.0.0.1:5432/iipdb");
+				println("> ex) Oracle   --> jdbc:oracle:thin:@127.0.0.1:1521:IIP");
 				printIn();
 				url = console.nextLine();
 				println("> url: " + url);
@@ -269,6 +305,9 @@ public class InstallManager {
 
 	Map<String, Object> qmgrParams = new HashMap<String, Object>();
 
+	final static int QMGR_WMQ = 1;
+	final static int QMGR_ILIN = 2;
+
 	void setQmgr() {
 		String hostName = null;
 		String qmgrName = null;
@@ -278,7 +317,32 @@ public class InstallManager {
 		String channelName = null;
 		String queueName = null;
 
+		boolean wmqDisable = false;
+		boolean iLinkDisable = true;
 		println("> [큐매니저 정보 설정]");
+
+		while (true) {
+			println("> 사용할 QMGR 제품을 선택하세요.:");
+			println("> 1) WebsphereMQ	2) ILink  (숫자를 입력하세요.)");
+			printIn();
+			int qmgrType = console.nextInt();
+			console.nextLine();
+			if (qmgrType == QMGR_WMQ) {
+				wmqDisable = false;
+				iLinkDisable = true;
+				println("> 선택된 QMGR 제품 : WebsphereMQ");
+			} else if (qmgrType == QMGR_ILIN) {
+				wmqDisable = true;
+				iLinkDisable = false;
+				println("> 선택된 QMGR 제품 : ILink");
+			} else {
+				println("> 입력된 값  : " + qmgrType);
+				println("> 현재 지원가능한 DBMS 제품은 1) WebsphereMQ	2) ILink 입니다. 둘 중 하나를 선택하세요.");
+				continue;
+			}
+			break;
+		}
+
 		while (true) {
 
 			println("> 큐매니저 호스트명(주소)를 입력해주세요 :");
@@ -296,6 +360,7 @@ public class InstallManager {
 				printIn();
 				try {
 					port = console.nextInt();
+					console.nextLine();
 				} catch (java.util.InputMismatchException e) {
 					println("> 리스너 port 는 숫자값 이어야합니다.");
 				}
@@ -304,22 +369,22 @@ public class InstallManager {
 			}
 			println("> userId를 입력해주세요 :");
 			printIn();
-			userId = console.next();
+			userId = console.nextLine();
 			println("> userId: " + userId);
 
 			println("> password를 입력해주세요 :");
 			printIn();
-			password = console.next();
+			password = console.nextLine();
 			println("> password: " + password);
 
 			println("> channelName을 입력해주세요 :");
 			printIn();
-			channelName = console.next();
+			channelName = console.nextLine();
 			println("> channelName: " + channelName);
 
 			println("> queueName을 입력해주세요 :");
 			printIn();
-			queueName = console.next();
+			queueName = console.nextLine();
 			println("> queueName: " + queueName);
 
 			Hashtable<String, Object> params = new Hashtable<String, Object>();
@@ -362,16 +427,18 @@ public class InstallManager {
 				qmgrParams.put("%password%", password);
 				qmgrParams.put("%channelName%", channelName);
 				qmgrParams.put("%queueName%", queueName);
+				qmgrParams.put("%wmqDisable%", wmqDisable + "");
+				qmgrParams.put("%iLinkDisable%", iLinkDisable + "");
 
 				File template = new File(T9_HOME, "/config/config.json.tpl");
 				File target = new File(T9_HOME, "/config/config.json");
 				replaceFileContents(template, target, qmgrParams);
 				template.deleteOnExit();
 			} catch (Exception e) {
-				println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 처리 후 다시 시도해 주십시요. ");
+				println("> 큐매니저 접속 정보 설정중 예외가 발생되었습니다. 개발자에게 문의해 주세요.");
 				writeToLogFile(e);
 				e.printStackTrace();
-				break;
+				continue;
 			}
 
 			println("> 큐매니저 정보 설정을 설정완료하였습니다.");

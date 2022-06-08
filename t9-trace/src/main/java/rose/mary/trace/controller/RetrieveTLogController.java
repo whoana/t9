@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,8 +28,38 @@ import rose.mary.trace.database.service.RetrieveTLogService;
 @CrossOrigin
 public class RetrieveTLogController {
 
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     RetrieveTLogService service;
+
+    @PostConstruct
+    public void testRetrieve() {
+        logger.info("Retrieving test for");
+
+        String fromDate = Util.getDateAddFromToday("yyyymmddHH", -7);
+        String toDate = Util.getFormatedDate("yyyymmddHH");
+        Map params = new HashMap();
+        params.put("fromDate", fromDate);
+        params.put("toDate", toDate);
+        params.put("offset", 10);
+        params.put("rowCount", 10);
+
+        try {
+            int count = service.getTotalCount(params);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        try {
+            List<TLog> list = service.retrieve(params);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
     @RequestMapping(value = "/trace/services/tlogs", params = "method=GET", method = RequestMethod.POST, headers = "content-type=application/json")
     public @ResponseBody ComMessage<Map, Map> retrieve(
