@@ -3,7 +3,7 @@
  */
 package rose.mary.trace.database;
 
-import java.sql.DatabaseMetaData;
+
 import java.util.Properties;
 
 import javax.sql.DataSource;
@@ -68,14 +68,7 @@ public class DataSource01Config {
  
 		return sqlSessionFactoryBean.getObject();
 	}
-	// public SqlSessionFactory sqlSessionFactory(
-	// @Qualifier("datasource01") DataSource dataSource, ApplicationContext ac)
-	// throws Exception {
-	// SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-	// sqlSessionFactoryBean.setDataSource(dataSource);
-	// sqlSessionFactoryBean.setMapperLocations(ac.getResources("classpath:rose/mary/trace/database/mapper/m01/*.xml"));
-	// return sqlSessionFactoryBean.getObject();
-	// }
+	
 
 	@Primary
 	@Bean(name = "sqlSessionTemplate01")
