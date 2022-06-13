@@ -15,8 +15,8 @@
     		/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home
 
 	T9_HOME : 제품 설치 홈디렉토리를 말합니다.  
-    		예) 
-		/usr/homes/whoana/apps/t9
+    	예) 
+			/usr/homes/whoana/apps/t9
 	
 	JDBC 설정정보 : 수집된 로그를 쌓을 타겟 디비 접속정보를 미리 확인해 두세요.
 		JDBC Driver Class Name
@@ -42,7 +42,6 @@
 		큐매니저 리스터 port
 			예)
     			1414
-
 		큐매니저 접속 userId
 			예)
     			mqm
@@ -52,7 +51,6 @@
  		큐매니저 접속 channelName
 			예)
     			SYSTEM.DEF.SVRCONN
- 
  		큐매니저 접속 queueName
 			예)
     			TRACE.EQ
@@ -68,13 +66,18 @@
 	   아래 실행 예는 현재 디렉토리 아래 t9-install-linux에 설치 파일이 압축 해제된 것을 가정합니다.
 
 	   실행 예)	
-		java -jar ./t9-install-linux/t9-console-1.0.0.jar -i
+	   	설치 파일을 풀어놓은 위치가 다음과 같다고 가정합니다.
+	    설치파일 압축해제 위치 : ./t9-install-linux
+		설치 실행 : 
+		java -jar ./t9-install-linux/lib/t9-console-1.0.0.jar -i
 	   
 	   설치 옵션 설명)
 	   	-i : 기본 설치 모드
 		     설치 과정에서 JAVA_HOME 존재하고 자바가 실행되는지 체크하며   
 			 JDBC 연결정보로 접속 체크를 진행하고 큐매니저 및 큐 정보로 접속을 시도해 봅니다. 
-
+			 입력된 JDBC 정보나 큐매니저 접속정보가 실제와 일치하지 않거나  
+			 DBMS 및 큐매니저가 정상 기동 상태가 아닐 경우 또는 권한 및 기타 이유로 접속 시도를 실패하면 설치를 완료할 수 없어요.
+			 
 		-in : 체크스킵 설치 모드
 		     설치 과정에서 JAVA_HOME 존재하고 자바가 실행되는지 체크하며   
 			 JDBC 접속 체크 및 큐매니저 접속 체크는 스킵합니다.

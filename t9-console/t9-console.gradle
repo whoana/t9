@@ -27,7 +27,8 @@ plugins {
 	 compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.11'
 
 	 compile 'org.springframework:spring-web:5.1.5.RELEASE'
-
+	 compile 'org.springframework:spring-context-support:5.1.5.RELEASE'
+	 
 	 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
 	 compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version:'2.9.8'
 
@@ -50,7 +51,7 @@ plugins {
 		//spring
 		exclude group: 'org.springframework', 			module: 'spring-core'
 		exclude group: 'org.springframework', 			module: 'spring-context'
-		exclude group: 'org.springframework', 			module: 'spring-context-support'
+		//exclude group: 'org.springframework', 			module: 'spring-context-support'
 		exclude group: 'org.springframework', 			module: 'spring-webmvc'
 		exclude group: 'org.springframework', 			module: 'spring-jdbc'
 		exclude group: 'org.springframework', 			module: 'spring-tx'

@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch I18NSample",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.support.sample.I18NSample",
+            "projectName": "t9-console"
+        },
+        {
+            "type": "java",
+            "name": "Launch InstallMessageBundle",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.support.install.InstallMessageBundle",
+            "projectName": "t9-console"
+        },
+        {
+            "type": "java",
             "name": "Launch SystemConsole",
             "request": "launch",
             "mainClass": "rose.mary.trace.support.console.SystemConsole",
