@@ -37,8 +37,8 @@ public class RetrieveTLogController {
     public void testRetrieve() {
         logger.info("Retrieving test for");
 
-        String fromDate = Util.getDateAddFromToday("yyyymmddHH", -7);
         String toDate = Util.getFormatedDate("yyyymmddHH");
+        String fromDate = Util.getDateAdd(toDate, "yyyymmddHH", -7);
         Map params = new HashMap();
         params.put("fromDate", fromDate);
         params.put("toDate", toDate);
