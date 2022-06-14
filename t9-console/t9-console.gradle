@@ -69,6 +69,8 @@ plugins {
 	// https://mvnrepository.com/artifact/commons-io/commons-io
 	implementation group: 'commons-io', name: 'commons-io', version: '2.11.0'
 
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.1'
+
 	//----------------------------------------------------------------------------
 	//logging
 	//----------------------------------------------------------------------------
