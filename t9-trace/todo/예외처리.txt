@@ -1,0 +1,52 @@
+[예외처리해야할 것들]
+
+    2022.06, 미결 
+    rose.mary.trace.apps.channel.Channel
+        MQ 채널에 문제가 생기면 NoMoreMessageException 발생 
+        //to-do : handle NoMoreMessageException
+
+        } catch (NoMoreMessageException ne){
+            //to-do
+            //2022.07
+            //MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지 
+            //parser.parse(msg) 에서 
+            //if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다. 
+            //다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자. 
+            //아무래도 이건 MQ 버그인듯 싶다.
+
+    채널에서 떨어지는 예외
+            com.ibm.mq.MQException: MQJE001: 완료 코드 '2', 이유 '2537'
+                at com.ibm.mq.MQManagedConnectionJ11.<init>(MQManagedConnectionJ11.java:255)
+                at com.ibm.mq.MQClientManagedConnectionFactoryJ11._createManagedConnection(MQClientManagedConnectionFactoryJ11.java:450)
+                at com.ibm.mq.MQClientManagedConnectionFactoryJ11.createManagedConnection(MQClientManagedConnectionFactoryJ11.java:487)
+                at com.ibm.mq.StoredManagedConnection.<init>(StoredManagedConnection.java:97)
+                at com.ibm.mq.MQSimpleConnectionManager.allocateConnection(MQSimpleConnectionManager.java:194)
+                at com.ibm.mq.MQQueueManagerFactory.obtainBaseMQQueueManager(MQQueueManagerFactory.java:874)
+                at com.ibm.mq.MQQueueManagerFactory.procure(MQQueueManagerFactory.java:822)
+                at com.ibm.mq.MQQueueManagerFactory.constructQueueManager(MQQueueManagerFactory.java:764)
+                at com.ibm.mq.MQQueueManagerFactory.createQueueManager(MQQueueManagerFactory.java:200)
+                at com.ibm.mq.MQQueueManager.<init>(MQQueueManager.java:979)
+                at rose.mary.trace.support.install.InstallManager.setQmgr(InstallManager.java:405)
+                at rose.mary.trace.support.install.InstallManager.install(InstallManager.java:81)
+                at App.main(App.java:26)
+        Caused by: com.ibm.mq.jmqi.JmqiException: CC=2;RC=2537;AMQ9204: '10.10.1.10(1414)' 호스트로의 연결이 거부되었습니다. [1=com.ibm.mq.jmqi.JmqiException[CC=2;RC=2537;AMQ9558: '' 호스트의 원격 채널 'SYSTEM.DEF.SVRCONN'이(가) 현재 사용 불가능합니다. [3=SYSTEM.DEF.SVRCONN  ]],3=10.10.1.10(1414),5=RemoteConnection.analyseErrorSegment]
+                at com.ibm.mq.jmqi.remote.api.RemoteFAP$Connector.jmqiConnect(RemoteFAP.java:13588)
+                at com.ibm.mq.jmqi.remote.api.RemoteFAP$Connector.access$100(RemoteFAP.java:13125)
+                at com.ibm.mq.jmqi.remote.api.RemoteFAP.jmqiConnect(RemoteFAP.java:1430)
+                at com.ibm.mq.jmqi.remote.api.RemoteFAP.jmqiConnect(RemoteFAP.java:1389)
+                at com.ibm.mq.ese.jmqi.InterceptedJmqiImpl.jmqiConnect(InterceptedJmqiImpl.java:377)
+                at com.ibm.mq.ese.jmqi.ESEJMQI.jmqiConnect(ESEJMQI.java:562)
+                at com.ibm.mq.MQSESSION.MQCONNX_j(MQSESSION.java:916)
+                at com.ibm.mq.MQManagedConnectionJ11.<init>(MQManagedConnectionJ11.java:240)
+                ... 12 more
+        Caused by: com.ibm.mq.jmqi.JmqiException: CC=2;RC=2537;AMQ9558: '' 호스트의 원격 채널 'SYSTEM.DEF.SVRCONN'이(가) 현재 사용 불가능합니다. [3=SYSTEM.DEF.SVRCONN  ]
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnection.analyseErrorSegment(RemoteConnection.java:4665)
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnection.receiveTSH(RemoteConnection.java:3371)
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnection.initSess(RemoteConnection.java:1405)
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnection.connect(RemoteConnection.java:981)
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnectionSpecification.getNewConnection(RemoteConnectionSpecification.java:567)
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnectionSpecification.getSessionFromNewConnection(RemoteConnectionSpecification.java:246)
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnectionSpecification.getSession(RemoteConnectionSpecification.java:154)
+                at com.ibm.mq.jmqi.remote.impl.RemoteConnectionPool.getSession(RemoteConnectionPool.java:127)
+                at com.ibm.mq.jmqi.remote.api.RemoteFAP$Connector.jmqiConnect(RemoteFAP.java:13328)
+                ... 19 more
