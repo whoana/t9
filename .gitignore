@@ -6,7 +6,11 @@
 ### Eclipse ###
 .metadata
 app/
-bin/
+/bin
+/t9-console/bin
+/t9-admin/bin
+/t9-trace/bin
+
 tmp/
 *.tmp
 *.bak

@@ -16,6 +16,7 @@ import rose.mary.trace.apps.handler.StateCheckHandler;
 import rose.mary.trace.data.common.Trace;
 import rose.mary.trace.exception.HaveNoTraceInfoException;
 import rose.mary.trace.exception.NoMoreMessageException;
+import rose.mary.trace.exception.ZeroLengthMessageException;
 import rose.mary.trace.monitor.ThroughputMonitor;
 import rose.mary.trace.parser.Parser;
 
@@ -221,14 +222,23 @@ public abstract class Channel implements Runnable {
 						Trace trace = parser.parse(msg);
 						trace.setStateCheckHandler(sch);
 						cacheMap.put(trace.getId(), trace);
-					// } catch (NoMoreMessageException ne){
-					// 	//to-do : handle NoMoreMessageException
-					// 	//2022.07
-					// 	//MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지 
-					// 	//parser.parse(msg) 에서 
-					// 	//if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다. 
-					// 	//다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자. 
-					// 	//아무래도 이건 MQ 버그인듯 싶다.
+					} catch (ZeroLengthMessageException ze){
+						//to-do : handle NoMoreMessageException
+						//2022.07
+						//MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지 
+						//parser.parse(msg) 에서 
+						//if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다. 
+						//다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자. 
+						//아무래도 이건 MQ 버그인듯 싶다.
+
+						logger.info("Length of message is 0, continue to get next message after waitting delay time : " + delayOnException);
+						try {
+							Thread.sleep(delayOnException);
+						} catch (InterruptedException e1) {
+							
+						}
+						continue;
+
 					} catch (Exception me) {
 						// 메시지 파싱시 예외난 것들은 롤백 처리하지 않고 로그만 남기도록 한다.
 						// handler에서는 메시지 원본을 어떻게 처리할지 고민해 본다.
@@ -340,6 +350,22 @@ public abstract class Channel implements Runnable {
 						Trace trace = parser.parse(msg);
 						trace.setStateCheckHandler(sch);
 						cacheMap.put(trace.getId(), trace);
+					} catch (ZeroLengthMessageException ze){
+						//to-do : handle NoMoreMessageException
+						//2022.07
+						//MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지 
+						//parser.parse(msg) 에서 
+						//if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다. 
+						//다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자. 
+						//아무래도 이건 MQ 버그인듯 싶다.
+
+						logger.info("Length of message is 0, continue to get next message after waitting delay time : " + delayOnException);
+						try {
+							Thread.sleep(delayOnException);
+						} catch (InterruptedException e1) {
+							
+						}
+						continue;
 					} catch (Exception me) {
 						// 메시지 파싱시 예외난 것들은 롤백 처리하지 않고 로그만 남기도록 한다.
 						// handler에서는 메시지 원본을 어떻게 처리할지 고민해 본다.

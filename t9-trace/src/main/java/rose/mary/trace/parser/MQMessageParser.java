@@ -14,8 +14,8 @@ import com.ibm.mq.headers.MQRFH2.Element;
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.data.common.Trace;
 import rose.mary.trace.exception.HaveNoTraceInfoException;
-import rose.mary.trace.exception.NoMoreMessageException;
 import rose.mary.trace.exception.ParsingException;
+import rose.mary.trace.exception.ZeroLengthMessageException;
 import rose.mary.trace.helper.module.mte.MTEStruct;
 
 /**
@@ -38,7 +38,7 @@ public class MQMessageParser extends Parser {
 	public Trace parse(Object traceObject) throws Exception {
 		MQMessage msg = (MQMessage)traceObject; 
 		
-		if(msg.getTotalMessageLength() == 0) throw new NoMoreMessageException();
+		if(msg.getTotalMessageLength() == 0) throw new ZeroLengthMessageException();
 		
 		if (CMQC.MQFMT_RF_HEADER_2.equals(msg.format)) {
 			msg.seek(0);

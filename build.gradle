@@ -64,9 +64,7 @@ task makeInstall {
 		}
 	}
 }
-
-
-
+ 
 task rdist(type: Delete) {
 	println('[delete files]')
 	delete "$projectDir/dist/t9/lib", "$projectDir/dist/t9/config", "$projectDir/dist/t9-admin/lib", "$projectDir/dist/t9-admin/config"

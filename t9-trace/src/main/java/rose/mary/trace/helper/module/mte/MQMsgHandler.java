@@ -318,8 +318,8 @@ public class MQMsgHandler implements MsgHandler {
 		}
 	}
 
-	@Override
-	public boolean ping() {
+	//@Override
+	public boolean pingBakup() {
 
 		boolean ok = false;
 		MQQueueManager mqQmgr = null;
@@ -356,38 +356,39 @@ public class MQMsgHandler implements MsgHandler {
 		return ok;
 	}
 
-	// @Override
-	// public boolean ping() {
-	// PCFMessageAgent agent = null;
-	// PCFMessage request = null;
-	// PCFMessage[] responses = null;
-	// boolean ok = false;
-	// try {
-	// if(qmgr != null) {
-	// agent = new PCFMessageAgent(qmgr);
-	// request = new PCFMessage(CMQCFC.MQCMD_PING_Q_MGR);
+	@Override
+	public boolean ping() {
+		PCFMessageAgent agent = null;
+		PCFMessage request = null;
+		PCFMessage[] responses = null;
+		boolean ok = false;
+		try {
+			if (qmgr != null) {
+				agent = new PCFMessageAgent(qmgr);
+				request = new PCFMessage(CMQCFC.MQCMD_PING_Q_MGR);
 
-	// responses = agent.send(request);
+				responses = agent.send(request);
 
-	// for (int i = 0; i < responses.length; i++) {
-	// if(responses[i].getCompCode() == CMQC.MQCC_OK) {
-	// ok = true;
-	// break;
-	// }
-	// }
-	// }else {
-	// ok = false;
-	// }
-	// } catch (Exception e) {
-	// logger.error("", e);
-	// ok = false;
-	// }finally {
-	// try {
-	// if(agent != null) agent.disconnect();
-	// } catch (MQDataException e) {
-	// }
-	// }
-	// return ok;
-	// }
+				for (int i = 0; i < responses.length; i++) {
+					if (responses[i].getCompCode() == CMQC.MQCC_OK) {
+						ok = true;
+						break;
+					}
+				}
+			} else {
+				ok = false;
+			}
+		} catch (Exception e) {
+			logger.error("", e);
+			ok = false;
+		} finally {
+			try {
+				if (agent != null)
+					agent.disconnect();
+			} catch (MQDataException e) {
+			}
+		}
+		return ok;
+	}
 
 }

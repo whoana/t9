@@ -1,0 +1,15 @@
+runmqsc TEST_HANA_QM
+5724-H72 (C) Copyright IBM Corp. 1994, 2020.
+큐 관리자 TEST_HANA_QM에 대한 MQSC를 시작 중입니다.
+
+DEFINE CHANNEL(T9CHANNEL) CHLTYPE(SVRCONN) TRPTYPE(TCP) DESCR('Server-connection to T9')
+     1 : DEFINE CHANNEL(T9CHANNEL) CHLTYPE(SVRCONN) TRPTYPE(TCP) DESCR('Server-connection to T9')
+AMQ8014I: IBM MQ 채널이 작성되었습니다.
+
+SET CHLAUTH(T9CHANNEL) TYPE(ADDRESSMAP) ADDRESS('*.*.*.*') MCAUSER('mqm')
+     2 : SET CHLAUTH(T9CHANNEL) TYPE(ADDRESSMAP) ADDRESS('*.*.*.*') MCAUSER('mqm')
+AMQ8877I: IBM MQ 채널 인증 레코드가 설정되었습니다.
+2 MQSC 명령 읽기.
+어떤 명령도 구문 오류를 갖고 있지 않습니다.
+유효한 모든 MQSC 명령이 처리되었습니다.
+

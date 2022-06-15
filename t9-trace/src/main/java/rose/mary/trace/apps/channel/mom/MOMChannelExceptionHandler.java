@@ -63,10 +63,14 @@ public class MOMChannelExceptionHandler implements ChannelExceptionHandler {
 			}else if(trace instanceof MQMessage) {
 				MQMessage tmsg = (MQMessage)trace;
 				try { 
-					int length = tmsg.getDataLength();
-					byte[] b = new byte[length];					
-					tmsg.readFully(b);
-					orignMessage.append(b);			 
+					if(tmsg.getTotalMessageLength() == 0) {
+						orignMessage.append("msg length is zero.");
+					}else{
+						int length = tmsg.getDataLength();
+						byte[] b = new byte[length];					
+						tmsg.readFully(b);
+						orignMessage.append(b);			 
+					}
 				} catch(Exception e1) {  
 					logger.error("Exception:", e1);
 				}		 
