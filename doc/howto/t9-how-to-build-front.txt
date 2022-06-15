@@ -1,0 +1,10 @@
+1.t9-front 의 빌드 패스 지정 방법 
+    t9-front 아래에 .env 파일을 만들고 빌드 패스를 추가한다.
+    
+        BUILD_PATH='../t9-trace/src/main/resources/static/front'
+
+    * 빌드패스는 t9-trace 소스에 추가될수 있도록 위치를 지정한다.
+
+2.빌드 명령 
+    cd t9-front
+    npm run build
