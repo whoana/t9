@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.apps.cache.CacheProxy;
 import rose.mary.trace.apps.envs.Variables;
-import rose.mary.trace.apps.handler.StateCheckHandler;
+import rose.mary.trace.data.common.StateChecker;
 import rose.mary.trace.data.common.Trace;
 import rose.mary.trace.exception.HaveNoTraceInfoException;
 import rose.mary.trace.exception.NoMoreMessageException;
@@ -47,7 +47,7 @@ public abstract class Channel implements Runnable {
 
 	Thread thread = null;
 
-	protected StateCheckHandler sch;
+	protected StateChecker stateChecker;
 
 	protected ChannelExceptionHandler channelExceptionHandler;
 
@@ -220,22 +220,23 @@ public abstract class Channel implements Runnable {
 				if (msg != null) {
 					try {
 						Trace trace = parser.parse(msg);
-						trace.setStateCheckHandler(sch);
+						trace.setStateCheckHandler(stateChecker);
 						cacheMap.put(trace.getId(), trace);
-					} catch (ZeroLengthMessageException ze){
-						//to-do : handle NoMoreMessageException
-						//2022.07
-						//MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지 
-						//parser.parse(msg) 에서 
-						//if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다. 
-						//다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자. 
-						//아무래도 이건 MQ 버그인듯 싶다.
+					} catch (ZeroLengthMessageException ze) {
+						// to-do : handle NoMoreMessageException
+						// 2022.07
+						// MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지
+						// parser.parse(msg) 에서
+						// if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다.
+						// 다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자.
+						// 아무래도 이건 MQ 버그인듯 싶다.
 
-						logger.info("Length of message is 0, continue to get next message after waitting delay time : " + delayOnException);
+						logger.info("Length of message is 0, continue to get next message after waitting delay time : "
+								+ delayOnException);
 						try {
 							Thread.sleep(delayOnException);
 						} catch (InterruptedException e1) {
-							
+
 						}
 						continue;
 
@@ -348,22 +349,23 @@ public abstract class Channel implements Runnable {
 				if (msg != null) {
 					try {
 						Trace trace = parser.parse(msg);
-						trace.setStateCheckHandler(sch);
+						trace.setStateCheckHandler(stateChecker);
 						cacheMap.put(trace.getId(), trace);
-					} catch (ZeroLengthMessageException ze){
-						//to-do : handle NoMoreMessageException
-						//2022.07
-						//MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지 
-						//parser.parse(msg) 에서 
-						//if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다. 
-						//다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자. 
-						//아무래도 이건 MQ 버그인듯 싶다.
+					} catch (ZeroLengthMessageException ze) {
+						// to-do : handle NoMoreMessageException
+						// 2022.07
+						// MQ 채널이 가끔 이상해질때 사이즈 0인 메시지가 발생하는지
+						// parser.parse(msg) 에서
+						// if(msg.getTotalMessageLength() == 0) 인 경우가 발생된다.
+						// 다음에 이경우가 발생하면 큐에 제대로 된 메시지를 넣어보자.
+						// 아무래도 이건 MQ 버그인듯 싶다.
 
-						logger.info("Length of message is 0, continue to get next message after waitting delay time : " + delayOnException);
+						logger.info("Length of message is 0, continue to get next message after waitting delay time : "
+								+ delayOnException);
 						try {
 							Thread.sleep(delayOnException);
 						} catch (InterruptedException e1) {
-							
+
 						}
 						continue;
 					} catch (Exception me) {

@@ -7,8 +7,7 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.handler.StateCheckHandler; 
+import pep.per.mint.common.util.Util; 
 
 /**
  * <pre>
@@ -26,7 +25,7 @@ public class Trace implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
-	StateCheckHandler stateCheckHandler;
+	StateChecker stateCheckHandler;
 	
 	/**
 	 * <pre>
@@ -415,12 +414,12 @@ public class Trace implements Serializable{
 	 * @param finishChecker
 	 */
 	@JsonIgnore
-	public void setStateCheckHandler(StateCheckHandler stateCheckHandler) {
+	public void setStateCheckHandler(StateChecker stateCheckHandler) {
 		this.stateCheckHandler = stateCheckHandler;
 	}
 
 	@JsonIgnore
-	public StateCheckHandler getStateCheckHandler() {
+	public StateChecker getStateCheckHandler() {
 		return stateCheckHandler;
 	}
 

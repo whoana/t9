@@ -16,7 +16,6 @@ import org.infinispan.transaction.TransactionMode;
 import rose.mary.trace.apps.cache.CacheManagerProxy;
 import rose.mary.trace.apps.manager.config.CacheManagerConfig;
 import rose.mary.trace.data.cache.CacheConfig;
-import rose.mary.trace.data.common.Bot;
 import rose.mary.trace.data.common.State;
 import rose.mary.trace.data.common.Trace;
 

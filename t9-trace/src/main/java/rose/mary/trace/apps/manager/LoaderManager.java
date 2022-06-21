@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.boter.BotLoader;
 import rose.mary.trace.apps.cache.CacheProxy;
 import rose.mary.trace.apps.loader.Loader;
 import rose.mary.trace.apps.manager.config.LoaderManagerConfig;

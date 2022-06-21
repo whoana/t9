@@ -155,8 +155,8 @@
 		< mqm
 		> password: mqm
 		> channelName을 입력해주세요 :
-		< SYSTEM.DEF.SVRCONN
-		> channelName: SYSTEM.DEF.SVRCONN
+		< T9CHANNEL
+		> channelName: T9CHANNEL
 		> queueName을 입력해주세요 :
 		< TRACE.EQ
 		> queueName: TRACE.EQ

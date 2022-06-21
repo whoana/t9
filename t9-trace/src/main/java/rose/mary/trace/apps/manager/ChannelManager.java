@@ -65,15 +65,16 @@ public class ChannelManager {
 	ChannelExceptionHandler momChannelExceptionHandler = null;
 	ChannelExceptionHandler restChannelExceptionHandler = null;
 	
-	@Autowired
+	
 	ThreadPoolTaskExecutor taskExecutor;
 	
-	public ChannelManager(ChannelManagerConfig config, CacheManager cacheManager, ThroughputMonitor tpm) {
+	public ChannelManager(ChannelManagerConfig config, CacheManager cacheManager, ThroughputMonitor tpm, ThreadPoolTaskExecutor taskExecutor) {
 		this.config = config;
 		this.cacheManager = cacheManager;
 		this.tpm = tpm;
 		this.momChannelExceptionHandler = new MOMChannelExceptionHandler(config.isTranslateMsgOnException());
 		this.delayOnException = config.getDelayOnException();
+		this.taskExecutor = taskExecutor;
 
 	}
 	

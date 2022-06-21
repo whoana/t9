@@ -5,9 +5,10 @@ import org.slf4j.LoggerFactory;
 
 import rose.mary.trace.apps.manager.config.OldStateCheckHandlerConfig;
 import rose.mary.trace.data.common.State;
+import rose.mary.trace.data.common.StateChecker;
 import rose.mary.trace.data.common.Trace;
 
-public class OldStateCheckHandler implements StateCheckHandler {
+public class OldStateCheckHandler implements StateChecker {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
 

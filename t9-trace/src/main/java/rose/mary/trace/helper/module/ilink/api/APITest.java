@@ -8,7 +8,7 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.AsynchronousSocketChannel;
 import java.util.Queue;
-import java.util.Scanner;
+
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -16,9 +16,8 @@ import java.util.concurrent.Future;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mococo.ILinkAPI.jms.ILMessage;
+
 import com.mococo.ILinkAPI.jms.ILinkMessage;
-import com.mococo.ILinkAPI.jms.ILinkReportMessage;
 import com.mococo.ILinkAPI.jms.ILinkRequestMessage;
 
 import pep.per.mint.common.util.Util;

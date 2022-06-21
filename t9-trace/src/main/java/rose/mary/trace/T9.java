@@ -34,6 +34,7 @@ import rose.mary.trace.apps.manager.CacheManager;
 import rose.mary.trace.apps.manager.ConfigurationManager;
 import rose.mary.trace.apps.manager.InterfaceCacheManager;
 import rose.mary.trace.apps.manager.ServerManager;
+import rose.mary.trace.apps.manager.DatabasePolicyHandlerManager;
 import rose.mary.trace.data.common.RuntimeInfo;
 import rose.mary.trace.database.service.TraceService;
 import rose.mary.trace.monitor.SystemResource;
@@ -66,9 +67,12 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 	@Autowired
 	SystemResourceMonitor srm;
 	
-	@Autowired
-	TraceServer traceServer;
+	//@Autowired
+	//TraceServer traceServer;
 	
+	@Autowired
+	DatabasePolicyHandlerManager databasePolicyHandlerManager;
+
 	@Autowired
 	ServerManager serverManager;
 	
@@ -102,7 +106,8 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 	public void onApplicationEvent(ContextClosedEvent event) {
 		
 		try {
-			traceServer.stop();
+			//traceServer.stop();
+			serverManager.stopServer();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,9 +151,11 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 			}
 			
 		}else {
-			if(configurationManager.getServerManagerConfig().isStartOnBoot()) traceServer.start();
+			// if(configurationManager.getServerManagerConfig().isStartOnBoot()) traceServer.start();
+			if(configurationManager.getServerManagerConfig().isStartOnBoot()) serverManager.startServer();
 			else SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
-			traceServer.startDatabasePolicyHandler();
+			//traceServer.startDatabasePolicyHandler();
+			databasePolicyHandlerManager.start();
 		}
 	}
 	

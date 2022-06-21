@@ -11,7 +11,7 @@ import rose.mary.trace.apps.tester.GenerateMsgTester;
 import rose.mary.trace.service.GenerateTraceMsgService;
 import rose.mary.trace.system.SystemLogger;
 
-@Component
+//@Component
 public class TesterManager {
 
 	
@@ -20,11 +20,12 @@ public class TesterManager {
 	GenerateMsgTester generateMsgTester; 
 	
 	
-	@Autowired 
+	//@Autowired 
 	GenerateTraceMsgService gtms;
 	
-	public TesterManager(@Autowired ConfigurationManager cm) {
+	public TesterManager(ConfigurationManager cm, GenerateTraceMsgService gtms) {
 		this.config = cm.getTesterManagerConfig();
+		this.gtms = gtms;
 	}
 	
 	public void start() throws Exception{

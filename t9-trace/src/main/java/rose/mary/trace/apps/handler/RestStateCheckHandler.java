@@ -1,9 +1,10 @@
 package rose.mary.trace.apps.handler;
 
 import rose.mary.trace.data.common.State;
+import rose.mary.trace.data.common.StateChecker;
 import rose.mary.trace.data.common.Trace;
 
-public class RestStateCheckHandler implements StateCheckHandler{
+public class RestStateCheckHandler implements StateChecker{
 
 	/**
 	 * 

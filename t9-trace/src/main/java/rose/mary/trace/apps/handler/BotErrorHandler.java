@@ -5,8 +5,6 @@ package rose.mary.trace.apps.handler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.slf4j.Logger;

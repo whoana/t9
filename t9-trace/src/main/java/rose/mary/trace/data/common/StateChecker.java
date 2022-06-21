@@ -1,11 +1,8 @@
-package rose.mary.trace.apps.handler;
+package rose.mary.trace.data.common;
 
 import java.io.Serializable;
 
-import rose.mary.trace.data.common.State;
-import rose.mary.trace.data.common.Trace;
-
-public interface StateCheckHandler extends Serializable{
+public interface StateChecker extends Serializable{
 	
 	/**
 	 * <pre>
