@@ -4,7 +4,7 @@
 package rose.mary.trace.core.restore;
 
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.Trace;
 
 /**
  * <pre>

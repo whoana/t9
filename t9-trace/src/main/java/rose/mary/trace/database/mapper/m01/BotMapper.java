@@ -5,9 +5,9 @@ package rose.mary.trace.database.mapper.m01;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import rose.mary.trace.data.common.Bot;
-import rose.mary.trace.data.common.State;
-import rose.mary.trace.data.common.Unmatch;
+import rose.mary.trace.core.data.common.Bot;
+import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.Unmatch;
 
 /**
  * <pre>

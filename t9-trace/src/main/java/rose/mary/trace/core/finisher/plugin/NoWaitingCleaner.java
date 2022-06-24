@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.data.common.State;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.Trace;
 
 /**
  * <pre>

@@ -1,6 +1,6 @@
 package rose.mary.trace.core.finisher.plugin;
  
-import rose.mary.trace.data.common.State;
+import rose.mary.trace.core.data.common.State;
 
 public interface Cleaner {
 

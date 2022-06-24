@@ -10,7 +10,7 @@ import java.util.Set;
 
 import javax.transaction.TransactionManager;
 
-import rose.mary.trace.data.cache.CacheInfo; 
+import rose.mary.trace.core.data.cache.CacheInfo; 
 
 /**
  * <pre>

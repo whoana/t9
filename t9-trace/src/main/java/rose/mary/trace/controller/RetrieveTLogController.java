@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pep.per.mint.common.data.basic.ComMessage;
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.data.common.TLog;
+import rose.mary.trace.core.data.common.TLog;
 import rose.mary.trace.database.service.RetrieveTLogService;
 
 @RestController

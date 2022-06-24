@@ -195,7 +195,7 @@
 	</select>
 	
 	
-	<resultMap id="interfaceInfoMap" type="rose.mary.trace.data.common.InterfaceInfo" >
+	<resultMap id="interfaceInfoMap" type="rose.mary.trace.core.data.common.InterfaceInfo" >
 		<id 	property = "interfaceId" 	 column = "INTERFACE_ID"/>		
 		<result property = "businessId" 	 column = "BUSINESS_ID"/>
 		<result property = "businessNm" 	 column = "BUSINESS_NM"/>

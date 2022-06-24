@@ -7,7 +7,7 @@ package rose.mary.trace.core.config;
 
 import java.util.List;
 
-import rose.mary.trace.data.cache.CacheConfig; 
+import rose.mary.trace.core.data.cache.CacheConfig; 
  
  
 /**

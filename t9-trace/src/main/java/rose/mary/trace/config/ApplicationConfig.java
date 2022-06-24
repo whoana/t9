@@ -16,8 +16,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import rose.mary.trace.core.TraceServer;
-import rose.mary.trace.data.common.RuntimeInfo;
+import rose.mary.trace.core.data.common.RuntimeInfo;
+import rose.mary.trace.core.monitor.SystemResourceMonitor;
+import rose.mary.trace.core.monitor.ThroughputMonitor;
+import rose.mary.trace.core.system.SystemErrorDetector;
 import rose.mary.trace.database.service.BotService;
 import rose.mary.trace.database.service.InterfaceService;
 import rose.mary.trace.database.service.SystemService;
@@ -38,9 +40,7 @@ import rose.mary.trace.manager.SystemErrorTestManager;
 import rose.mary.trace.manager.TesterManager;
 import rose.mary.trace.manager.TraceErrorHandlerManager;
 import rose.mary.trace.manager.UnmatchHandlerManager;
-import rose.mary.trace.monitor.SystemResourceMonitor;
-import rose.mary.trace.monitor.ThroughputMonitor;
-import rose.mary.trace.system.SystemErrorDetector;
+import rose.mary.trace.server.TraceServer;
 import rose.mary.trace.service.GenerateTraceMsgService;
 
 import javax.sql.DataSource;

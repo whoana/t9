@@ -6,9 +6,8 @@ import org.springframework.context.MessageSource;
 
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.config.UnmatchHandlerManagerConfig;
-import rose.mary.trace.data.common.InterfaceInfo;
-
-import rose.mary.trace.data.common.Unmatch;
+import rose.mary.trace.core.data.common.InterfaceInfo;
+import rose.mary.trace.core.data.common.Unmatch;
 import rose.mary.trace.database.service.BotService;
 import rose.mary.trace.handler.UnmatchHandler;
 

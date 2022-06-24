@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pep.per.mint.common.data.basic.ComMessage;
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.data.Foo;
-import rose.mary.trace.data.channel.ChannelOperation;
+import rose.mary.trace.core.data.Foo;
+import rose.mary.trace.core.data.channel.ChannelOperation;
 import rose.mary.trace.database.service.FooService;
 
 /**

@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rose.mary.trace.data.common.TLog;
+import rose.mary.trace.core.data.common.TLog;
 import rose.mary.trace.database.mapper.m01.RetrieveTLogMapper;
 
 

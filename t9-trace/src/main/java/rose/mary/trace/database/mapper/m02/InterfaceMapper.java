@@ -8,7 +8,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import rose.mary.trace.data.common.InterfaceInfo;
+import rose.mary.trace.core.data.common.InterfaceInfo;
 
 /**
  * <pre>

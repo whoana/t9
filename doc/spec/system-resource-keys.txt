@@ -1,0 +1,25 @@
+------------------------------------------------
+system resource keys :
+------------------------------------------------
+A01 : javaVersion  
+A02 : javaVendor   
+A03 : javaHome     
+A04 : javaClassVersion 
+A06 : javaClassPath
+A07 : osName       
+A08 : osArch       
+A09 : osVersion    
+A10 : userName     
+A11 : userHome     
+A12 : userDir      
+A13 : totalDiskAmt 
+A14 : usedDiskAmt  
+A15 : idleDiskAmt  
+A16 : usedDiskPct  
+A17 : idleDiskPct  
+A18 : usedCpuPct   
+A19 : idleCpuPct   
+A20 : totalMemAmt  
+A21 : idleMemAmt   
+A22 : usedMemPct   
+A23 : idleMemPct  

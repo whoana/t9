@@ -6,11 +6,11 @@ package rose.mary.trace.core.channel.mom;
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.channel.Channel;
 import rose.mary.trace.core.config.OldStateCheckHandlerConfig;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.Trace;
+import rose.mary.trace.core.helper.module.mte.ILinkMsgHandler;
+import rose.mary.trace.core.helper.module.mte.MQMsgHandler;
+import rose.mary.trace.core.helper.module.mte.MsgHandler;
 import rose.mary.trace.handler.OldStateCheckHandler;
-import rose.mary.trace.helper.module.mte.ILinkMsgHandler;
-import rose.mary.trace.helper.module.mte.MQMsgHandler;
-import rose.mary.trace.helper.module.mte.MsgHandler;
 
 /**
  * <pre>

@@ -14,7 +14,9 @@ import javax.jms.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rose.mary.trace.monitor.ThroughputMonitor;
+import rose.mary.trace.core.helper.module.mte.ILinkMsgHandler;
+import rose.mary.trace.core.helper.module.mte.MQMsgHandler;
+import rose.mary.trace.core.monitor.ThroughputMonitor;
 
 /**
  * <pre>

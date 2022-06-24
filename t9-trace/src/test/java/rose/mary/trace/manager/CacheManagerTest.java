@@ -17,7 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.Trace;
 import rose.mary.trace.manager.CacheManager;
 import rose.mary.trace.manager.ConfigurationManager;
 

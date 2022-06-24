@@ -6,8 +6,8 @@ import org.springframework.context.MessageSource;
 
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.config.DatabasePolicyConfig;
-import rose.mary.trace.data.common.State;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.Trace;
 import rose.mary.trace.database.service.SystemService;
 import rose.mary.trace.handler.DatabasePolicyHandler;
 

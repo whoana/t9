@@ -5,7 +5,8 @@ package rose.mary.trace.helper.module.mte;
 
 
 
-import rose.mary.trace.monitor.ThroughputMonitor;
+import rose.mary.trace.core.helper.module.mte.MQMsgHandler;
+import rose.mary.trace.core.monitor.ThroughputMonitor;
 
 /**
  * <pre>
@@ -20,7 +21,7 @@ public class MQMsgHandlerTest {
 	 
 
 	/**
-	 * Test method for {@link rose.mary.trace.helper.module.mte.MQMsgHandler#get(int)}.
+	 * Test method for {@link rose.mary.trace.core.helper.module.mte.MQMsgHandler#get(int)}.
 	 */
 	//@Test
 	public static void main(String args[]) {

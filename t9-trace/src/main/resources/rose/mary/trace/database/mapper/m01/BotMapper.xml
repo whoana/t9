@@ -6,7 +6,7 @@
   	<!--
   	<cache/>
   	-->
-	<update id="restore" parameterType="rose.mary.trace.data.common.Bot">
+	<update id="restore" parameterType="rose.mary.trace.core.data.common.Bot">
 		<choose>
 			<when test="_databaseId == 'postgresql'">
 				<![CDATA[
@@ -253,7 +253,7 @@
 	<!-- 
 		PostgreSQL for merge sentence
 	-->
-	<update id="updateUnmatch" parameterType="rose.mary.trace.data.common.Unmatch">
+	<update id="updateUnmatch" parameterType="rose.mary.trace.core.data.common.Unmatch">
 		<choose>
 			<when test="_databaseId == 'postgresql'">
 				<![CDATA[

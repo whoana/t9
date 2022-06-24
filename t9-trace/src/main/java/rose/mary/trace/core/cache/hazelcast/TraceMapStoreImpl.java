@@ -8,7 +8,7 @@ import java.util.Map;
 
 import com.hazelcast.core.MapStore;
 
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.Trace;
 import rose.mary.trace.database.service.TraceCacheMapStoreService;
 
 /**

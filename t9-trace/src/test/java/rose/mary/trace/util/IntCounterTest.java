@@ -2,6 +2,8 @@ package rose.mary.trace.util;
 
 import org.junit.Test;
 
+import rose.mary.trace.core.util.IntCounter;
+
 public class IntCounterTest {
 
 	@Test

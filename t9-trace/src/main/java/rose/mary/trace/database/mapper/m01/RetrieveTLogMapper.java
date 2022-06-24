@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import rose.mary.trace.data.common.TLog;
+import rose.mary.trace.core.data.common.TLog;
 
 @Mapper
 public interface RetrieveTLogMapper {

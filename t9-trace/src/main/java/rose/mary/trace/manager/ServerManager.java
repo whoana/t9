@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
 import com.zaxxer.hikari.HikariDataSource;
 import rose.mary.trace.T9;
-import rose.mary.trace.core.TraceServer;
-import rose.mary.trace.system.SystemLogger;
+import rose.mary.trace.core.system.SystemLogger;
+import rose.mary.trace.server.TraceServer;
 
 /**
  * <pre>

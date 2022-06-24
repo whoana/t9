@@ -31,7 +31,7 @@
 	</select>
 	
 	
-	<resultMap id="tlogMap" type="rose.mary.trace.data.common.TLog" >
+	<resultMap id="tlogMap" type="rose.mary.trace.core.data.common.TLog" >
 		<result property="integrationId"   column="integration_id"   />    
     <result property="trackingDate"    column="tracking_date"    />    
     <result property="orgHostId"       column="org_host_id"      />

@@ -6,7 +6,7 @@ package rose.mary.trace.core.config;
 import java.util.ArrayList;
 import java.util.List;
 
-import rose.mary.trace.data.channel.ChannelConfig;
+import rose.mary.trace.core.data.channel.ChannelConfig;
 
 /**
  * <pre>

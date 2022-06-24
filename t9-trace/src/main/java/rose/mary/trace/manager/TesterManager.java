@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import rose.mary.trace.core.config.TesterManagerConfig;
+import rose.mary.trace.core.system.SystemLogger;
 import rose.mary.trace.service.GenerateTraceMsgService;
-import rose.mary.trace.system.SystemLogger;
 import rose.mary.trace.tester.GenerateMsgTester;
 
 //@Component

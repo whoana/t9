@@ -1,8 +1,8 @@
 package rose.mary.trace.handler;
 
-import rose.mary.trace.data.common.State;
-import rose.mary.trace.data.common.StateChecker;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.StateChecker;
+import rose.mary.trace.core.data.common.Trace;
 
 public class RestStateCheckHandler implements StateChecker{
 

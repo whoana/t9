@@ -14,9 +14,9 @@ import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.channel.Channel;
 import rose.mary.trace.core.config.OldStateCheckHandlerConfig;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.Trace;
+import rose.mary.trace.core.util.IntCounter;
 import rose.mary.trace.handler.OldStateCheckHandler;
-import rose.mary.trace.util.IntCounter;
 
 /**
  * <pre>

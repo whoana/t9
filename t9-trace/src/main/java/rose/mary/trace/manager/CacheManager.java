@@ -19,12 +19,12 @@ import rose.mary.trace.core.cache.chronicle.ChronicleCacheManagerProxy;
 import rose.mary.trace.core.cache.ehcache.EhcacheManagerProxy;
 import rose.mary.trace.core.cache.infinispan.InfinispanCacheManagerProxy;
 import rose.mary.trace.core.config.CacheManagerConfig;
-import rose.mary.trace.data.common.InterfaceInfo;
-import rose.mary.trace.data.common.State;
-import rose.mary.trace.data.common.Trace;
-import rose.mary.trace.data.common.Unmatch;
-import rose.mary.trace.exception.NotYetImplementedException;
-import rose.mary.trace.system.SystemError;
+import rose.mary.trace.core.data.common.InterfaceInfo;
+import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.Trace;
+import rose.mary.trace.core.data.common.Unmatch;
+import rose.mary.trace.core.exception.NotYetImplementedException;
+import rose.mary.trace.core.system.SystemError;
 
 /**
  * <pre>

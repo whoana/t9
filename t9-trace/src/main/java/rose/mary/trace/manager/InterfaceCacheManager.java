@@ -14,7 +14,7 @@ import org.springframework.scheduling.support.PeriodicTrigger;
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.config.InterfaceCacheManagerConfig;
-import rose.mary.trace.data.common.InterfaceInfo;
+import rose.mary.trace.core.data.common.InterfaceInfo;
 import rose.mary.trace.database.service.InterfaceService;
 
 /**

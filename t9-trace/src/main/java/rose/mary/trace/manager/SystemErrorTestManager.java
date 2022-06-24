@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import rose.mary.trace.core.config.Config;
+import rose.mary.trace.core.system.SystemErrorTester;
 import rose.mary.trace.database.service.SystemService;
-import rose.mary.trace.system.SystemErrorTester;
 
 public class SystemErrorTestManager {
 	
