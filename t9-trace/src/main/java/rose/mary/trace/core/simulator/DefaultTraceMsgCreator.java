@@ -242,7 +242,7 @@ public class DefaultTraceMsgCreator implements TraceMsgCreator {
 			r.setdErrorType("db");
 			r.setdErrorCode("OR100");
 			r.setdErrorReason("dberr");
-			r.setdErrorMessage("I hungry");
+			r.setdErrorMessage("I am still hungry!");
 			r.setdErrorqMsgId("123456");
 		}
 		r.setdTargetq("");
