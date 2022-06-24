@@ -19,15 +19,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.manager.config.BotLoaderManagerConfig;
-import rose.mary.trace.apps.manager.config.BoterManagerConfig;
-import rose.mary.trace.apps.manager.config.CacheManagerConfig;
-import rose.mary.trace.apps.manager.config.ChannelManagerConfig;
-import rose.mary.trace.apps.manager.config.Config;
-import rose.mary.trace.apps.manager.config.InterfaceCacheManagerConfig;
-import rose.mary.trace.apps.manager.config.LoaderManagerConfig;
-import rose.mary.trace.apps.manager.config.ServerManagerConfig;
-import rose.mary.trace.apps.manager.config.TraceErrorHandlerManagerConfig;
+import rose.mary.trace.core.config.BotLoaderManagerConfig;
+import rose.mary.trace.core.config.BoterManagerConfig;
+import rose.mary.trace.core.config.CacheManagerConfig;
+import rose.mary.trace.core.config.ChannelManagerConfig;
+import rose.mary.trace.core.config.Config;
+import rose.mary.trace.core.config.InterfaceCacheManagerConfig;
+import rose.mary.trace.core.config.LoaderManagerConfig;
+import rose.mary.trace.core.config.ServerManagerConfig;
+import rose.mary.trace.core.config.TraceErrorHandlerManagerConfig;
 import rose.mary.trace.service.ConfigurationService;
  
 /**

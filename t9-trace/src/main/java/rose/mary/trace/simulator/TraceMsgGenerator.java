@@ -15,7 +15,7 @@ import org.apache.commons.lang3.time.StopWatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import rose.mary.trace.apps.cache.CacheProxy;
+import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.data.common.InterfaceInfo;
 import rose.mary.trace.helper.module.mte.ILinkMsgHandler;
 import rose.mary.trace.helper.module.mte.MQMsgHandler;

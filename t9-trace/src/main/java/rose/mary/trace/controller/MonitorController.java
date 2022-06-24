@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pep.per.mint.common.data.basic.ComMessage;
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.manager.MonitorManager;
 import rose.mary.trace.data.monitor.SystemMonitorData;
+import rose.mary.trace.manager.MonitorManager;
 import rose.mary.trace.monitor.TPS;
 
 /**

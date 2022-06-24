@@ -16,7 +16,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 
-import rose.mary.trace.apps.manager.MonitorManager;
+import rose.mary.trace.manager.MonitorManager;
 
 /**
  * <pre>

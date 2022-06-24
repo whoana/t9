@@ -21,10 +21,10 @@ import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.InvalidResultSetAccessException;
 
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.cache.CacheProxy;
-import rose.mary.trace.apps.manager.CacheManager;
-import rose.mary.trace.apps.manager.ConfigurationManager;
+import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.data.policy.DatabasePolicy;
+import rose.mary.trace.manager.CacheManager;
+import rose.mary.trace.manager.ConfigurationManager;
 
 /**
  * <pre>

@@ -9,11 +9,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 
-import rose.mary.trace.apps.handler.DatabasePolicyHandler;
-import rose.mary.trace.apps.manager.ChannelManager;
-import rose.mary.trace.apps.manager.ConfigurationManager;
-import rose.mary.trace.apps.manager.ServerManager;
 import rose.mary.trace.data.policy.DatabasePolicy;
+import rose.mary.trace.handler.DatabasePolicyHandler;
+import rose.mary.trace.manager.ChannelManager;
+import rose.mary.trace.manager.ConfigurationManager;
+import rose.mary.trace.manager.ServerManager;
 
 /**
  * <pre>

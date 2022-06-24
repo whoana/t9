@@ -27,9 +27,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import pep.per.mint.common.data.basic.ComMessage;
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.cache.CacheProxy;
-import rose.mary.trace.apps.manager.CacheManager;
+import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.data.cache.CacheInfo;
+import rose.mary.trace.manager.CacheManager;
 
 /**
  * <pre>
