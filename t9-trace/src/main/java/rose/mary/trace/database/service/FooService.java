@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import rose.mary.trace.data.Foo;
+import rose.mary.trace.core.data.Foo;
 import rose.mary.trace.database.mapper.m01.FooMapper;
 
 /**

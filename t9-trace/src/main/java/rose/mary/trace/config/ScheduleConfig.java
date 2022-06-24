@@ -9,8 +9,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 //import org.springframework.stereotype.Component;
- 
-import rose.mary.trace.data.cache.CacheSummary;
+
+import rose.mary.trace.core.data.cache.CacheSummary;
 import rose.mary.trace.service.CacheMonitorService;
 
 @Configuration

@@ -6,14 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import rose.mary.trace.apps.cache.CacheProxy;
-import rose.mary.trace.apps.manager.CacheManager;
-import rose.mary.trace.apps.manager.MonitorManager;
-import rose.mary.trace.data.cache.CacheSummary;
-import rose.mary.trace.data.common.State;
-import rose.mary.trace.data.common.Trace;
-import rose.mary.trace.data.common.Unmatch;
-import rose.mary.trace.monitor.TPS;
+import rose.mary.trace.core.cache.CacheProxy;
+import rose.mary.trace.core.data.cache.CacheSummary;
+import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.Trace;
+import rose.mary.trace.core.data.common.Unmatch;
+import rose.mary.trace.core.monitor.TPS;
+import rose.mary.trace.manager.CacheManager;
+import rose.mary.trace.manager.MonitorManager;
 
 @Service
 public class CacheMonitorService {

@@ -28,17 +28,17 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.TraceServer;
-import rose.mary.trace.apps.envs.Variables;
-import rose.mary.trace.apps.manager.CacheManager;
-import rose.mary.trace.apps.manager.ConfigurationManager;
-import rose.mary.trace.apps.manager.InterfaceCacheManager;
-import rose.mary.trace.apps.manager.ServerManager;
-import rose.mary.trace.data.common.RuntimeInfo;
-import rose.mary.trace.database.service.TraceService;
-import rose.mary.trace.monitor.SystemResource;
-import rose.mary.trace.monitor.SystemResourceMonitor;
-import rose.mary.trace.system.SystemLogger;
+import rose.mary.trace.core.data.common.RuntimeInfo;
+import rose.mary.trace.core.envs.Variables;
+import rose.mary.trace.core.monitor.SystemResource;
+import rose.mary.trace.core.monitor.SystemResourceMonitor;
+import rose.mary.trace.core.system.SystemLogger;
+
+import rose.mary.trace.manager.CacheManager;
+import rose.mary.trace.manager.ConfigurationManager;
+import rose.mary.trace.manager.DatabasePolicyHandlerManager;
+import rose.mary.trace.manager.InterfaceCacheManager;
+import rose.mary.trace.manager.ServerManager;
 
 
 /**
@@ -55,20 +55,17 @@ import rose.mary.trace.system.SystemLogger;
 @ComponentScan({"rose.mary.trace"})
 public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, InitializingBean, DisposableBean {
 	
-	//static Logger logger = LoggerFactory.getLogger("rose.mary.trace.SystemLogger");
-
-	@Autowired
-	TraceService traceService;
 	
 	@Autowired
 	MessageSource messageSource;
 	
 	@Autowired
 	SystemResourceMonitor srm;
+	 
 	
 	@Autowired
-	TraceServer traceServer;
-	
+	DatabasePolicyHandlerManager databasePolicyHandlerManager;
+
 	@Autowired
 	ServerManager serverManager;
 	
@@ -102,7 +99,8 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 	public void onApplicationEvent(ContextClosedEvent event) {
 		
 		try {
-			traceServer.stop();
+			//traceServer.stop();
+			serverManager.stopServer();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,9 +144,11 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 			}
 			
 		}else {
-			if(configurationManager.getServerManagerConfig().isStartOnBoot()) traceServer.start();
+			// if(configurationManager.getServerManagerConfig().isStartOnBoot()) traceServer.start();
+			if(configurationManager.getServerManagerConfig().isStartOnBoot()) serverManager.startServer();
 			else SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
-			traceServer.startDatabasePolicyHandler();
+			//traceServer.startDatabasePolicyHandler();
+			databasePolicyHandlerManager.start();
 		}
 	}
 	
@@ -207,6 +207,7 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 	private StringBuffer getSystemResource() {
 		StringBuffer msg = new StringBuffer();
 		SystemResource res = srm.watch();
+		/*		
 		msg.append(SystemLogger.astar).append(" system resource :").append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tjavaVersion  :").append(res.getJavaVersion()).append(System.lineSeparator());		
 		msg.append(SystemLogger.astar).append("\tjavaVendor   :").append(res.getJavaVendor()).append(System.lineSeparator());
@@ -230,6 +231,31 @@ public class T9 implements CommandLineRunner, ApplicationListener<ContextClosedE
 		msg.append(SystemLogger.astar).append("\tidleMemAmt   :").append(res.getIdleMemAmt()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tusedMemPct   :").append(res.getUsedMemPct()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tidleMemPct   :").append(res.getIdleMemPct()).append(System.lineSeparator());
+		*/
+		msg.append(SystemLogger.astar).append(" system resource :").append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA01 : ").append(res.getJavaVersion()).append(System.lineSeparator());		
+		msg.append(SystemLogger.astar).append("\tA02 : ").append(res.getJavaVendor()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA03 : ").append(res.getJavaHome()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA04 : ").append(res.getJavaClassVersion()).append(System.lineSeparator());
+		//msg.append(SystemLog.astar).append("\tA06 : ").append(res.getJavaClassPath()).append(System.lineSeparator());		
+		msg.append(SystemLogger.astar).append("\tA07 : ").append(res.getOsName()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA08 : ").append(res.getOsArch()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA09 : ").append(res.getOsVersion()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA10 : ").append(res.getUserName()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA11 : ").append(res.getUserHome()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA12 : ").append(res.getUserDir()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA13 : ").append(res.getTotalDiskAmt()).append(System.lineSeparator());		
+		msg.append(SystemLogger.astar).append("\tA14 : ").append(res.getUsedDiskAmt()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA15 : ").append(res.getIdleDiskAmt()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA16 : ").append(res.getUsedDiskPct()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA17 : ").append(res.getIdleDiskPct()).append(System.lineSeparator()); 
+		msg.append(SystemLogger.astar).append("\tA18 : ").append(res.getUsedCpuPct()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA19 : ").append(res.getIdleCpuPct()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA20 : ").append(res.getTotalMemAmt()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA21 : ").append(res.getIdleMemAmt()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA22 : ").append(res.getUsedMemPct()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA23 : ").append(res.getIdleMemPct()).append(System.lineSeparator());
+		
 		return msg;
 	}
 	

@@ -5,7 +5,7 @@ package rose.mary.trace.database.mapper.m01;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.Trace;
 
 /**
  * <pre>

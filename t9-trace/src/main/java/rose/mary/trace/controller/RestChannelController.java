@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  
 
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.apps.channel.rest.RestChannel;
-import rose.mary.trace.apps.manager.ChannelManager; 
+import rose.mary.trace.core.channel.rest.RestChannel;
+import rose.mary.trace.manager.ChannelManager; 
 
 @Controller
 public class RestChannelController {

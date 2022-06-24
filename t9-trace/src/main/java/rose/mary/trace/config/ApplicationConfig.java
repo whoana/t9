@@ -16,30 +16,34 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import rose.mary.trace.apps.TraceServer;
-import rose.mary.trace.apps.manager.BotErrorHandlerManager;
-import rose.mary.trace.apps.manager.BotLoaderManager;
-import rose.mary.trace.apps.manager.BoterManager;
-import rose.mary.trace.apps.manager.CacheManager;
-import rose.mary.trace.apps.manager.ChannelManager;
-import rose.mary.trace.apps.manager.ConfigurationManager;
-import rose.mary.trace.apps.manager.DatabasePolicyHandlerManager;
-import rose.mary.trace.apps.manager.FinisherManager;
-import rose.mary.trace.apps.manager.InterfaceCacheManager;
-import rose.mary.trace.apps.manager.LoaderManager;
-import rose.mary.trace.apps.manager.MonitorManager;
-import rose.mary.trace.apps.manager.ServerManager;
-import rose.mary.trace.apps.manager.SystemErrorTestManager;
-import rose.mary.trace.apps.manager.TraceErrorHandlerManager;
-import rose.mary.trace.apps.manager.UnmatchHandlerManager;
-import rose.mary.trace.data.common.RuntimeInfo;
+import rose.mary.trace.core.data.common.RuntimeInfo;
+import rose.mary.trace.core.monitor.SystemResourceMonitor;
+import rose.mary.trace.core.monitor.ThroughputMonitor;
+import rose.mary.trace.core.system.SystemErrorDetector;
 import rose.mary.trace.database.service.BotService;
 import rose.mary.trace.database.service.InterfaceService;
 import rose.mary.trace.database.service.SystemService;
 import rose.mary.trace.database.service.TraceService;
-import rose.mary.trace.monitor.SystemResourceMonitor;
-import rose.mary.trace.monitor.ThroughputMonitor;
-import rose.mary.trace.system.SystemErrorDetector;
+import rose.mary.trace.manager.BotErrorHandlerManager;
+import rose.mary.trace.manager.BotLoaderManager;
+import rose.mary.trace.manager.BoterManager;
+import rose.mary.trace.manager.CacheManager;
+import rose.mary.trace.manager.ChannelManager;
+import rose.mary.trace.manager.ConfigurationManager;
+import rose.mary.trace.manager.DatabasePolicyHandlerManager;
+import rose.mary.trace.manager.FinisherManager;
+import rose.mary.trace.manager.InterfaceCacheManager;
+import rose.mary.trace.manager.LoaderManager;
+import rose.mary.trace.manager.MonitorManager;
+import rose.mary.trace.manager.ServerManager;
+import rose.mary.trace.manager.SystemErrorTestManager;
+import rose.mary.trace.manager.TesterManager;
+import rose.mary.trace.manager.TraceErrorHandlerManager;
+import rose.mary.trace.manager.UnmatchHandlerManager;
+import rose.mary.trace.server.TraceServer;
+import rose.mary.trace.service.GenerateTraceMsgService;
+
+import javax.sql.DataSource;
 
 /**
  * <pre>
@@ -152,9 +156,10 @@ public class ApplicationConfig {
 
 	@Bean
 	public ChannelManager channelManager(@Autowired ConfigurationManager configurationManager,
-			@Autowired CacheManager cacheManager, @Autowired @Qualifier("tpm1") ThroughputMonitor tpm1)
+			@Autowired CacheManager cacheManager, @Autowired @Qualifier("tpm1") ThroughputMonitor tpm1,
+			@Autowired ThreadPoolTaskExecutor taskExecutor)
 			throws Exception {
-		return new ChannelManager(configurationManager.getChannelManagerConfig(), cacheManager, tpm1);
+		return new ChannelManager(configurationManager.getChannelManagerConfig(), cacheManager, tpm1, taskExecutor);
 	}
 
 	@Bean
@@ -219,23 +224,117 @@ public class ApplicationConfig {
 			@Autowired ConfigurationManager configurationManager, @Autowired CacheManager cacheManager,
 			@Autowired ServerManager serverManager, @Autowired ChannelManager channelManager,
 			@Autowired SystemService systemService, @Autowired MessageSource messageSource) throws Exception {
-		return new DatabasePolicyHandlerManager(configurationManager.getDatabasePolicyConfig(), systemService,
+
+		DatabasePolicyHandlerManager dpm = new DatabasePolicyHandlerManager(
+				configurationManager.getDatabasePolicyConfig(), systemService,
 				serverManager, channelManager, messageSource, cacheManager);
+		dpm.ready();
+		return dpm;
 	}
 
+	/*
+	 * @Bean
+	 * public ServerManager serverManager(
+	 * 
+	 * @Autowired TraceServer server, @Autowired @Qualifier("datasource01")
+	 * DataSource datasource01
+	 * ) throws Exception {
+	 * ServerManager manager = new ServerManager(server, datasource01);
+	 * return manager;
+	 * }
+	 */
+
 	@Bean
-	public ServerManager serverManager() throws Exception {
-		ServerManager manager = new ServerManager();
+	public ServerManager serverManager(
+			@Autowired @Qualifier("datasource01") DataSource datasource01,
+			@Autowired ChannelManager channelManager,
+			@Autowired LoaderManager loaderManager,
+			@Autowired BoterManager boterManager,
+			@Autowired BotLoaderManager botLoaderManager,
+			@Autowired FinisherManager finisherManager,
+			@Autowired TraceErrorHandlerManager traceErrorHandlerManager,
+			@Autowired BotErrorHandlerManager botErrorHandlerManager,
+			@Autowired MonitorManager monitorManager,
+			@Autowired UnmatchHandlerManager unmatchHandlerManager,
+			@Autowired TesterManager testerManager,
+			@Autowired ConfigurationManager configurationManager,
+			@Autowired SystemErrorTestManager systemErrorTestManager) throws Exception {
+		String name = configurationManager.getServerManagerConfig().getName();
+		TraceServer server = new TraceServer(
+				name,
+				channelManager,
+				loaderManager,
+				boterManager,
+				botLoaderManager,
+				finisherManager,
+				traceErrorHandlerManager,
+				botErrorHandlerManager,
+				monitorManager,
+				unmatchHandlerManager,
+				testerManager,
+				configurationManager,
+				systemErrorTestManager);
+		server.ready();
+		ServerManager manager = new ServerManager(server, datasource01);
 		return manager;
 	}
 
-	@Bean(initMethod = "ready")
-	public TraceServer traceServer() throws Exception {
-		String name = configurationManager.getServerManagerConfig().getName();
-		TraceServer ts = new TraceServer(name);
-		return ts;
+	@Bean
+	public TesterManager testManager(@Autowired ConfigurationManager cm, @Autowired GenerateTraceMsgService gtms) {
+		TesterManager testerManager = new TesterManager(cm, gtms);
+		return testerManager;
 	}
 
+	/*
+	 * @Bean(initMethod = "ready")
+	 * public TraceServer traceServer(
+	 * 
+	 * @Autowired ChannelManager channelManager,
+	 * 
+	 * @Autowired LoaderManager loaderManager,
+	 * 
+	 * @Autowired BoterManager boterManager,
+	 * 
+	 * @Autowired BotLoaderManager botLoaderManager,
+	 * 
+	 * @Autowired FinisherManager finisherManager,
+	 * 
+	 * @Autowired TraceErrorHandlerManager traceErrorHandlerManager,
+	 * 
+	 * @Autowired BotErrorHandlerManager botErrorHandlerManager,
+	 * 
+	 * @Autowired MonitorManager monitorManager,
+	 * 
+	 * @Autowired UnmatchHandlerManager unmatchHandlerManager,
+	 * 
+	 * @Autowired DatabasePolicyHandlerManager databasePolicyHandlerManager,
+	 * 
+	 * @Autowired TesterManager testerManager,
+	 * 
+	 * @Autowired ConfigurationManager configurationManager,
+	 * 
+	 * @Autowired SystemErrorTestManager systemErrorTestManager
+	 * ) throws Exception {
+	 * String name = configurationManager.getServerManagerConfig().getName();
+	 * TraceServer ts = new TraceServer(
+	 * name,
+	 * channelManager,
+	 * loaderManager,
+	 * boterManager,
+	 * botLoaderManager,
+	 * finisherManager,
+	 * traceErrorHandlerManager,
+	 * botErrorHandlerManager,
+	 * monitorManager,
+	 * unmatchHandlerManager,
+	 * databasePolicyHandlerManager,
+	 * testerManager,
+	 * configurationManager,
+	 * systemErrorTestManager
+	 * );
+	 * return ts;
+	 * }
+	 */
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();
@@ -247,7 +346,5 @@ public class ApplicationConfig {
 	public SystemErrorDetector systemErrorDetector() {
 		return new SystemErrorDetector();
 	}
-
-	 
 
 }

@@ -12,7 +12,9 @@ import java.util.function.IntUnaryOperator;
 import org.junit.Test;
 
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.data.common.Trace;
+import rose.mary.trace.core.data.common.Trace;
+import rose.mary.trace.core.parser.Parser;
+import rose.mary.trace.core.parser.RestMessageParser;
 
 public class RestMessageParserTest {
 

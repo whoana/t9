@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import rose.mary.trace.data.common.InterfaceInfo;
+import rose.mary.trace.core.data.common.InterfaceInfo;
 import rose.mary.trace.database.mapper.m02.InterfaceMapper;
 
 /**
