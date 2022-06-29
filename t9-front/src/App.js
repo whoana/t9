@@ -81,6 +81,7 @@ function App() {
   const [searchable, setSearchable] = React.useState(true);
 
   const [sort, setSort] = React.useState(initialSort);
+  
 
   const changeFromDate = (event) => {
     setFromDate(event.value);
@@ -136,7 +137,7 @@ function App() {
         checkSession: false,
       },
     };
-
+    let elapsed = new Date();
     axios(options)
       .then((response) => {
         console.log(response);
@@ -148,6 +149,8 @@ function App() {
       })
       .finally(() => {
         setSearchable(true);
+        
+        alert("elapsed time(s):" + ((new Date() - elapsed)/1000));
       });
   };
 
