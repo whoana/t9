@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rose.mary.trace.database.mapper.m01.RetrieveTLogMapper">
+  	<!--
+  	<cache/>
+  	--> 
+
+    <sql id="whereClause">
+        WHERE tracking_date <![CDATA[>=]]> #{fromDate} || '000000'
+          AND tracking_date <![CDATA[<=]]> #{toDate}   || '999999'
+          <if test="integrationId != null and integrationId != ''">
+          AND integration_id = #{integrationId}
+          </if>    
+    </sql>
+
+    <select id="getTotalCount" resultType="int">
+		SELECT count(*)														  
+          FROM top0503 
+         <include refid="whereClause" />
+          
+	</select>
+
+	<select id="retrieve" resultMap="tlogMap">
+		SELECT *														  
+          FROM top0503 
+         <include refid="whereClause" />
+      ORDER BY tracking_date desc
+        OFFSET #{offset} LIMIT #{rowCount}
+	</select>
+	
+	
+	<resultMap id="tlogMap" type="rose.mary.trace.core.data.common.TLog" >
+		<result property="integrationId"   column="integration_id"   />    
+    <result property="trackingDate"    column="tracking_date"    />    
+    <result property="orgHostId"       column="org_host_id"      />
+    <result property="interfaceId"     column="interface_id"     />
+    <result property="status"          column="status"           />
+    <result property="match"           column="match"            />
+    <result property="recordCnt"       column="record_cnt"       />
+    <result property="dataAmt"         column="data_amt"         />
+    <result property="cmp"             column="cmp"              />
+    <result property="cst"             column="cst"              />
+    <result property="tdc"             column="tdc"              />
+    <result property="fnc"             column="fnc"              />
+    <result property="erc"             column="erc"              />
+    <result property="errorCd"         column="error_cd"         />    
+    <result property="errorMsg"        column="error_msg"        />        
+    <result property="businessId"      column="business_id"      />        
+    <result property="businessNm"      column="business_nm"      />        
+    <result property="interfaceNm"     column="interface_nm"     />        
+    <result property="channelId"       column="channel_id"       />        
+    <result property="channelNm"       column="channel_nm"       />            
+    <result property="dataPrDir"       column="data_pr_dir"      />        
+    <result property="dataPrDirNm"     column="data_pr_dir_nm"   />            
+    <result property="dataPrMethod"    column="data_pr_method"   />            
+    <result property="dataPrMethodNm"  column="data_pr_method_nm"/>                
+    <result property="appPrMethod"     column="app_pr_method"    />            
+    <result property="appPrMethodNm"   column="app_pr_method_nm" />            
+    <result property="sndOrgId"        column="snd_org_id"       />        
+    <result property="sndOrgNm"        column="snd_org_nm"       />        
+    <result property="sndSystemId"     column="snd_system_id"    />            
+    <result property="sndSystemNm"     column="snd_system_nm"    />            
+    <result property="sndResType"      column="snd_res_type"     />            
+    <result property="sndResNm"        column="snd_res_nm"       />            
+    <result property="rcvOrgId"        column="rcv_org_id"       />        
+    <result property="rcvOrgNm"        column="rcv_org_nm"       />            
+    <result property="rcvSystemId"     column="rcv_system_id"    />                
+    <result property="rcvSystemNm"     column="rcv_system_nm"    />            
+    <result property="rcvResType"      column="rcv_res_type"     />            
+    <result property="rcvResNm"        column="rcv_res_nm"       />            
+    <result property="regDate"         column="reg_date"         />        
+    <result property="modDate"         column="mod_date"         />        
+    <result property="businessCd"      column="business_cd"      />                
+    <result property="channelCd"       column="channel_cd"       />            
+    <result property="sndOrgCd"        column="snd_org_cd"       />                
+    <result property="rcvOrgCd"        column="rcv_org_cd"       />            
+    <result property="sndSystemCd"     column="snd_system_cd"    />            
+    <result property="rcvSystemCd"     column="rcv_system_cd"    />            
+	</resultMap>
+
+</mapper>
