@@ -7,7 +7,7 @@ plugins {
 }
 
 
-group = 'rose.mary.trace.core'
+group = 'rose.mary.trace'
 description = 't9-core project'
 version = '1.0.0'
 sourceCompatibility = 1.8
