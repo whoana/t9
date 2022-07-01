@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>T9 Console</title>
+
+	<style>
+		html {
+			font-size: 14px;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		.form-input {
+			width: 150px; 
+			heigh: 10px;
+			text-align: right;
+			border:none; 
+		}
+		.form-label {
+			width: 100px;
+		}
+		
+	    .jsoneditor {
+	      width: 598px;
+	      height: 500px;
+	    }
+	 
+		.contents-body {
+			margin: 10px auto 10px;
+			text-align: left;	
+		}
+		
+		.k-button {
+			margin-right: 10px;
+			width: 150px;
+		}
+		
+		#tabstrip h2 {
+			font-weight: lighter;
+			font-size: 5em;
+			line-height: 1;
+			padding: 0 0 0 30px;
+			margin: 0;
+		}
+		
+		#tabstrip h2 span {
+			background: none;
+			padding-left: 5px;
+			font-size: .3em;
+			vertical-align: top;
+		}
+		
+		#tabstrip p {
+			margin: 0;
+			padding: 0;
+		}
+	</style>
+		
+	
+	<link href="../module/jsoneditor/dist/jsoneditor.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.1023/styles/kendo.default-v2.min.css" />
+	<link href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+	  
+	<script src="../module/jsoneditor/dist/jsoneditor.js"></script>
+	<!-- 
+	<script src="https://kendo.cdn.telerik.com/2019.3.1023/js/jquery.min.js"></script>	 	
+	<script src="https://kendo.cdn.telerik.com/2019.3.1023/js/kendo.all.min.js"></script>
+	 -->
+	<script src="../js/jquery.min.js"></script>	 	
+	<script src="../js/kendo.all.min.js"></script>
+	
+	<script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+	 
+
+</head>
+<body>
+<!-- http://patorjk.com/software/taag/#p=display&h=3&f=Standard&t=T9%20Console -->
+	<div id="admin-console">
+		
+		
+		<div id="admin-console-title">
+			<!-- 
+			<pre style="horizental-align: left; background-color: rgb(241,81,70);">
+			 -->
+			<pre style="horizental-align: left; background-color: rgb(171, 235, 198);">			
+  _____ ___     ____                      _      
+ |_   _/ _ \   / ___|___  _ __  ___  ___ | | ___ 
+   | || (_) | | |   / _ \| '_ \/ __|/ _ \| |/ _ \
+   | | \__, | | |__| (_) | | | \__ | (_) | |  __/
+   |_|   /_/   \____\___/|_| |_|___/\___/|_|\___|                                                 
+  Copyright© 2020 portal.mocomsys.com All rights reserved.
+			</pre>
+		</div>
+	
+		<div>
+			<span id="noti-msg"></span>
+		</div>
+		
+		<div class="demo-section k-content">
+			<div id="tabstrip">
+				<ul>
+					<li>Preface</li>
+					<li class="k-state-active">Console</li>
+					<li>Monitoring & Testing</li> 
+				</ul>
+
+				<!-- --------------------------------------------------------------------------------- -->
+				<!-- The start of preface                                                              -->
+				<!-- --------------------------------------------------------------------------------- -->
+				<div>
+					<div class="contents-body" >
+						<pre style="horizental-align: left"><H6>
+@subject: projectq 개발 서문
+@writer : whoana
+@date   : 2019.07.15
+
+1.프로젝트 목적 
+ 1.1.추적로그 표준화를 위한 제품 설계 및 개발
+  기존 EAI 제품에 의존성이 강한 인터페이스 트레킹 메시지 로더 제품을 다양한 
+  요구사항에 대응할 수 있도록 표준화한다.  
+
+2.목표 
+ 2.1.안정성 
+  대량량 데이터 처리가 가능하도록 개발한다.
+ 2.2.속도
+  신속한 조회 및 검색이 가능하도록 개발한다.
+ 2.3.확장성
+  다양한 입력 방식을 제공한다.(예:큐, HTTP, API 등)
+ 2.4.운용 편리성
+  관리앱을 제공 등 설치 및 운영 트러블슈팅이 용이하도록 한다.
+
+3.활동
+  3.1.계획
+   3.1.1.일정
+    1)전체 일정
+      ~ 2019.06(6M)
+    2)세부 일정
+      a.계획/분석/설계(1M)
+      b.개발(3M)
+      c.테스트/레퍼런스적용/보완(2M)
+   3.1.2.디자인 컨셉
+    1)AS-IS 트레킹 스펙 지원 
+    2)웹서비스를 통한 INPUT 방식 지원
+    3)대용량 지원
+    4)트레킹 조회 속도 개선    
+    5)설치/설정/관리 UI 제공   
+  3.2.기존 스펙/환경/제품 분석
+  3.3.설계
+  3.4.개발
+  3.5.테스트
+  3.6.레퍼런스
+  3.7.보완
+
+9.레퍼런스 
+ 9.1.Developing a JMS client
+  https://github.com/manosolireap/springboot-jms-app
+	
+ 9.2.ibm-messaging/mq-jms-spring
+  https://github.com/ibm-messaging/mq-jms-spring
+ 
+ 9.3.Spring Boot에서 UTF-8기반 한글 설정하기
+  http://theeye.pe.kr/archives/2206
+  
+						</H6></pre>						
+					</div>
+				</div>
+				<!-- --------------------------------------------------------------------------------- -->
+				<!-- The end of preface                                                                -->
+				<!-- --------------------------------------------------------------------------------- -->
+				
+				<!-- --------------------------------------------------------------------------------- -->
+				<!-- The start of console                                                              -->
+				<!-- --------------------------------------------------------------------------------- -->
+				<div>
+					<div class="contents-body ">
+						<div class="k-content">
+							<p><H3> ❏ Operations</H4></p>
+							<p><button type="button" id="btn-start" class="k-primary">start</button> <label>인터페이스 처리 로깅을 시작합니다. 이미 시작되어 있는 경우 재시작합니다.</label></p>
+							<p><button type="button" id="btn-stop">stop</button> <label>인터페이스 로깅을 종료합니다.</label></p> 
+						</div>
+					 	<!-- 
+					 	<div class="k-content">
+							<p><H3> ❏ Status</H3></p>
+						 	<div>
+						   </div>
+						</div>
+						 -->
+            			<div class="k-content" style="width:600px; height:600px">
+							<p><H3> ❏ Configurations</H3></p> 
+					 		<div>
+								<button type="button" id="btn-reload-config">reload</button>	
+								<button type="button" id="btn-save-config" class="k-primary">save</button>
+							</div>   
+						   <div id="jsoneditor-config" class="jsoneditor"></div>	
+						</div>
+					</div>
+				</div>
+				<!-- --------------------------------------------------------------------------------- -->
+				<!-- The end of console                                                                -->
+				<!-- --------------------------------------------------------------------------------- -->
+				
+				<!-- --------------------------------------------------------------------------------- -->
+				<!-- The start of monitoring                                                           -->
+				<!-- --------------------------------------------------------------------------------- -->
+				<div>
+					<div class="contents-body">
+						
+						<div class="k-content">
+							<p><H3> ❏ Monitoring</H4></p>
+							<p><button type="button" id="btn-cache-monitor-start" class="k-primary">Monitor</button> <label>모니터링을 시작합니다.</label></p>
+							<p><button type="button" id="btn-cache-monitor-stop">Cancel</button> <label>모니터링을 종료합니다.</label></p> 							 
+							<p><div id="cache-info"></div></p>							
+						</div>
+						<br>
+						<div class="k-content">
+							<p><H3> ❏ Testing</H4></p>
+							<p><button type="button" id="btn-test-start" class="k-primary">Test</button> <label>테스트를 시작합니다.</label></p>										 
+							<p>
+								<div id="test-info">
+							   		<form class='form-inline'>
+							   			<div class='form-group'>
+							   				<label class='form-label' for='test-integration-id'>인터페이스ID</label>
+							   				<input class='form-input form-control' type='text' id='test-integration-id' value='iamtest01' />
+							   			</div>
+							   		</form>
+							   		<form class='form-inline'>
+							   			<div class='form-group'>
+							   				<label class='form-label' for='test-count'>발생 건수</label>
+							   				<input class='form-input form-control' type='text' id='test-count' value=100 />
+							   			</div>
+							   		</form>
+							   	</div>
+							</p>							
+						</div>
+						
+					</div>
+				</div>
+				<!-- --------------------------------------------------------------------------------- -->
+				<!-- The end of monitoring                                                             -->
+				<!-- --------------------------------------------------------------------------------- -->
+				
+			</div>
+		</div>
+		 
+	   	<div id="button-confirm"> </div> 
+
+		<script>
+			$(document).ready(function() {
+				$("#tabstrip").kendoTabStrip({
+					animation : {
+						open : {
+							effects : "fadeIn"
+						}
+					}
+				});
+
+				var notiMsg = $("#noti-msg").kendoNotification({
+                    appendTo: "#appendto"
+                }).data("kendoNotification");
+
+				const options = {
+				    mode: 'form',
+				    modes: ['code', 'form', 'text', 'tree', 'view', 'preview'], // allowed modes
+				    onError: function (err) {
+				      alert(err.toString())
+				    },
+				    onModeChange: function (newMode, oldMode) {
+				      console.log('Mode switched from', oldMode, 'to', newMode)
+				    }
+				}
+				  
+				const configEditor = new JSONEditor(document.getElementById('jsoneditor-config'), options); 
+  
+				function onCloseDialog(e){
+					console.log(e);
+				}
+				  
+				$('#dialog').kendoDialog({
+			         width: "340px",
+			         title: "Save",
+			         closable: false,
+			         modal: true,
+			         content: "<p>변경된 내용을 저장하시겠습니까?<p>",
+			         actions: [
+			             { text: 'Cancel' },
+			             { text: 'Save', primary: true }
+			         ],
+			         close: onCloseDialog
+			    });
+
+				const dialog = $('#dialog');
+					  
+				function startServer(e) {
+					try{
+						$.ajax({
+							url:"/trace/console/servers/start",
+							type:'Get',
+							success:function(result){
+								notiMsg.show("트레이스 서비스가 시되었습니다.[" + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "info");
+							},
+							error:function(e){
+								notiMsg.show("트레이스 서비스가 시작에 실패하였습니다.[" + e + "," + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "error");
+								console.log(e);
+							}
+						});
+					}catch(e){
+						console.debug(e);
+					} 
+				}
+						
+				function stopServer(e) {
+					$.ajax({
+						url:"/trace/console/servers/stop",
+						type:'Get',
+						success:function(result){
+							notiMsg.show("트레이스 서비스가 종료되었습니다.[" + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "info");
+						},
+						error:function(e){
+							notiMsg.show("트레이스 서비스가 종료에 실패하였습니다.[" + e + "," + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "error");
+							console.log(e);
+						}
+					});
+					 
+				}
+
+				function getConfig(e) {
+					$.ajax({
+						url:"/admin/console/configs",
+						type:'GET',
+						contentType:'application/json',
+						success:function(result){
+							 notiMsg.show("환경설정정보를 조회하였습니다.[" + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "info");
+							 var str = JSON.stringify(result);
+							 configEditor.set(result);
+							 
+						},
+						error:function(e){
+							notiMsg.show("환경설정정보 조회에 실패하였습니다.[" + e + "," + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "error");
+							console.log(e);
+						}
+					}); 
+				}
+
+						
+				function setConfig(e) {
+					kendo.confirm("<p>변경된 내용을 저장하시겠습니까?<p>").then(function () {
+				          	$.ajax({
+							url:"/admin/console/configs",
+							type:'PUT',
+							contentType:'application/json',
+							data : JSON.stringify(configEditor.get()),
+							success:function(result){
+								notiMsg.show("변경 내용을 저장하였습니다.[" + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "info");									 
+							},
+							error:function(e){
+								notiMsg.show("변경 내용 저장을 처리하지 못했습니다.[" + e + "," + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "error");
+								console.log(e);
+							}
+						});
+				          }, function () {
+						notiMsg.show("변경 내용 저장을 취소하였습니다.[" + kendo.toString(new Date(), 'HH:MM:ss.') + "]", "info");
+						console.log("설정저장취소");
+				          });
+				}
+					
+				//------------------------------------------------
+				//cache monitoring
+				//------------------------------------------------
+				var stompClient = null;
+				var alreadyLoadTemplate = false;
+
+				var setConnected = function(connected) {
+					$("#btn-cache-monitor-start").prop("disabled", connected);
+					$("#btn-cache-monitor-stop").prop("disabled", !connected);
+					if (connected) {
+					  	$("#conversation").show();
+					} 
+				}
+						
+					  
+				var startCacheMonitor = function() {
+					var socket = new SockJS('/webconsole');
+				   	stompClient = Stomp.over(socket);
+				   	
+				   	stompClient.connect({}, function (frame) {
+				     	setConnected(true);
+				     	console.log('Connected: ' + frame);
+				     	stompClient.subscribe('/topic/cache-summary', function (greeting) {
+					   	 
+						   	var cacheInfo = JSON.parse(greeting.body);
+						   	if(!alreadyLoadTemplate) {
+						   		loadTemplate(cacheInfo);
+						   		alreadyLoadTemplate = true;
+						   	}
+						   	showCacheInfo(cacheInfo);
+					      
+						});
+					});
+				}
+				
+				var stopCacheMonitor = function() {
+					if (stompClient !== null) {
+				    	stompClient.disconnect();
+				   	}
+					setConnected(false);
+				   	console.log("Disconnected");
+				}
+  
+				var startTest = function(){
+					/* var testData = {
+						testIntegrationId : $('#test-integration-id').val(),
+						testCount : $('#test-count').val()
+					}; */
+					
+					var integrationId = $('#test-integration-id').val();
+					var count = $('#test-count').val();
+					
+					console.log("testIntegrationId:" + integrationId);
+					console.log("testCount:" + count);
+					kendo.confirm("<p>테스트를 진행하시겠습니까?<p>").then(
+						function () {
+				          	$.ajax({
+							url:"/traces/test",
+							type:'POST',
+							contentType:'application/json',
+							//data : JSON.stringify(configEditor.get()),
+							data : JSON.stringify({
+								integrationId : integrationId,
+								count : count
+							}),
+							success:function(result){
+								
+								console.log("result:"+result.cd);
+								if(result.cd == '0'){									
+									notiMsg.show("테스트를 요청하였습니다.[" + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "info");									 
+								}else{
+									notiMsg.show("테스트를 요청에 실패하였습니다.[" + result.exception + "][" + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "error");
+								}
+							},
+							error:function(e){
+								notiMsg.show("테스트 요청을 처리하지 못했습니다.[" + e + "," + kendo.toString(new Date(), 'HH:mm:ss.') + "]", "error");
+								console.log(e);
+							}
+						});
+			          }, function () {
+							notiMsg.show("테스트를 취소하였습니다.[" + kendo.toString(new Date(), 'HH:MM:ss.') + "]", "info");
+							console.log("테스트취소");
+			          });
+				}
+				
+				
+				var addComponent = function(id){    	
+					$('#cache-info').append( 
+					    "<form class='form-inline'><div class='form-group'><label class='form-label' for='" + id + "'>" + id + "</label><input class='form-input form-control' type='text' id='" + id + "' value='0' /></div></form>");					    	
+				}
+					    
+				var loadTemplate = function(cacheInfo) {
+					try {
+						console.log("start loadTemplate");
+						addComponent('tps'); 
+						for(var i = 0 ; i < cacheInfo.dcDepth.length ; i ++) addComponent('dc-depth-' + i); 
+						addComponent('mc-depth-0'); 
+						for(var i = 0 ; i < cacheInfo.bcDepth.length ; i ++) addComponent('bc-depth-' + i); 
+						addComponent('fc-depth-0'); 
+						addComponent('uc-depth-0'); 
+				
+					} catch (e) {
+						console.error(e);
+					} finally {
+						console.log("end loadTemplate");
+					}
+				}
+
+				var setComponentValue = function(id, val){
+					$('#' + id).val(val);
+				}
+				
+				var showCacheInfo = function(cacheInfo) {
+					try { 
+						setComponentValue('tps', cacheInfo.tps);
+						for(var i = 0 ; i < cacheInfo.dcDepth.length ; i ++) setComponentValue('dc-depth-' + i, cacheInfo.dcDepth[i]);
+						setComponentValue('mc-depth-0', cacheInfo.mcDepth);
+						for(var i = 0 ; i < cacheInfo.bcDepth.length ; i ++) setComponentValue('bc-depth-' + i, cacheInfo.bcDepth[i]); 
+						setComponentValue('fc-depth-0', cacheInfo.fcDepth);
+						setComponentValue('uc-depth-0', cacheInfo.ucDepth);
+					} catch (e) {
+						console.error(e);
+					} finally {
+						 
+					}
+				}
+				
+				//------------------------------------
+				// run init 
+				//------------------------------------
+				$("#btn-start").kendoButton({
+					click : startServer
+				});
+				
+				$("#btn-stop").kendoButton({
+					click : stopServer
+				});
+				
+				$("#btn-reload-config").kendoButton({
+					click : getConfig
+				});
+				
+				
+				$("#btn-save-config").kendoButton({
+					click : setConfig
+				});
+				
+				
+
+				$("#btn-cache-monitor-start").kendoButton({
+					click : startCacheMonitor
+				});
+				
+				
+				$("#btn-cache-monitor-stop").kendoButton({
+					click : stopCacheMonitor
+				});
+				
+				
+				$("#btn-test-start").kendoButton({
+					click : startTest
+				});
+				
+				getConfig();
+				        
+			});
+		</script>
+	</div>
+		
+</body>
+</html>
+

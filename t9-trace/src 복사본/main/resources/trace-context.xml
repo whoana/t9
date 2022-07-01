@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	  <!-- <bean id = "org.h2.tools.Server"
+	            class="org.h2.tools.Server"
+	            factory-method="createTcpServer"
+	            init-method="start"
+	            destroy-method="stop">
+	    <constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,8043" /> -->
+	    <bean id = "org.h2.tools.Server"
+	            class="org.h2.tools.Server"
+	            factory-method="createTcpServer"
+	            init-method="start"
+	            destroy-method="stop">
+	    <constructor-arg value="-tcp,-tcpAllowOthers" />
+	</bean>
+	
+	
+	
+
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+    <!-- 
+    <resources mapping="/resources/**" location="/resources/" />
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <bean id="messageSource"
+        class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basename" value="classpath:messages/messages" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
+        <property name="defaultLocale" value="ko_KR" />
+        <property name="cookieName" value="myAppLocaleCookie"></property>
+        <property name="cookieMaxAge" value="3600"></property>
+    </bean>
+
+    <interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
+            <property name="paramName" value="locale" />
+        </bean>
+    </interceptors>
+ 	-->
+    
+
+</beans>

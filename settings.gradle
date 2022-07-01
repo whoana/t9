@@ -8,10 +8,12 @@
  */
 
 rootProject.name = 't9'
-include 't9-console' 
+include 't9-console'
+include 't9-core' 
 include 't9-trace'
 include 't9-admin'
 
 project(':t9-console').buildFileName = 't9-console.gradle'
+project(':t9-core').buildFileName = 't9-core.gradle'
 project(':t9-trace').buildFileName = 't9-trace.gradle'
 project(':t9-admin').buildFileName = 't9-admin.gradle'

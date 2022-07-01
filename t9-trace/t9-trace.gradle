@@ -84,21 +84,16 @@ dependencies {
 		exclude group: 'junit', 						module: 'junit'
 	}
  
+	implementation project(':t9-core')
 
 	//ehcache
 	compile group: 'org.ehcache', name: 'ehcache', version: '3.7.0'
-	//compile group: 'org.ehcache', name: 'ehcache-transactions', version: '3.7.0'
-
-
 	//infinispan
 	compile group: 'org.infinispan', name: 'infinispan-core', version: '9.4.16.Final'
-
 	//mapdb
 	compile group: 'org.mapdb', name: 'mapdb', version: '3.0.7'
-
 	//com.hazelcast:hazelcast
 	compile 'com.hazelcast:hazelcast:3.12.2'
-
 	// https://mvnrepository.com/artifact/net.openhft/chronicle-map
 	compile group: 'net.openhft', name: 'chronicle-map', version: '3.17.4'
 	// https://mvnrepository.com/artifact/net.openhft/chronicle-queue
@@ -128,10 +123,6 @@ dependencies {
 	//jdbc for postgres
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql
 	implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.4'
-
-
-
-
 
 	// jackson-dataformat-xml
 	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
