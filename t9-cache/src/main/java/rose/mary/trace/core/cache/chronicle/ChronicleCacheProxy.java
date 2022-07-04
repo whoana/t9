@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.transaction.TransactionManager;
 import net.openhft.chronicle.map.ChronicleMap;
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.core.data.cache.CacheInfo;
+import rose.mary.trace.core.cache.CacheInfo;
 
 /**
  * <pre>

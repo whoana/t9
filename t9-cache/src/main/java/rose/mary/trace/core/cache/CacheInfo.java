@@ -1,7 +1,7 @@
 /**
  * Copyright 2020 portal.mocomsys.com All Rights Reserved.
  */
-package rose.mary.trace.core.data.cache;
+package rose.mary.trace.core.cache;
 
 import java.io.Serializable;
 

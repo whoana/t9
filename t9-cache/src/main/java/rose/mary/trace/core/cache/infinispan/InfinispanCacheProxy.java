@@ -13,7 +13,7 @@ import org.infinispan.CacheCollection;
 import org.infinispan.stats.Stats;
 
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.core.data.cache.CacheInfo;
+import rose.mary.trace.core.cache.CacheInfo;
 
 import javax.transaction.TransactionManager;
 

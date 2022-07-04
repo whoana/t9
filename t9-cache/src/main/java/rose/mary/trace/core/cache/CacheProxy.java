@@ -8,9 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.transaction.TransactionManager;
-
-import rose.mary.trace.core.data.cache.CacheInfo; 
+import javax.transaction.TransactionManager; 
 
 /**
  * <pre>

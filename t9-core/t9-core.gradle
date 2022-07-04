@@ -108,32 +108,14 @@ dependencies {
 
 	//iLink
 	compile fileTree (dir: 'lib', include:['ILinkAPI-6.1.0.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
-	//compile fileTree (dir: 'lib', include:['ILinkAPI.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
-	//compile fileTree (dir: 'lib', include:['ILinkAPI_20130412.jar','mi_link_wrapper.jar','mi_common.jar','javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
-	//wmq
-	//compile fileTree (dir: 'lib/wmq/lib', include:['**/*.jar'])
-
-	// https://mvnrepository.com/artifact/oracle/ojdbc6
-	//compile group: 'oracle', name: 'ojdbc6', version: '11.2.0.3'
-	//compile 'com.oracle:ojdbc6:11.2.0.3' // 추가하기
-
-	//jdbc for postgres
-	// https://mvnrepository.com/artifact/org.postgresql/postgresql
-	//implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.4'
-
-
-
+	 
 
 
 	// jackson-dataformat-xml
 	compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-xml', version:'2.9.8'
-	compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+"
-	//----------------------------------------------------------------------------
-	//websocket
-	//----------------------------------------------------------------------------
-	//compile("org.springframework.boot:spring-boot-starter-websocket")
-	// https://mvnrepository.com/artifact/org.springframework/spring-messaging
-	//compile group: 'org.springframework', name: 'spring-messaging', version: '5.2.2.RELEASE'
+	compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+" 
+
+	compile project(':t9-cache')
  
 }
 

@@ -8,14 +8,10 @@ public class T9Launcher extends JarLauncher {
  
 
     public T9Launcher() {
- 
-        System.out.println("\n\n\n\n\n\nT9Launcher()\n\n\n\n\n\n\n\n");
     }
 
     protected T9Launcher(Archive archive) {
         super(archive);
- 
-        System.out.println("\n\n\n\n\n\nT9Launcher(archive)\n\n\n\n\n\n\n\n");
     }
 
     /**
@@ -28,14 +24,14 @@ public class T9Launcher extends JarLauncher {
     @Override
     protected ClassLoader createClassLoader(URL[] urls) throws Exception {
         // return new LaunchedURLClassLoader(urls, getClass().getClassLoader());
-        ClassLoader cl = super.createClassLoader(urls);
- 
-        System.out.println("\n\n\n\n\nwhoanaClassLoader\n\n\n\n\n\n\n\n" + cl);
+        // ClassLoader cl = super.createClassLoader(urls);
+        System.out.println("\n\n\n\n\n whoana ClassLoader 11111 \n\n\n\n\n\n\n\n");
+        ClassLoader cl = new T9ClassLoader(urls, getClass().getClassLoader());
+        System.out.println("\n\n\n\n\n whoana ClassLoader 222 \n\n\n\n\n\n\n\n" + cl);
         return cl;
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println("\n\n\n\nT9Launcher start..\n\n\n\n\n\n\n\n");
         new T9Launcher().launch(args);
     }
 

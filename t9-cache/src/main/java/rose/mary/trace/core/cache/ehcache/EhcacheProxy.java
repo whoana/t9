@@ -14,7 +14,7 @@ import org.ehcache.Cache;
 import org.ehcache.Cache.Entry;
 
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.core.data.cache.CacheInfo; 
+import rose.mary.trace.core.cache.CacheInfo; 
 
 /**
  * <pre>
