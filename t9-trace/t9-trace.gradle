@@ -15,14 +15,14 @@ targetCompatibility = 1.8
 
 
 bootJar { 
-  with copySpec {
+  	with copySpec {
         from "$buildDir/classes/java/main/org"
         into 'org'
     }
-	with copySpec {
-		from "$buildDir/classes/java/main/lemon"
-		into 'lemon'
-	}
+	// with copySpec {
+	// 	from "$buildDir/classes/java/main/lemon"
+	// 	into 'lemon'
+	// }
 } 
  
 

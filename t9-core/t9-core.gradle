@@ -19,28 +19,9 @@ targetCompatibility = 1.8
 // dependencies
 //-----------------------------------------------------------------------------------------------
 dependencies {
-	//spring-boot
- 
-	// implementation('org.springframework.boot:spring-boot-starter'){
-	// 	exclude group: 'org.springframework.boot', 	module: 'spring-boot-starter-logging'
-	// }
-
-	// implementation 'org.springframework.boot:spring-boot-starter-web'
-	// implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	// implementation 'org.springframework.boot:spring-boot-starter-aop'
-	
-	// compileOnly 'org.springframework.boot:spring-boot-loader'
-
-	//compile('de.codecentric:spring-boot-admin-starter-client:2.2.2')
 
  	//For Jackson Kotlin classes support please add "com.fasterxml.jackson.module:jackson-module-kotlin" to the classpath
  	compile('com.fasterxml.jackson.module:jackson-module-kotlin')
-
-	//runtime group: 'org.springframework.shell', name: 'spring-shell', 					version:'1.2.0.RELEASE'
-	//testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', 	version:'2.1.3.RELEASE'
-	//database
-	//compile group: 'com.h2database', 			name: 'h2', 							version:'1.4.197'
-	//compile group: 'org.mybatis.spring.boot', 	name: 'mybatis-spring-boot-starter', 	version:'1.3.2'
 	//lombok
 	compile group: 'org.projectlombok', 		name: 'lombok', 						version:'1.18.6'
 	//wmq

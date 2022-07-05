@@ -1,6 +1,8 @@
 ### My ignore list ###
 /dist/
 /home/
+/backup
+t9-trace/config
 t9-core 복사본
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,eclipse,macos,maven,gradle,java
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,eclipse,macos,maven,gradle,java

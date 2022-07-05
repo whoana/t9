@@ -15,7 +15,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'maven' //for gradle version 6.x
-    //apply plugin:'maven-publish'
+    apply plugin:'maven-publish'
 	apply plugin: 'java'
 
 
@@ -55,7 +55,7 @@ task makeInstall {
 
 		//removeInstall
 		println('[delete install files]')
-		delete "$projectDir/t9-install-linux/lib"
+		delete "$projectDir/t9-install-linux/lib/*.jar"
 
 		println('copy t9 lib')
 		copy {
