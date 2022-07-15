@@ -120,7 +120,12 @@ public class S9LManager implements Runnable {
         String name = "";
         try {
             name = getHostName();
-            return name.equals(new String(h));
+            
+            for(int i = 0 ; i < h.length ; i ++){
+                if((char)h[i] != name.charAt(i)) return false;
+            }
+            return true;
+            //return name.equals(new String(h));
         } catch (Exception e) {
             logger.error("can't hostname", e);
             return false;
@@ -151,7 +156,29 @@ public class S9LManager implements Runnable {
             logger.error("Your license was expired!" + System.lineSeparator() + showLicense());
             System.exit(-1);
         } else if(!validateHost()) {
+
+            // try{
+            //     String userHost = getHostName();
+            //     String asignHost = new String(h);
+            //     logger.error("asign host:" + asignHost + ", length:" + asignHost.length());
+            //     logger.error("[");
+            //     for(int i = 0 ; i < asignHost.length(); i ++){
+            //         logger.error(""+asignHost.charAt(i));
+            //     }
+            //     logger.error("]");
+            //     logger.error("userHost host:" + userHost + ", length:" + userHost.length());
+            //     logger.error("[");
+            //     for(int i = 0 ; i < userHost.length(); i ++){
+            //         logger.error(""+userHost.charAt(i));
+            //     }
+            //     logger.error("]");
+
+            // }catch(Exception e){
+            //     e.printStackTrace();
+            // }
+
             logger.error("This license' host is not right!" + System.lineSeparator() + showLicense());
+            
             System.exit(-1);
         }
     }
