@@ -16,9 +16,11 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import lemon.balm.core.data.S9L;
 import rose.mary.trace.core.data.common.RuntimeInfo;
 import rose.mary.trace.core.monitor.SystemResourceMonitor;
 import rose.mary.trace.core.monitor.ThroughputMonitor;
+import rose.mary.trace.core.esnecil.S9LManager;
 import rose.mary.trace.database.service.BotService;
 import rose.mary.trace.database.service.InterfaceService;
 import rose.mary.trace.database.service.SystemService;
@@ -142,6 +144,14 @@ public class ApplicationConfig {
 	@Bean(initMethod = "prepare")
 	public CacheManager cacheManager(@Autowired ConfigurationManager configurationManager) throws Exception {
 		CacheManager manager = new CacheManager(configurationManager.getCacheManagerConfig());
+		return manager;
+	}
+
+	@Bean(initMethod = "start")
+	public S9LManager s9lManager() throws Exception {
+  
+		S9LManager manager = new S9LManager();
+		// manager.check();
 		return manager;
 	}
 
@@ -285,56 +295,6 @@ public class ApplicationConfig {
 		return testerManager;
 	}
 
-	/*
-	 * @Bean(initMethod = "ready")
-	 * public TraceServer traceServer(
-	 * 
-	 * @Autowired ChannelManager channelManager,
-	 * 
-	 * @Autowired LoaderManager loaderManager,
-	 * 
-	 * @Autowired BoterManager boterManager,
-	 * 
-	 * @Autowired BotLoaderManager botLoaderManager,
-	 * 
-	 * @Autowired FinisherManager finisherManager,
-	 * 
-	 * @Autowired TraceErrorHandlerManager traceErrorHandlerManager,
-	 * 
-	 * @Autowired BotErrorHandlerManager botErrorHandlerManager,
-	 * 
-	 * @Autowired MonitorManager monitorManager,
-	 * 
-	 * @Autowired UnmatchHandlerManager unmatchHandlerManager,
-	 * 
-	 * @Autowired DatabasePolicyHandlerManager databasePolicyHandlerManager,
-	 * 
-	 * @Autowired TesterManager testerManager,
-	 * 
-	 * @Autowired ConfigurationManager configurationManager,
-	 * 
-	 * @Autowired SystemErrorTestManager systemErrorTestManager
-	 * ) throws Exception {
-	 * String name = configurationManager.getServerManagerConfig().getName();
-	 * TraceServer ts = new TraceServer(
-	 * name,
-	 * channelManager,
-	 * loaderManager,
-	 * boterManager,
-	 * botLoaderManager,
-	 * finisherManager,
-	 * traceErrorHandlerManager,
-	 * botErrorHandlerManager,
-	 * monitorManager,
-	 * unmatchHandlerManager,
-	 * databasePolicyHandlerManager,
-	 * testerManager,
-	 * configurationManager,
-	 * systemErrorTestManager
-	 * );
-	 * return ts;
-	 * }
-	 */
 	@Bean
 	public LocaleResolver localeResolver() {
 		SessionLocaleResolver localeResolver = new SessionLocaleResolver();

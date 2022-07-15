@@ -491,6 +491,16 @@ public class InstallManager {
 			// throw new Exception(msg, e);
 		}
 
+
+		try {
+			File testshell = new File(T9_HOME, "/bin/test.sh");
+			testshell.setExecutable(true); 
+		} catch (Exception e) {
+			String msg = "test.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			throw new Exception(msg, e);
+		}
+
 		// Runtime.getRuntime().exec("chmod +x " + T9_HOME + "/bin/*.sh");
 		println("> 스크립트 설치를 완료하였습니다.");
 	}

@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Library",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.core.esnecil.Library",
+            "projectName": "t9-core"
+        },
+        {
+            "type": "java",
+            "name": "Launch Library",
+            "request": "launch",
+            "mainClass": "apple.mint.Library",
+            "projectName": "t9-core"
+        },
+        {
+            "type": "java",
             "name": "Launch I18NSample",
             "request": "launch",
             "mainClass": "rose.mary.trace.support.sample.I18NSample",
@@ -45,6 +59,16 @@
             "projectName": "t9-trace",
             "args": "",
             "vmArgs": "-Drose.mary.home=/Users/whoana/DEV/workspace-vs/t9/home"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-T9L<t9-trace>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.springframework.boot.loader.T9L",
+            "projectName": "t9-trace",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }

@@ -18,12 +18,13 @@ arg1=$1
 if [ "$arg1" = "-f" ]; then
 	echo "forground start..."
 	${JAVA_HOME}/bin/java -cp $CPATH \
-						  -Dapp.name=rosemary \
-						  -Drose.mary.home=${T9_HOME} \
-						  -Dspring.profiles.active=${ACTIVE_PROFILE} \
-						  -Dspring.config.location=${T9_HOME}/config/application.yml \
-						  -Dloader.main=rose.mary.trace.T9 \
-      					  org.springframework.boot.loader.T9L
+	  -Dapp.name=rosemary \
+	  -Drose.mary.home=${T9_HOME} \
+	  -Dt9.hostname.cmd=hostname \
+	  -Dspring.profiles.active=${ACTIVE_PROFILE} \
+	  -Dspring.config.location=${T9_HOME}/config/application.yml \
+	  -Dloader.main=rose.mary.trace.T9 \
+      	  org.springframework.boot.loader.T9L
 elif [ "$arg1" = "-c" ]; then
 	echo "console start..."
 	clear
@@ -31,31 +32,34 @@ elif [ "$arg1" = "-c" ]; then
 elif [ "$arg1" = "-r" ]; then
 	echo "recovery mode start..."
 	${JAVA_HOME}/bin/java -cp $CPATH \
-						  -Dapp.name=rosemary \
-						  -Drose.mary.home=${T9_HOME} \
-						  -Drose.mary.run.mode=recovery \
-						  -Dspring.profiles.active=${ACTIVE_PROFILE} \
-						  -Dspring.config.location=${T9_HOME}/config/application.yml \
-						  -Dloader.main=rose.mary.trace.T9 \
-      					  org.springframework.boot.loader.T9L
+	  -Dapp.name=rosemary \
+	  -Drose.mary.home=${T9_HOME} \
+	  -Dt9.hostname.cmd=hostname \
+	  -Drose.mary.run.mode=recovery \
+	  -Dspring.profiles.active=${ACTIVE_PROFILE} \
+	  -Dspring.config.location=${T9_HOME}/config/application.yml \
+	  -Dloader.main=rose.mary.trace.T9 \
+      	  org.springframework.boot.loader.T9L
 elif [ "$arg1" = "-rc" ]; then
 	echo "clear cache"
 	rm -Rf {T9_HOME}/cache
 	echo "background start..."
 	nohup ${JAVA_HOME}/bin/java -cp $CPATH \
-						  -Dapp.name=rosemary \
-						  -Drose.mary.home=${T9_HOME} \
-						  -Dspring.profiles.active=${ACTIVE_PROFILE} \
-						  -Dspring.config.location=${T9_HOME}/config/application.yml \
-						  -Dloader.main=rose.mary.trace.T9 \
-      					  org.springframework.boot.loader.T9L 1>/dev/null 2>&1 &
+	  -Dapp.name=rosemary \
+	  -Drose.mary.home=${T9_HOME} \
+	  -Dt9.hostname.cmd=hostname \
+	  -Dspring.profiles.active=${ACTIVE_PROFILE} \
+	  -Dspring.config.location=${T9_HOME}/config/application.yml \
+	  -Dloader.main=rose.mary.trace.T9 \
+      	  org.springframework.boot.loader.T9L 1>/dev/null 2>&1 &
 else
     echo "background start..."
 	nohup ${JAVA_HOME}/bin/java -cp $CPATH \
-						  -Dapp.name=rosemary \
-						  -Drose.mary.home=${T9_HOME} \
-						  -Dspring.profiles.active=${ACTIVE_PROFILE} \
-						  -Dspring.config.location=${T9_HOME}/config/application.yml \
-						  -Dloader.main=rose.mary.trace.T9 \
-      					  org.springframework.boot.loader.T9L 1>/dev/null 2>&1 &
+	  -Dapp.name=rosemary \
+	  -Drose.mary.home=${T9_HOME} \
+	  -Dt9.hostname.cmd=hostname \
+	  -Dspring.profiles.active=${ACTIVE_PROFILE} \
+	  -Dspring.config.location=${T9_HOME}/config/application.yml \
+	  -Dloader.main=rose.mary.trace.T9 \
+      	  org.springframework.boot.loader.T9L 1>/dev/null 2>&1 &
 fi

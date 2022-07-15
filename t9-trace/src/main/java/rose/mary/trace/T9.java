@@ -108,23 +108,21 @@ public class T9
 
 	@Override
 	public void run(String... args) throws Exception {
-		
-		
 
 		SystemLogger.info("args:" + Util.toJSONString(args));
-		
+
 		isRecoveryMode = System.getProperty("rose.mary.run.mode", "server").equals("recovery") ? true : false;
-		
+
 		SystemLogger.info("isRecoveryMode:" + isRecoveryMode);
-		
+
 		String databaseName = JdbcUtils.extractDatabaseMetaData(dataSource, "getDatabaseProductName");
 		if (StringUtils.hasLength(databaseName)) {
 			SystemLogger.info("databaseName:" + databaseName);
 			Variables.databaseName = databaseName;
 		}
-		
-		sayStartingMsg(); 
-		afterBoot();		 
+
+		sayStartingMsg();
+		afterBoot();
 	}
 
 	/**

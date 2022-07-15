@@ -97,6 +97,8 @@ dependencies {
 	compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+" 
 
 	compile project(':t9-cache')
+
+	compile("lemon.balm:s9-utility:1.0.0")  
  
 }
 

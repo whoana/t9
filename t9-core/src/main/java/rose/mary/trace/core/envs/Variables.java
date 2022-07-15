@@ -11,5 +11,7 @@ public class Variables {
 	public static boolean startStopAsap = false;
 	
 	public static String databaseName = "Oracle";
+
+	
 	
 }

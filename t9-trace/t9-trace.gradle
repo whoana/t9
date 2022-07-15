@@ -88,9 +88,10 @@ dependencies {
 		exclude group: 'junit', 						module: 'junit'
 	}
  
- 	compileOnly project(':t9-core')
+	 	 
+	compileOnly project(':t9-core') 	 
 	//compileOnly project(':t9-core')
-	compile("lemon.balm:s9-utility:1.0.0")
+	compile("lemon.balm:s9-utility:1.0.0")  
 
 	//ehcache
 	compile group: 'org.ehcache', name: 'ehcache', version: '3.7.0'
