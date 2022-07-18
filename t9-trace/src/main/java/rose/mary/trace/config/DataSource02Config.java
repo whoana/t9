@@ -3,10 +3,10 @@
  */
 package rose.mary.trace.config;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
-
-import com.mococo.util.Properties;
-
+ 
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

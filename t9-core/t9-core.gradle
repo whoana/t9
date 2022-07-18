@@ -4,6 +4,8 @@ plugins {
 //	id 'java'
 //	id 'eclipse-wtp'
 	//id 'org.springframework.boot' version '2.1.3.RELEASE'
+	id 'java-library'
+    id 'maven-publish'
 }
 
 
@@ -14,6 +16,17 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
  
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'rose.mary.trace' // groupId
+            artifactId = 't9-core'   	// artifactId
+            version = '1.0.0'           // version
+
+            from components.java
+        }
+    }
+}
 
 //-----------------------------------------------------------------------------------------------
 // dependencies
