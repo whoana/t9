@@ -13,6 +13,14 @@ export CPATH=$CPATH:$T9_HOME/lib/ext/caffeine-2.8.0.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/reactive-streams-1.0.3.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/rxjava-2.2.15.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/s9-utility-1.0.0.jar
+#----------------------------------------------------------------
+#for ilink libs
+#----------------------------------------------------------------
+export CPATH=$CPATH:$T9_HOME/lib/ext/ILinkAPI-6.1.0.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/mi_link_wrapper.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/mi_common.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/javax.jms.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/MQInterfaceSDK.1.6.4
 
 arg1=$1
 if [ "$arg1" = "-f" ]; then
