@@ -1,7 +1,9 @@
-/**
- * ilink 환경 배포시는 클래스패스에 아래 라이브러리 추가 필요함. 
- * 'ILinkAPI-6.1.0.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'
+/** 
+ * t9-trace project build script
+ * 2022.06
+ * 
  */
+
 
 plugins {
 	id 'org.springframework.boot' version '2.2.2.RELEASE'
