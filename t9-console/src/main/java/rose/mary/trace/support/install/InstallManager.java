@@ -223,30 +223,7 @@ public class InstallManager {
 		}
 
 		outer: while (true) {
-
-			// while (true) {
-			// println("> JDBC Driver Class Name 을 입력해 주세요. :");
-			// println("> ex) org.postgresql.Driver");
-			// printIn();
-			// dirverName = console.nextLine();
-			// if (!"org.postgresql.Driver".equals(dirverName) ||
-			// !"org.postgresql.Driver".equals(dirverName)) {
-			// println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
-			// continue;
-			// }
-			// if (checkOption)
-			// try {
-			// Class.forName(dirverName);
-			// } catch (Exception e) {
-			// println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
-			// writeToLogFile(e);
-			// e.printStackTrace();
-			// continue;
-			// }
-
-			// break;
-			// }
-			// println("> JDBC dirverName: " + dirverName);
+ 
 
 			while (true) {
 				println("> 트래킹적재 데이터베이스 JDBC URL을 입력해주세요. :");

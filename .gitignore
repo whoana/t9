@@ -14,7 +14,7 @@ apps/
 /t9-console/bin
 /t9-admin/bin
 /t9-trace/bin
-
+/t9-install-windows/logs
 tmp/
 *.tmp
 *.bak
@@ -216,10 +216,5 @@ install/lib/t9-console-1.0.0.jar
 install/lib/t9-trace-1.0.0.jar
 t9-install-linux/lib/t9-console-1.0.0.jar
 t9-install-linux/lib/t9-trace-1.0.0.jar
-<<<<<<< HEAD
-app/t9home
-/t9-trace/src/main/resources/static/front
-=======
-app/t9home/install.txt
-tstfile
->>>>>>> 7183c64a4d1f12efe4600adc140905890bf8fad6
+t9-install-windows/lib
+t9-install-windows/config
