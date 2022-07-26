@@ -124,15 +124,13 @@ task ddocker {
 				into "$projectDir/docker/t9-linux/t9/lib"
 			}
 
-
 			println('copy docker resources')
 			delete "$projectDir/docker/t9-linux/t9/config"
 			copy {
 				from "$projectDir/t9-trace/build/resources/main/config/config.json",
-			     	     "$projectDir/t9-trace/build/resources/main/config/sqlerror.json",
+			     	 "$projectDir/t9-trace/build/resources/main/config/sqlerror.json",
 				     "$projectDir/t9-trace/build/resources/main/config/application.yml",
 				     "$projectDir/t9-trace/build/resources/main/config/logback-spring.xml"
-
 				into "$projectDir/docker/t9-linux/t9/config"
 			}
 		}

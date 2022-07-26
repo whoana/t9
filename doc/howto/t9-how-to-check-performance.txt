@@ -1,0 +1,31 @@
+-------------------------------------
+-- T1 구간 TPS 조회 SQL 
+-------------------------------------
+-- 1. t9 실행 
+-- 2. t9 콘솔에서 "4.트래킹 종료"
+-- 4. bin/curl-wmq-msg-10000.sh 를 실행하여 테스트 메시지 쌓기
+-- 5. t9 콘솔에서 "3.트래킹 시작"
+-- 6. 아래 TPS sql 실행 , tracking_date 은 테스트 시작 시점으로 지정한다.
+
+-- postgres 버전 
+insert into tps
+select 
+	a.cnt, 
+	to_timestamp(a.t1, 'YYYYMMDDHH24MISSUS') as et, 
+	to_timestamp(a.t2, 'YYYYMMDDHH24MISSUS') as st,
+	to_timestamp(a.t1, 'YYYYMMDDHH24MISSUS')  - to_timestamp(a.t2, 'YYYYMMDDHH24MISSUS') as dur,
+ 	round(a.cnt/(EXTRACT (EPOCH from to_timestamp(a.t1, 'YYYYMMDDHH24MISSUS')) - EXTRACT (EPOCH from to_timestamp(a.t2, 'YYYYMMDDHH24MISSUS'))), 0) as tps
+from( 
+ select 
+ 	count(*) as cnt, 
+ 	max(tracking_date) as t1, 
+ 	min(tracking_date) as t2  
+   from top0501 
+  where   tracking_date >= '20220722131000000000'
+--    and tracking_date <= '20220722103000000000'
+) a
+;  
+
+select * from tps where cnt > 0;
+
+delete from tps where cnt = 0;
