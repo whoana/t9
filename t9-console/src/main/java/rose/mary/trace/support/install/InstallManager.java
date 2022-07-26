@@ -223,7 +223,6 @@ public class InstallManager {
 		}
 
 		outer: while (true) {
- 
 
 			while (true) {
 				println("> 트래킹적재 데이터베이스 JDBC URL을 입력해주세요. :");
@@ -468,12 +467,41 @@ public class InstallManager {
 			// throw new Exception(msg, e);
 		}
 
-
 		try {
 			File testshell = new File(T9_HOME, "/bin/test.sh");
-			testshell.setExecutable(true); 
+			testshell.setExecutable(true);
 		} catch (Exception e) {
 			String msg = "test.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			throw new Exception(msg, e);
+		}
+
+		try {
+			File template = new File(T9_HOME, "/bin/tps.sh.tpl");
+			File target = new File(T9_HOME, "/bin/tps.sh");
+			replaceFileContents(template, target, qmgrParams);
+			target.setExecutable(true);
+			template.deleteOnExit();
+		} catch (Exception e) {
+			String msg = "tps.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			// throw new Exception(msg, e);
+		}
+
+		try {
+			File testshell = new File(T9_HOME, "/bin/tps-test.sh");
+			testshell.setExecutable(true);
+		} catch (Exception e) {
+			String msg = "tps-test.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			throw new Exception(msg, e);
+		}
+
+		try {
+			File testshell = new File(T9_HOME, "/bin/diskspeed.sh");
+			testshell.setExecutable(true);
+		} catch (Exception e) {
+			String msg = "diskspeed.sh 스크립트 설치시 예외 발생:";
 			writeToLogFile(msg, e);
 			throw new Exception(msg, e);
 		}
