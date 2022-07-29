@@ -20,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory; 
 
 import pep.per.mint.common.util.Util;
+import rose.mary.trace.RunMode;
+import rose.mary.trace.T9;
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.data.common.Trace;
 import rose.mary.trace.core.envs.Variables;
@@ -96,15 +98,22 @@ public class TraceLoader implements Runnable{
 	 
 	public void commit() throws Exception{ 
 		try { 
-			Collection<Trace> col = loadItems.values();
-			traceLoadService.load(col, loadError, loadContents);
-			
+			Collection<Trace> collection = loadItems.values();
+
+			traceLoadService.load(collection, loadError, loadContents);
 			
 			if(tpm != null) tpm.count(loadItems.size()); 
-			mergeCache.put(loadItems);					
+			//woring more 20220729
+			if(T9.runMode == RunMode.Server){
+				mergeCache.put(loadItems);					
+			}else if(T9.runMode == RunMode.Distributor){
+				distribute(loadItems);
+			}
+
+
 			distributeCache.removeAll(loadItems.keySet());
-			loadItems.clear();			
 			
+			loadItems.clear();			
 	 
 		}catch(PersistenceException e) { 
 			if(errorCache != null) errorCache.put(loadItems);		
@@ -137,7 +146,15 @@ public class TraceLoader implements Runnable{
 		}
 	}
 	
- 
+	Distributor distributor;
+	public void setDistributor(Distributor distributor) {
+		this.distributor = distributor;
+	}
+
+	private void distribute(Map<String, Trace> traces) throws Exception {
+		distributor.distribute(traces);
+	}
+
 	public void rollback(){
 		 
 	}

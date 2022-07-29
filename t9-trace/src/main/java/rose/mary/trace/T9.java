@@ -40,6 +40,8 @@ import rose.mary.trace.manager.InterfaceCacheManager;
 import rose.mary.trace.manager.ServerManager;
 import rose.mary.trace.system.SystemLogger;
 
+
+
 /**
  * <pre>
  * The Application is a spring boot main application
@@ -54,7 +56,12 @@ import rose.mary.trace.system.SystemLogger;
 @ImportResource("classpath:trace-context.xml")
 @ComponentScan({ "rose.mary.trace" })
 public class T9
-		implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, InitializingBean, DisposableBean {
+implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, InitializingBean, DisposableBean {
+	
+	public static RunMode runMode = RunMode.Server;
+	
+	static ConfigurableApplicationContext ctx;
+	 
 
 	@Autowired
 	MessageSource messageSource;
@@ -67,6 +74,9 @@ public class T9
 
 	@Autowired
 	ServerManager serverManager;
+
+	// @Autowired
+	// DistributorManager distributorManager;
 
 	@Autowired
 	CacheManager cacheManager;
@@ -105,15 +115,24 @@ public class T9
 		cacheManager.closeCache();
 		sayEnding();
 	}
+ 
+
 
 	@Override
 	public void run(String... args) throws Exception {
 
 		SystemLogger.info("args:" + Util.toJSONString(args));
 
-		isRecoveryMode = System.getProperty("rose.mary.run.mode", "server").equals("recovery") ? true : false;
-
-		SystemLogger.info("isRecoveryMode:" + isRecoveryMode);
+		String mode = System.getProperty("rose.mary.run.mode", "server");
+		if(mode.equals(RunMode.Server.getName())){
+			runMode = RunMode.Server;
+		}else if(mode.equals(RunMode.Distributor.getName())){
+			runMode = RunMode.Distributor;
+		}else if(mode.equals(RunMode.Recovery.getName())){
+			runMode = RunMode.Recovery;
+		}
+ 
+		SystemLogger.info("RunMode:" + mode);
 
 		String databaseName = JdbcUtils.extractDatabaseMetaData(dataSource, "getDatabaseProductName");
 		if (StringUtils.hasLength(databaseName)) {
@@ -129,30 +148,38 @@ public class T9
 	 * 
 	 */
 	private void afterBoot() throws Exception {
-		if (isRecoveryMode) {
-			try {
-				SystemLogger.info("recovery mode starting");
-				// ToDo: not implemented yet
-				// recoveryHandler.start();
-			} finally {
 
-			}
+		switch(runMode){
+			case Server : 
+				{
+					if (configurationManager.getServerManagerConfig().isStartOnBoot()){
+						serverManager.startServer();
+					}else{
+						SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
+					}
+					databasePolicyHandlerManager.start();
+				}
+				break;
+			// case Distributor : 
+			// 	{
+			// 		distributorManager.start();
+			// 	}
+			// 	break;
+			case Recovery : 
+				try {
+					SystemLogger.info("recovery mode starting, not implemented yet");
+					// ToDo: not implemented yet
+					// recoveryHandler.start();
+				} finally {
+		
+				}
+				break;
+			default:
+				break;
 
-		} else {
-			// if(configurationManager.getServerManagerConfig().isStartOnBoot())
-			// traceServer.start();
-			if (configurationManager.getServerManagerConfig().isStartOnBoot())
-				serverManager.startServer();
-			else
-				SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
-			// traceServer.startDatabasePolicyHandler();
-			databasePolicyHandlerManager.start();
-		}
+		} 
 	}
 
-	static ConfigurableApplicationContext ctx;
-
-	static boolean isRecoveryMode = false;
 
 	public static void main(String[] args) {
 		SpringApplicationBuilder sab = new SpringApplicationBuilder(T9.class);
@@ -207,63 +234,13 @@ public class T9
 
 	private StringBuffer getSystemResource() {
 		StringBuffer msg = new StringBuffer();
-		SystemResource res = srm.watch();
-		/*
-		 * msg.append(SystemLogger.astar).append(" system resource :").append(System.
-		 * lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tjavaVersion  :").append(res.
-		 * getJavaVersion()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tjavaVendor   :").append(res.
-		 * getJavaVendor()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tjavaHome     :").append(res.
-		 * getJavaHome()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tjavaClassVersion:").append(res.
-		 * getJavaClassVersion()).append(System.lineSeparator());
-		 * //msg.append(SystemLog.astar).append("\tjavaClassPath:").append(res.
-		 * getJavaClassPath()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tosName       :").append(res.
-		 * getOsName()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tosArch       :").append(res.
-		 * getOsArch()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tosVersion    :").append(res.
-		 * getOsVersion()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tuserName     :").append(res.
-		 * getUserName()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tuserHome     :").append(res.
-		 * getUserHome()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tuserDir      :").append(res.
-		 * getUserDir()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\ttotalDiskAmt :").append(res.
-		 * getTotalDiskAmt()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tusedDiskAmt  :").append(res.
-		 * getUsedDiskAmt()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tidleDiskAmt  :").append(res.
-		 * getIdleDiskAmt()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tusedDiskPct  :").append(res.
-		 * getUsedDiskPct()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tidleDiskPct  :").append(res.
-		 * getIdleDiskPct()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tusedCpuPct   :").append(res.
-		 * getUsedCpuPct()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tidleCpuPct   :").append(res.
-		 * getIdleCpuPct()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\ttotalMemAmt  :").append(res.
-		 * getTotalMemAmt()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tidleMemAmt   :").append(res.
-		 * getIdleMemAmt()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tusedMemPct   :").append(res.
-		 * getUsedMemPct()).append(System.lineSeparator());
-		 * msg.append(SystemLogger.astar).append("\tidleMemPct   :").append(res.
-		 * getIdleMemPct()).append(System.lineSeparator());
-		 */
+		SystemResource res = srm.watch(); 
 		msg.append(SystemLogger.astar).append(" system resource :").append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA01 : ").append(res.getJavaVersion()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA02 : ").append(res.getJavaVendor()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA03 : ").append(res.getJavaHome()).append(System.lineSeparator());
-		msg.append(SystemLogger.astar).append("\tA04 : ").append(res.getJavaClassVersion())
-				.append(System.lineSeparator());
-		// msg.append(SystemLog.astar).append("\tA06 :
-		// ").append(res.getJavaClassPath()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA04 : ").append(res.getJavaClassVersion()) .append(System.lineSeparator());
+		// msg.append(SystemLog.astar).append("\tA06 : ").append(res.getJavaClassPath()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA07 : ").append(res.getOsName()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA08 : ").append(res.getOsArch()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA09 : ").append(res.getOsVersion()).append(System.lineSeparator());

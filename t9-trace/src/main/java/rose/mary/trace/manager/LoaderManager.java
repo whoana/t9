@@ -16,6 +16,7 @@ import rose.mary.trace.core.config.LoaderManagerConfig;
 import rose.mary.trace.core.data.common.Trace;
 import rose.mary.trace.core.monitor.ThroughputMonitor;
 import rose.mary.trace.database.service.TraceService;
+import rose.mary.trace.loader.Distributor;
 import rose.mary.trace.loader.TraceLoader;
 
 /**
@@ -82,6 +83,7 @@ public class LoaderManager {
 			for(CacheProxy<String, Trace> distributeCache : distributeCaches) {
 				String name = Util.join(config.getName(), idx);
 				TraceLoader loader = new TraceLoader(name, commitCount, delayForNoMessage, loadError, loadContents, distributeCache, mergeCache, errorCache, traceService,tpm, null);			
+				loader.setDistributor(new Distributor());
 				loaders.add(loader);
 				loader.start();
 				idx ++;
