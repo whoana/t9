@@ -160,11 +160,16 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 					databasePolicyHandlerManager.start();
 				}
 				break;
-			// case Distributor : 
-			// 	{
-			// 		distributorManager.start();
-			// 	}
-			// 	break;
+		    case Distributor : 
+				{
+					if (configurationManager.getServerManagerConfig().isStartOnBoot()){
+						serverManager.startServer();
+					}else{
+						SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
+					}
+					databasePolicyHandlerManager.start();
+				}
+				break;
 			case Recovery : 
 				try {
 					SystemLogger.info("recovery mode starting, not implemented yet");

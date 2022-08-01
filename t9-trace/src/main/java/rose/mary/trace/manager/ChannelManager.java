@@ -177,7 +177,7 @@ public class ChannelManager {
 		 
 		
 		
-		restChannel = new RestChannel(name, config.getMaxCacheSize(), config.getDelayForMaxCache(), selectCaches, taskExecutor, oschc);
+		restChannel = new RestChannel(name, config.getMaxCacheSize(), config.getDelayForMaxCache(), selectCaches, taskExecutor);
 		if(tpm != null) restChannel.setThroughputMonitor(tpm);
 		Map<String, Integer> nodeMap = oschc.getNodeMap();
 		Parser parser = new RestMessageParser(nodeMap);
@@ -262,7 +262,7 @@ public class ChannelManager {
 			Channel channel = new MOMChannel(
 				name + (idx ++), module, qmgrName, hostName, port, 
 				channelName, queueName, waitTime, userId, password, ccsid,characterSet, 
-				bindMode, autoCommit, commitCount, maxCommitWait, delayForNoMessage, delayOnException, maxCacheSize, delayForMaxCache, cache, oschc );
+				bindMode, autoCommit, commitCount, maxCommitWait, delayForNoMessage, delayOnException, maxCacheSize, delayForMaxCache, cache );
 			if(tpm != null) channel.setThroughputMonitor(tpm);
 			channel.setParser(parser);
 			channel.setHealthCheck(healthCheck);

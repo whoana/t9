@@ -16,11 +16,14 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import lemon.balm.core.data.S9L;
+import rose.mary.trace.core.config.OldStateCheckHandlerConfig;
 import rose.mary.trace.core.data.common.RuntimeInfo;
 import rose.mary.trace.core.monitor.SystemResourceMonitor;
 import rose.mary.trace.core.monitor.ThroughputMonitor;
 import rose.mary.trace.core.esnecil.S9LManager;
+import rose.mary.trace.core.helper.checker.OldStateCheckHandler;
+import rose.mary.trace.core.helper.checker.StateChecker;
+import rose.mary.trace.core.helper.checker.StateCheckerMap;
 import rose.mary.trace.database.service.BotService;
 import rose.mary.trace.database.service.InterfaceService;
 import rose.mary.trace.database.service.SystemService;
@@ -159,8 +162,14 @@ public class ApplicationConfig {
 	public InterfaceCacheManager interfaceCacheManager(@Autowired ConfigurationManager configurationManager,
 			@Autowired ThreadPoolTaskScheduler taskScheduler, @Autowired InterfaceService service,
 			@Autowired CacheManager cacheManager) throws Exception {
-		InterfaceCacheManager manager = new InterfaceCacheManager(configurationManager.getInterfaceCacheManagerConfig(),
-				taskScheduler, service, cacheManager);
+		InterfaceCacheManager manager = new InterfaceCacheManager(
+			configurationManager.getInterfaceCacheManagerConfig(),
+			taskScheduler, service, cacheManager);
+
+		OldStateCheckHandlerConfig oschc = configurationManager.getChannelManagerConfig().getOldStateCheckHandlerConfig();	
+		StateChecker sc = new OldStateCheckHandler(oschc);
+		StateCheckerMap.map.put("rose.mary.trace.core.helper.checker.OldStateCheckHandler", sc);
+		
 		return manager;
 	}
 
@@ -178,7 +187,7 @@ public class ApplicationConfig {
 			@Autowired @Qualifier("tpm2") ThroughputMonitor tpm2) throws Exception {
 		return new LoaderManager(configurationManager.getLoaderManagerConfig(), traceService, cacheManager, tpm2);
 	}
-
+ 
 	@Bean
 	public BoterManager boterManager(@Autowired ConfigurationManager configurationManager,
 			@Autowired CacheManager cacheManager, @Autowired @Qualifier("tpm3") ThroughputMonitor tpm3)
