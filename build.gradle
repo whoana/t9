@@ -62,6 +62,7 @@ task makeInstall {
 			from "$projectDir/t9-console/build/libs/t9-console-1.0.0.jar", "$projectDir/t9-trace/build/libs/t9-trace-1.0.0.jar"
 			into "$projectDir/t9-install-linux/lib"
 		}
+		 
 	}
 }
  

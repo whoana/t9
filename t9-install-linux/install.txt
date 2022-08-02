@@ -87,10 +87,14 @@
 
 	   실행 예)	
 	   	설치 파일을 풀어놓은 위치가 다음과 같다고 가정합니다.
-	    설치파일 압축해제 위치 : ./t9-install-linux
+	    설치파일 압축해제 위치(기본 값) : ./t9-install-linux
 		설치 실행 : 
 		java -jar ./t9-install-linux/lib/t9-console-1.0.0.jar -i
-	   
+	    
+		* 다른 위에 압축 해제할 경우 
+		./t9-install
+		java -Dsrc.dir=t9-install -jar ./t9-install/lib/t9-console-1.0.0.jar -i
+
 	   설치 옵션 설명)
 	   	-i : 기본 설치 모드
 		     설치 과정에서 JAVA_HOME 존재하고 자바가 실행되는지 체크하며   
