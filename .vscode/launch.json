@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch InstallTestMain",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.support.install.InstallTestMain",
+            "projectName": "t9-console"
+        },
+        {
+            "type": "java",
             "name": "Launch Library",
             "request": "launch",
             "mainClass": "rose.mary.trace.core.esnecil.Library",

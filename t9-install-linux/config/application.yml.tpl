@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: %t9Port%
 
 logging:
   config: ${rose.mary.home}/config/logback-spring.xml

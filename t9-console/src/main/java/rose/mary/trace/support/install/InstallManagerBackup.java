@@ -39,7 +39,7 @@ import rose.mary.trace.support.console.AnsiUtil;
  * @author whoana
  * @date Jan 30, 2020
  */
-public class InstallManager {
+public class InstallManagerBackup {
 
 	static File logFile;
 	static String JAVA_HOME = "";
@@ -75,8 +75,6 @@ public class InstallManager {
 		println("> ---------------------------------------------------------------------");
 		setHome();
 		println("> ---------------------------------------------------------------------");
-		setPort();
-		println("> ---------------------------------------------------------------------");
 		setJavaHome();
 		println("> ---------------------------------------------------------------------");
 		setJdbc();
@@ -103,12 +101,6 @@ public class InstallManager {
 
 	}
 
-	void setPort(){
-			println("> [T9 서비스 포트 설정]");
-			T9_PORT = inputInt(console, "> T9 서비스 PORT 를 입력해주세요.(기본값:8090) :", "> T9_PORT 값은 숫자를 입력해 주세요.");
-			println("> T9_PORT: " + T9_PORT);		
-	}
-
 	void setHome() {
 		String userHome = System.getProperty("user.home");
 		String userDir = System.getProperty("user.dir");
@@ -122,6 +114,25 @@ public class InstallManager {
 			printIn();
 			String home = console.nextLine();
 			println("> T9_HOME: " + home);
+
+			// while(true){
+			// 	println("> T9 서비스 PORT 를 입력해주세요.(기본값:8090) :");
+			// 	printIn();
+			// 	try{
+			// 		String port  = console.nextLine();
+			// 		T9_PORT = Util.isEmpty(port) || System.lineSeparator().equals(port) ? T9_PORT : Integer.parseInt(port);
+			// 		println("> T9_PORT: " + T9_PORT);
+			// 		break;
+			// 	} catch (Exception e){
+			// 		println("> T9_PORT 값은 숫자를 입력해 주세요.");
+			// 		console.nextLine();
+			// 		continue;
+			// 	}
+			// }
+
+
+			inputInt(console, "> T9 서비스 PORT 를 입력해주세요.(기본값:8090) :", "> T9_PORT 값은 숫자를 입력해 주세요.", T9_PORT);
+			println("> T9_PORT: " + T9_PORT);
 
 			println("> 설치를 진행할까요? (yes | no) :");
 			printIn();
@@ -270,7 +281,7 @@ public class InstallManager {
 					params.put("%jdbcUrl%", url);
 					params.put("%username%", username);
 					params.put("%password%", password);
-					params.put("%t9Port%", T9_PORT + "");
+					params.put("%t9Port%", T9_PORT);
 					File template = new File(T9_HOME, "/config/application.yml.tpl");
 					File target = new File(T9_HOME, "/config/application.yml");
 					replaceFileContents(template, target, params);
@@ -439,7 +450,7 @@ public class InstallManager {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("%T9_HOME%", T9_HOME);
 			params.put("%JAVA_HOME%", JAVA_HOME);
-			params.put("%T9_PORT%", T9_PORT + "");
+			params.put("%T9_PORT%", T9_PORT);
 			File template = new File(T9_HOME, "/bin/run.sh.tpl");
 			File target = new File(T9_HOME, "/bin/run.sh");
 			replaceFileContents(template, target, params);
@@ -635,7 +646,7 @@ public class InstallManager {
 	}
 
 	
-	public static int inputInt(Scanner console, String inputMsg, String typeErrorMsg) {
+	public static void inputInt(Scanner console, String inputMsg, String typeErrorMsg, int outVar ) {
 		
 		while(true) {
 			println(inputMsg);
@@ -643,7 +654,8 @@ public class InstallManager {
 			try{
 				String var  = null;
 				if(console.hasNextLine()) var  = console.nextLine();
-				return Util.isEmpty(var) || System.lineSeparator().equals(var) ? T9_PORT : Integer.parseInt(var);
+				outVar = Util.isEmpty(var) || System.lineSeparator().equals(var) ? T9_PORT : Integer.parseInt(var);
+				break;
 			} catch (Exception e){
 				println(typeErrorMsg);
 				continue;
@@ -651,15 +663,14 @@ public class InstallManager {
 		}
 	}
 	
-	public static String inputStr(Scanner console, String inputMsg, String typeErrorMsg ) {
+	public static void inputStr(Scanner console, String inputMsg, String typeErrorMsg, String outVar ) {
 		
 		while(true) {
 			println(inputMsg);
 			printIn();
 			try{
-				String output = null;
-				if(console.hasNextLine()) output = console.nextLine(); 
-				if(Util.isEmpty(output)) throw new Exception(typeErrorMsg);
+				outVar = console.nextLine(); 
+				break;
 			} catch (Exception e){
 				println(typeErrorMsg);
 				continue;

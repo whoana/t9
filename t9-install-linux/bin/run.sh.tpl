@@ -36,7 +36,7 @@ if [ "$arg1" = "-f" ]; then
 elif [ "$arg1" = "-c" ]; then
 	echo "console start..."
 	clear
-	${JAVA_HOME}/bin/java -Dconsole.home=${T9_HOME} -Dconsole.port=8090 -jar ${T9_HOME}/lib/t9-console-1.0.0.jar
+	${JAVA_HOME}/bin/java -Dconsole.home=${T9_HOME} -Dconsole.port=%T9_PORT% -jar ${T9_HOME}/lib/t9-console-1.0.0.jar
 elif [ "$arg1" = "-r" ]; then
 	echo "recovery mode start..."
 	${JAVA_HOME}/bin/java -cp $CPATH \
