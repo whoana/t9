@@ -8,24 +8,62 @@
 -- 6. 아래 TPS sql 실행 , tracking_date 은 테스트 시작 시점으로 지정한다.
 
 -- postgres 버전 
-insert into tps
-select 
-	a.cnt, 
-	to_timestamp(a.t1, 'YYYYMMDDHH24MISSUS') as et, 
-	to_timestamp(a.t2, 'YYYYMMDDHH24MISSUS') as st,
-	to_timestamp(a.t1, 'YYYYMMDDHH24MISSUS')  - to_timestamp(a.t2, 'YYYYMMDDHH24MISSUS') as dur,
- 	round(a.cnt/(EXTRACT (EPOCH from to_timestamp(a.t1, 'YYYYMMDDHH24MISSUS')) - EXTRACT (EPOCH from to_timestamp(a.t2, 'YYYYMMDDHH24MISSUS'))), 0) as tps
-from( 
- select 
- 	count(*) as cnt, 
- 	max(tracking_date) as t1, 
- 	min(tracking_date) as t2  
-   from top0501 
-  where   tracking_date >= '20220722131000000000'
---    and tracking_date <= '20220722103000000000'
+--insert into tps
+select
+	'202208031540' as "date",
+	a.cnt as cnt,
+	to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS') as et,
+	to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS') as st,
+	to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS')  - to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS') as dur,
+ 	round(a.cnt/(EXTRACT (EPOCH from to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS')) - EXTRACT (EPOCH from to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS'))), 0) as tps,
+ 	'thread 14, no distributor' as remark
+from(
+ select
+ 	count(*) as cnt,
+ 	max(reg_date) as t1,
+ 	min(reg_date) as t2
+   from top0501
+  where reg_date >= '20220803153500000'
+    and reg_date <= '20220803154000000'
+
 ) a
-;  
+;
 
 select * from tps where cnt > 0;
 
 delete from tps where cnt = 0;
+
+
+
+
+select * from tps order by date desc;
+
+select avg(tps) from tps;
+
+select avg(tps) as avg_tps, avg(tps) * 24 * 60 * 60 as tpd from tps;
+
+
+drop table tps;
+alter table tps202208 rename to tps;
+alter table tps202208   add remark varchar(4000);
+
+--insert into tps
+select
+	'202208031540' as "date",
+	a.cnt as cnt,
+	to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS') as et,
+	to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS') as st,
+	to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS')  - to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS') as dur,
+ 	round(a.cnt/(EXTRACT (EPOCH from to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS')) - EXTRACT (EPOCH from to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS'))), 0) as tps,
+ 	'thread 14, no distributor' as remark
+from(
+ select
+ 	count(*) as cnt,
+ 	max(reg_date) as t1,
+ 	min(reg_date) as t2
+   from top0501
+  where reg_date >= '20220803153500000'
+    and reg_date <= '20220803154000000'
+
+) a
+;
