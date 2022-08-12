@@ -21,6 +21,11 @@ export CPATH=$CPATH:$T9_HOME/lib/ext/mi_link_wrapper.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/mi_common.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/javax.jms.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/MQInterfaceSDK.1.6.4
+#----------------------------------------------------------------
+#for wmq binding lib
+#----------------------------------------------------------------
+#linux
+export LD_LIBRARY_PATH=/opt/mqm/java/lib64:$LD_LIBRARY_PATH
 
 arg1=$1
 if [ "$arg1" = "-f" ]; then

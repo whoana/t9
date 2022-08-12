@@ -1,0 +1,8 @@
+
+명령을 위한 PCF 메시지 전송을 위 아래 설정 필요 
+
+setmqaut -m QMT9 -n SYSTEM.ADMIN.COMMAND.QUEUE -t queue -p mqm +dsp +inq +put
+setmqaut -m QMT9 -n SYSTEM.DEFAULT.MODEL.QUEUE -t queue -p mqm +dsp +inq +put +get
+setmqaut -m QMT9 -t qmgr -p mqm +connect +inq +dsp
+runmqsc 
+    REFRESH SECURITY(*)
