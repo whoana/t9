@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MQMsgHandlerTest",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.helper.module.mte.MQMsgHandlerTest",
+            "projectName": "t9-trace"
+        },
+        {
+            "type": "java",
             "name": "Launch InstallTestMain",
             "request": "launch",
             "mainClass": "rose.mary.trace.support.install.InstallTestMain",
