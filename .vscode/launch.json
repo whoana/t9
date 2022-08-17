@@ -2,6 +2,14 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch MQChannelTest",
+            "request": "launch",
+            "mainClass": "rose.mary.trace.channel.MQChannelTest",
+            "vmArgs": "-Dlogback.configurationFile=/Users/whoana/DEV/workspace-vs/t9/home/config/logback.xml -Drose.mary.home=/Users/whoana/DEV/workspace-vs/t9/home",
+            "projectName": "t9-trace"
+        },
+        {
+            "type": "java",
             "name": "Launch MQMsgHandlerTest",
             "request": "launch",
             "mainClass": "rose.mary.trace.helper.module.mte.MQMsgHandlerTest",

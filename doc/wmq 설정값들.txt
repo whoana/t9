@@ -1,8 +1,10 @@
 
-명령을 위한 PCF 메시지 전송을 위 아래 설정 필요 
+명령을 위한 PCF 메시지 전송을 위 아래 권한 설정이 필요합니다.
 
-setmqaut -m QMT9 -n SYSTEM.ADMIN.COMMAND.QUEUE -t queue -p mqm +dsp +inq +put
-setmqaut -m QMT9 -n SYSTEM.DEFAULT.MODEL.QUEUE -t queue -p mqm +dsp +inq +put +get
-setmqaut -m QMT9 -t qmgr -p mqm +connect +inq +dsp
-runmqsc 
-    REFRESH SECURITY(*)
+예) 큐매니저 QM1, user app 에 대한 권한 부여 
+    setmqaut -m QM1 -n SYSTEM.ADMIN.COMMAND.QUEUE -t queue -p app +dsp +inq +put
+    setmqaut -m QM1 -n SYSTEM.DEFAULT.MODEL.QUEUE -t queue -p app +dsp +inq +put +get
+    setmqaut -m QM1 -t qmgr -p app +connect +inq +dsp
+    
+    runmqsc QM1 
+        REFRESH SECURITY(*)

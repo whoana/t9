@@ -115,6 +115,26 @@ dependencies {
     implementation("org.webjars:bootstrap:3.3.7")
     implementation("org.webjars:jquery:3.1.0")
 
+
+	//ehcache
+	implementation group: 'org.ehcache', name: 'ehcache', version: '3.7.0'
+	//compile group: 'org.ehcache', name: 'ehcache-transactions', version: '3.7.0'
+
+	//infinispan
+	implementation group: 'org.infinispan', name: 'infinispan-core', version: '9.4.16.Final'
+
+	//mapdb
+	implementation group: 'org.mapdb', name: 'mapdb', version: '3.0.7'
+
+	//com.hazelcast:hazelcast
+	implementation 'com.hazelcast:hazelcast:3.12.2'
+
+	// https://mvnrepository.com/artifact/net.openhft/chronicle-map
+	implementation group: 'net.openhft', name: 'chronicle-map', version: '3.17.4'
+	// https://mvnrepository.com/artifact/net.openhft/chronicle-queue
+	implementation group: 'net.openhft', name: 'chronicle-queue', version: '5.17.22'
+
+	implementation fileTree (dir: 'lib', include:['ILinkAPI-6.1.0.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
 	
 }
 
