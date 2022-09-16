@@ -4,8 +4,7 @@
 package rose.mary.trace.database.service;
 
 import java.util.List;
-
-import javax.sql.DataSource;
+ 
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;

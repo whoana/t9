@@ -6,9 +6,13 @@ package rose.mary.trace.manager;
 import javax.sql.DataSource;
 
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ExitCodeGenerator;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ApplicationContext;
+
 import com.zaxxer.hikari.HikariDataSource;
-import rose.mary.trace.T9;
+
 import rose.mary.trace.server.TraceServer;
 import rose.mary.trace.system.SystemLogger;
 
@@ -24,14 +28,41 @@ import rose.mary.trace.system.SystemLogger;
 public class ServerManager {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
- 
+
 	TraceServer server;
- 
+
 	DataSource datasource01;
 
-	public ServerManager(TraceServer server, DataSource datasource01) {
+	CacheManager cacheManager;
+
+	ApplicationContext applicationContext;
+
+	public ServerManager(TraceServer server, DataSource datasource01, ApplicationContext applicationContext,
+			CacheManager cacheManager) {
 		this.server = server;
 		this.datasource01 = datasource01;
+		this.applicationContext = applicationContext;
+		this.cacheManager = cacheManager;
+	}
+
+	public void exitApplication() {
+
+		int exitCode = 0;
+		try {
+			exitCode = SpringApplication.exit(applicationContext, new ExitCodeGenerator() {
+				@Override
+				public int getExitCode() {
+					// no errors
+					return 0;
+				}
+			});
+		} catch (Throwable t) {
+			SystemLogger.error("boot shutdown error", t);
+		} finally {
+			SystemLogger.info("exitApplication");
+			System.exit(exitCode);
+		}
+
 	}
 
 	public void startServer() throws Exception {
@@ -53,14 +84,19 @@ public class ServerManager {
 	private void stopDatasource() {
 		if (datasource01 != null) {
 			HikariDataSource hds = (HikariDataSource) datasource01;
-			hds.close();
+			if (hds != null)
+				hds.close();
 		}
 	}
 
 	public void shutdownServer() throws Exception {
-		server.stop();
-		stopDatasource();
-		T9.exitApplication();
+		Thread exitThread = new Thread(new Runnable() {
+			public void run() {
+				SystemLogger.info("Received command for shutting down server!");
+				exitApplication();
+			}
+		});
+		exitThread.start();
 	}
 
 	/**

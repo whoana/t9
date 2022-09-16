@@ -18,6 +18,7 @@ import rose.mary.trace.manager.SystemErrorTestManager;
 import rose.mary.trace.manager.TesterManager;
 import rose.mary.trace.manager.TraceErrorHandlerManager;
 import rose.mary.trace.manager.UnmatchHandlerManager;
+import rose.mary.trace.manager.CacheManager;
 
 /**
  * <pre>
@@ -40,44 +41,7 @@ public class TraceServer {
 
 	private String name;
 
-	// @Autowired
-	// private ChannelManager channelManager;
-
-	// @Autowired
-	// private LoaderManager loaderManager;
-
-	// @Autowired
-	// private BoterManager boterManager;
-
-	// @Autowired
-	// private BotLoaderManager botLoaderManager;
-
-	// @Autowired
-	// private FinisherManager finisherManager;
-
-	// @Autowired
-	// private TraceErrorHandlerManager traceErrorHandlerManager;
-
-	// @Autowired
-	// private BotErrorHandlerManager botErrorHandlerManager;
-
-	// @Autowired
-	// private MonitorManager monitorManager;
-
-	// @Autowired
-	// private UnmatchHandlerManager unmatchHandlerManager;
-
-	// @Autowired
-	// private DatabasePolicyHandlerManager databasePolicyHandlerManager;
-
-	// @Autowired
-	// private TesterManager testerManager;
-
-	// @Autowired
-	// private ConfigurationManager configurationManager;
-
-	// @Autowired
-	// private SystemErrorTestManager systemErrorTestManager;
+	// DatabasePolicyHandlerManager databasePolicyHandlerManager;
 
 	ChannelManager channelManager;
 	LoaderManager loaderManager;
@@ -92,6 +56,8 @@ public class TraceServer {
 	TesterManager testerManager;
 	ConfigurationManager configurationManager;
 	SystemErrorTestManager systemErrorTestManager;
+
+	CacheManager cacheManager;
 
 	/**
 	 * 
@@ -111,7 +77,8 @@ public class TraceServer {
 			// DatabasePolicyHandlerManager databasePolicyHandlerManager,
 			TesterManager testerManager,
 			ConfigurationManager configurationManager,
-			SystemErrorTestManager systemErrorTestManager) {
+			SystemErrorTestManager systemErrorTestManager,
+			CacheManager cacheManager) {
 		this.name = name;
 		this.channelManager = channelManager;
 		this.loaderManager = loaderManager;
@@ -126,6 +93,7 @@ public class TraceServer {
 		this.testerManager = testerManager;
 		this.configurationManager = configurationManager;
 		this.systemErrorTestManager = systemErrorTestManager;
+		this.cacheManager = cacheManager;
 
 	}
 
@@ -134,6 +102,7 @@ public class TraceServer {
 	 * @throws Exception
 	 */
 	public void ready() throws Exception {
+
 		loaderManager.ready();
 		boterManager.ready();
 		botLoaderManager.ready();
@@ -150,6 +119,7 @@ public class TraceServer {
 	 * @throws Exception
 	 */
 	public void start() throws Exception {
+
 		startBotLoader();
 		startBoter();
 		startLoader();
@@ -173,16 +143,23 @@ public class TraceServer {
 	boolean startBotErrorHandler = true;
 	boolean startTraceErrorHandler = true;
 
+	long stopDelay = 1000;
+
 	/**
 	 * 
 	 * @throws Exception
 	 */
 	public void stop() throws Exception {
 		stopChannel();
+		Thread.sleep(stopDelay);
 		stopLoader();
+		Thread.sleep(stopDelay);
 		stopBoter();
+		Thread.sleep(stopDelay);
 		stopBotLoader();
+		Thread.sleep(stopDelay);
 		stopFinisher();
+
 		if (startTraceErrorHandler)
 			stopTraceErrorHandler();
 		if (startBotErrorHandler)
@@ -207,11 +184,11 @@ public class TraceServer {
 	}
 
 	// public void startDatabasePolicyHandler() throws Exception {
-	// 	databasePolicyHandlerManager.start();
+	// databasePolicyHandlerManager.start();
 	// }
 
 	// public void stopDatabasePolicyHandler() {
-	// 	databasePolicyHandlerManager.stop();
+	// databasePolicyHandlerManager.stop();
 	// }
 
 	/**

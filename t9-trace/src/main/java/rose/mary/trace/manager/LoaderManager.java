@@ -82,18 +82,28 @@ public class LoaderManager {
 			logger.info("Loaders starting");
 
 			threadCount = config.getThreadCount();
-			logger.info("Loaders thread count per cache:" + threadCount);
-			boolean setThreadCountPerCache = false;
+			logger.info("Loader thread count per cache:" + threadCount);
+
 			for (CacheProxy<String, Trace> distributeCache : distributeCaches) {
 
-				if (setThreadCountPerCache) {// change setThreadCountPerCache value to true for test
-					// TODO: 하나의 캐시에 대해 멀티 스레드로 로더를 실행하는 것을 테스트 해보자
-					for (int i = 0; i < threadCount; i++) {
-						createLoader(idx, distributeCache, mergeCache, errorCache);
-						idx++;
-					}
-				} else {
-					createLoader(idx, distributeCache, mergeCache, errorCache);
+				for (int i = 0; i < threadCount; i++) {
+
+					String name = Util.join(config.getName(), idx);
+					TraceLoader loader = new TraceLoader(
+							name,
+							commitCount,
+							delayForNoMessage,
+							loadError,
+							loadContents,
+							distributeCache,
+							mergeCache,
+							errorCache,
+							traceService,
+							tpm,
+							null);
+					loader.setDistributor(new Distributor());
+					loaders.add(loader);
+					loader.start();
 					idx++;
 				}
 			}
@@ -102,16 +112,6 @@ public class LoaderManager {
 			stop();
 			throw e;
 		}
-	}
-
-	private void createLoader(int idx, CacheProxy<String, Trace> distributeCache, CacheProxy<String, Trace> mergeCache,
-			CacheProxy<String, Trace> errorCache) throws Exception {
-		String name = Util.join(config.getName(), idx);
-		TraceLoader loader = new TraceLoader(name, commitCount, delayForNoMessage, loadError, loadContents,
-				distributeCache, mergeCache, errorCache, traceService, tpm, null);
-		loader.setDistributor(new Distributor());
-		loaders.add(loader);
-		loader.start();
 	}
 
 	/**

@@ -35,12 +35,10 @@ import rose.mary.trace.core.monitor.SystemResource;
 import rose.mary.trace.core.monitor.SystemResourceMonitor;
 import rose.mary.trace.manager.CacheManager;
 import rose.mary.trace.manager.ConfigurationManager;
-import rose.mary.trace.manager.DatabasePolicyHandlerManager;
+import rose.mary.trace.manager.PolicyHandlerManager;
 import rose.mary.trace.manager.InterfaceCacheManager;
 import rose.mary.trace.manager.ServerManager;
 import rose.mary.trace.system.SystemLogger;
-
-
 
 /**
  * <pre>
@@ -56,12 +54,11 @@ import rose.mary.trace.system.SystemLogger;
 @ImportResource("classpath:trace-context.xml")
 @ComponentScan({ "rose.mary.trace" })
 public class T9
-implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, InitializingBean, DisposableBean {
-	
+		implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, InitializingBean, DisposableBean {
+
 	public static RunMode runMode = RunMode.Server;
-	
+
 	static ConfigurableApplicationContext ctx;
-	 
 
 	@Autowired
 	MessageSource messageSource;
@@ -70,7 +67,7 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 	SystemResourceMonitor srm;
 
 	@Autowired
-	DatabasePolicyHandlerManager databasePolicyHandlerManager;
+	PolicyHandlerManager policyHandlerManager;
 
 	@Autowired
 	ServerManager serverManager;
@@ -112,11 +109,10 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		policyHandlerManager.stop();
 		cacheManager.closeCache();
 		sayEnding();
 	}
- 
-
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -124,14 +120,14 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 		SystemLogger.info("args:" + Util.toJSONString(args));
 
 		String mode = System.getProperty("rose.mary.run.mode", "server");
-		if(mode.equals(RunMode.Server.getName())){
+		if (mode.equals(RunMode.Server.getName())) {
 			runMode = RunMode.Server;
-		}else if(mode.equals(RunMode.Distributor.getName())){
+		} else if (mode.equals(RunMode.Distributor.getName())) {
 			runMode = RunMode.Distributor;
-		}else if(mode.equals(RunMode.Recovery.getName())){
+		} else if (mode.equals(RunMode.Recovery.getName())) {
 			runMode = RunMode.Recovery;
 		}
- 
+
 		SystemLogger.info("RunMode:" + mode);
 
 		String databaseName = JdbcUtils.extractDatabaseMetaData(dataSource, "getDatabaseProductName");
@@ -149,42 +145,39 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 	 */
 	private void afterBoot() throws Exception {
 
-		switch(runMode){
-			case Server : 
-				{
-					if (configurationManager.getServerManagerConfig().isStartOnBoot()){
-						serverManager.startServer();
-					}else{
-						SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
-					}
-					databasePolicyHandlerManager.start();
+		switch (runMode) {
+			case Server: {
+				if (configurationManager.getServerManagerConfig().isStartOnBoot()) {
+					serverManager.startServer();
+				} else {
+					SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
 				}
+				policyHandlerManager.start();
+			}
 				break;
-		    case Distributor : 
-				{
-					if (configurationManager.getServerManagerConfig().isStartOnBoot()){
-						serverManager.startServer();
-					}else{
-						SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
-					}
-					databasePolicyHandlerManager.start();
+			case Distributor: {
+				if (configurationManager.getServerManagerConfig().isStartOnBoot()) {
+					serverManager.startServer();
+				} else {
+					SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
 				}
+				policyHandlerManager.start();
+			}
 				break;
-			case Recovery : 
+			case Recovery:
 				try {
 					SystemLogger.info("recovery mode starting, not implemented yet");
 					// ToDo: not implemented yet
 					// recoveryHandler.start();
 				} finally {
-		
+
 				}
 				break;
 			default:
 				break;
 
-		} 
+		}
 	}
-
 
 	public static void main(String[] args) {
 		SpringApplicationBuilder sab = new SpringApplicationBuilder(T9.class);
@@ -196,6 +189,7 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 	}
 
 	public static void exitApplication() {
+
 		int exitCode = 0;
 		try {
 			exitCode = SpringApplication.exit(ctx, new ExitCodeGenerator() {
@@ -206,9 +200,12 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 				}
 			});
 		} catch (Throwable t) {
-			// SystemLogger.error("boot shutdown error",t);
+			SystemLogger.error("boot shutdown error", t);
+		} finally {
+			SystemLogger.info("exitApplication");
+			System.exit(exitCode);
 		}
-		System.exit(exitCode);
+
 	}
 
 	private void sayStartingMsg() {
@@ -239,13 +236,15 @@ implements CommandLineRunner, ApplicationListener<ContextClosedEvent>, Initializ
 
 	private StringBuffer getSystemResource() {
 		StringBuffer msg = new StringBuffer();
-		SystemResource res = srm.watch(); 
+		SystemResource res = srm.watch();
 		msg.append(SystemLogger.astar).append(" system resource :").append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA01 : ").append(res.getJavaVersion()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA02 : ").append(res.getJavaVendor()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA03 : ").append(res.getJavaHome()).append(System.lineSeparator());
-		msg.append(SystemLogger.astar).append("\tA04 : ").append(res.getJavaClassVersion()) .append(System.lineSeparator());
-		// msg.append(SystemLog.astar).append("\tA06 : ").append(res.getJavaClassPath()).append(System.lineSeparator());
+		msg.append(SystemLogger.astar).append("\tA04 : ").append(res.getJavaClassVersion())
+				.append(System.lineSeparator());
+		// msg.append(SystemLog.astar).append("\tA06 :
+		// ").append(res.getJavaClassPath()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA07 : ").append(res.getOsName()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA08 : ").append(res.getOsArch()).append(System.lineSeparator());
 		msg.append(SystemLogger.astar).append("\tA09 : ").append(res.getOsVersion()).append(System.lineSeparator());

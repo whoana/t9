@@ -21,5 +21,7 @@ public interface TraceMapper {
 	int insert(Trace trace) throws Exception;
 	
 	int exist(String id) throws Exception;
+
+	int upsert(Trace trace) throws Exception;
 	
 }

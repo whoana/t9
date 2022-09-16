@@ -103,10 +103,10 @@ public class InstallManager {
 
 	}
 
-	void setPort(){
-			println("> [T9 서비스 포트 설정]");
-			T9_PORT = inputInt(console, "> T9 서비스 PORT 를 입력해주세요.(기본값:8090) :", "> T9_PORT 값은 숫자를 입력해 주세요.");
-			println("> T9_PORT: " + T9_PORT);		
+	void setPort() {
+		println("> [T9 서비스 포트 설정]");
+		T9_PORT = inputInt(console, "> T9 서비스 PORT 를 입력해주세요.(기본값:8090) :", "> T9_PORT 값은 숫자를 입력해 주세요.");
+		println("> T9_PORT: " + T9_PORT);
 	}
 
 	void setHome() {
@@ -455,6 +455,7 @@ public class InstallManager {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("%T9_HOME%", T9_HOME);
 			params.put("%JAVA_HOME%", JAVA_HOME);
+			params.put("%T9_PORT%", T9_PORT + "");
 			File template = new File(T9_HOME, "/bin/stop.sh.tpl");
 			File target = new File(T9_HOME, "/bin/stop.sh");
 			replaceFileContents(template, target, params);
@@ -634,33 +635,35 @@ public class InstallManager {
 
 	}
 
-	
 	public static int inputInt(Scanner console, String inputMsg, String typeErrorMsg) {
-		
-		while(true) {
+
+		while (true) {
 			println(inputMsg);
 			printIn();
-			try{
-				String var  = null;
-				if(console.hasNextLine()) var  = console.nextLine();
+			try {
+				String var = null;
+				if (console.hasNextLine())
+					var = console.nextLine();
 				return Util.isEmpty(var) || System.lineSeparator().equals(var) ? T9_PORT : Integer.parseInt(var);
-			} catch (Exception e){
+			} catch (Exception e) {
 				println(typeErrorMsg);
 				continue;
 			}
 		}
 	}
-	
-	public static String inputStr(Scanner console, String inputMsg, String typeErrorMsg ) {
-		
-		while(true) {
+
+	public static String inputStr(Scanner console, String inputMsg, String typeErrorMsg) {
+
+		while (true) {
 			println(inputMsg);
 			printIn();
-			try{
+			try {
 				String output = null;
-				if(console.hasNextLine()) output = console.nextLine(); 
-				if(Util.isEmpty(output)) throw new Exception(typeErrorMsg);
-			} catch (Exception e){
+				if (console.hasNextLine())
+					output = console.nextLine();
+				if (Util.isEmpty(output))
+					throw new Exception(typeErrorMsg);
+			} catch (Exception e) {
 				println(typeErrorMsg);
 				continue;
 			}
@@ -668,4 +671,3 @@ public class InstallManager {
 	}
 
 }
-

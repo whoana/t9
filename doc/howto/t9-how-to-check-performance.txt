@@ -47,23 +47,156 @@ drop table tps;
 alter table tps202208 rename to tps;
 alter table tps202208   add remark varchar(4000);
 
---insert into tps
+insert into tps
 select
-	'202208031540' as "date",
+	'202208231520' as "date",
 	a.cnt as cnt,
 	to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS') as et,
 	to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS') as st,
 	to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS')  - to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS') as dur,
  	round(a.cnt/(EXTRACT (EPOCH from to_timestamp(a.t1, 'YYYYMMDDHH24MISSMS')) - EXTRACT (EPOCH from to_timestamp(a.t2, 'YYYYMMDDHH24MISSMS'))), 0) as tps,
- 	'thread 14, no distributor' as remark
+ 	'try5-channel3-loader3-bind' as remark
 from(
  select
  	count(*) as cnt,
  	max(reg_date) as t1,
  	min(reg_date) as t2
    from top0501
-  where reg_date >= '20220803153500000'
-    and reg_date <= '20220803154000000'
+  where reg_date >= '20220823152000000'
+    and reg_date <= '20220823152500000'
 
 ) a
+;
+
+select * from tps where date >= '202208230040' order by date desc;  
+
+update tps set remark = 'try2-channel3-loader3-bind' where date = '202208231330';
+
+select * from top0501 where reg_date >= '20220823133500000';
+
+select status, count(*) from top0503 where tracking_date >= '20220823133900000000'
+group by status ;
+
+
+select* from TOP0503 where tracking_date >= '20220823133900000000'
+
+select * from TOP0503 where
+        INTEGRATION_ID= 'TEST003' and
+        TRACKING_DATE = '20220823132933028028' and
+        ORG_HOST_ID   = 'host1';
+
+with UPDATE_TABLE as (
+    update TOP0503
+    set
+         STATUS 	= case STATUS  when '00' then  STATUS  when '99' then  STATUS  else  '00' end
+        ,RECORD_CNT	= 1000
+        ,DATA_AMT 	= 1000000
+        ,CMP		= 'N'
+        ,CST 		= 0
+        ,TDC 		= 1
+        ,FNC 		= 2
+        ,ERC		= 0
+        ,ERROR_CD	= ''
+        ,ERROR_MSG	= ''
+        ,MOD_DATE	= '20220823133046235'
+    where
+        INTEGRATION_ID= 'TEST001' and
+        TRACKING_DATE = '20220823132915355355' and
+        ORG_HOST_ID   = 'host1'
+    returning *
+)
+insert into TOP0503 (
+    INTEGRATION_ID
+    ,TRACKING_DATE
+    ,ORG_HOST_ID
+    ,STATUS
+    ,MATCH
+    ,RECORD_CNT
+    ,DATA_AMT
+    ,CMP
+    ,CST
+    ,TDC
+    ,FNC
+    ,ERC
+    ,ERROR_CD
+    ,ERROR_MSG
+    ,BUSINESS_ID
+    ,BUSINESS_CD
+    ,BUSINESS_NM
+    ,INTERFACE_NM
+    ,INTERFACE_ID
+    ,CHANNEL_ID
+    ,CHANNEL_CD
+    ,CHANNEL_NM
+    ,DATA_PR_DIR
+    ,DATA_PR_DIR_NM
+    ,DATA_PR_METHOD
+    ,DATA_PR_METHOD_NM
+    ,APP_PR_METHOD
+    ,APP_PR_METHOD_NM
+    ,SND_SYSTEM_ID
+    ,SND_SYSTEM_CD
+    ,SND_SYSTEM_NM
+    ,SND_RES_TYPE
+    ,SND_RES_NM
+    ,SND_ORG_ID
+    ,SND_ORG_CD
+    ,SND_ORG_NM
+    ,RCV_SYSTEM_ID
+    ,RCV_SYSTEM_CD
+    ,RCV_SYSTEM_NM
+    ,RCV_RES_TYPE
+    ,RCV_RES_NM
+    ,RCV_ORG_ID
+    ,RCV_ORG_CD
+    ,RCV_ORG_NM
+    ,REG_DATE
+)
+select
+    'TEST001'
+    ,'20220823132915355355'
+    ,'host1'
+    ,'00'
+    ,'0'
+    ,1000
+    ,1000000
+    ,'N'
+    ,0
+    ,1
+    ,2
+    ,0
+    ,''
+    ,''
+    ,'BZ00000001'
+    ,'TEST'
+    ,'테스트'
+    ,'TEST001'
+    ,'F@00000001'
+    ,'CN00000001'
+    ,'EAI'
+    ,'EAI'
+    ,'0'
+    ,'단방향'
+    ,'0'
+    ,'배치'
+    ,'0'
+    ,'동기'
+    ,'SS00000001'
+    ,'dum'
+    ,'dummy'
+    ,'0'
+    ,'DB'
+    ,'OR00000001'
+    ,'KAI'
+    ,'KAI'
+    ,'SS00000002'
+    ,'dum2'
+    ,'dummy2'
+    ,'1'
+    ,'FILE'
+    ,'OR00000001'
+    ,'KAI'
+    ,'KAI'
+    ,'20220823133046235'
+where not exists (select * from UPDATE_TABLE)
 ;

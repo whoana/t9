@@ -18,7 +18,7 @@ import rose.mary.trace.core.config.BoterManagerConfig;
 import rose.mary.trace.core.config.CacheManagerConfig;
 import rose.mary.trace.core.config.ChannelManagerConfig;
 import rose.mary.trace.core.config.Config;
-import rose.mary.trace.core.config.DatabasePolicyConfig;
+import rose.mary.trace.core.config.PolicyConfig;
 import rose.mary.trace.core.config.FinisherManagerConfig;
 import rose.mary.trace.core.config.InterfaceCacheManagerConfig;
 import rose.mary.trace.core.config.LoaderManagerConfig;
@@ -241,18 +241,18 @@ public class ConfigurationManager {
 	}
 
 	/**
-	 * @return the databasePolicyConfig
+	 * @return the policyConfig
 	 */
-	public DatabasePolicyConfig getDatabasePolicyConfig() {
-		return config.getDatabasePolicyConfig();
+	public PolicyConfig getPolicyConfig() {
+		return config.getPolicyConfig();
 	}
 
 	/**
-	 * @param databasePolicyConfig the databasePolicyConfig to set
+	 * @param policyConfig the policyConfig to set
 	 * @throws Exception
 	 */
-	public void setDatabasePolicyConfig(DatabasePolicyConfig databasePolicyConfig) throws Exception {
-		config.setDatabasePolicyConfig(databasePolicyConfig);
+	public void setPolicyConfig(PolicyConfig policyConfig) throws Exception {
+		config.setPolicyConfig(policyConfig);
 		save();
 	}
 

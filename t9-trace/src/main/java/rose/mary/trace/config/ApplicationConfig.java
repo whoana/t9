@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +19,16 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import rose.mary.trace.core.config.OldStateCheckHandlerConfig;
 import rose.mary.trace.core.data.common.RuntimeInfo;
+import rose.mary.trace.core.esnecil.S9LManager;
 import rose.mary.trace.core.monitor.SystemResourceMonitor;
 import rose.mary.trace.core.monitor.ThroughputMonitor;
-import rose.mary.trace.core.esnecil.S9LManager;
+
 import rose.mary.trace.core.helper.checker.OldStateCheckHandler;
 import rose.mary.trace.core.helper.checker.StateChecker;
 import rose.mary.trace.core.helper.checker.StateCheckerMap;
 import rose.mary.trace.database.service.BotService;
 import rose.mary.trace.database.service.InterfaceService;
+import rose.mary.trace.database.service.StateService;
 import rose.mary.trace.database.service.SystemService;
 import rose.mary.trace.database.service.TraceService;
 import rose.mary.trace.manager.BotErrorHandlerManager;
@@ -34,7 +37,7 @@ import rose.mary.trace.manager.BoterManager;
 import rose.mary.trace.manager.CacheManager;
 import rose.mary.trace.manager.ChannelManager;
 import rose.mary.trace.manager.ConfigurationManager;
-import rose.mary.trace.manager.DatabasePolicyHandlerManager;
+import rose.mary.trace.manager.PolicyHandlerManager;
 import rose.mary.trace.manager.FinisherManager;
 import rose.mary.trace.manager.InterfaceCacheManager;
 import rose.mary.trace.manager.LoaderManager;
@@ -61,6 +64,9 @@ import javax.sql.DataSource;
 @Configuration
 @EnableAsync
 public class ApplicationConfig {
+
+	@Autowired
+	ApplicationContext applicationContext;
 
 	@Autowired
 	ConfigurationManager configurationManager;
@@ -163,13 +169,14 @@ public class ApplicationConfig {
 			@Autowired ThreadPoolTaskScheduler taskScheduler, @Autowired InterfaceService service,
 			@Autowired CacheManager cacheManager) throws Exception {
 		InterfaceCacheManager manager = new InterfaceCacheManager(
-			configurationManager.getInterfaceCacheManagerConfig(),
-			taskScheduler, service, cacheManager);
+				configurationManager.getInterfaceCacheManagerConfig(),
+				taskScheduler, service, cacheManager);
 
-		OldStateCheckHandlerConfig oschc = configurationManager.getChannelManagerConfig().getOldStateCheckHandlerConfig();	
+		OldStateCheckHandlerConfig oschc = configurationManager.getChannelManagerConfig()
+				.getOldStateCheckHandlerConfig();
 		StateChecker sc = new OldStateCheckHandler(oschc);
 		StateCheckerMap.map.put("rose.mary.trace.core.helper.checker.OldStateCheckHandler", sc);
-		
+
 		return manager;
 	}
 
@@ -187,19 +194,22 @@ public class ApplicationConfig {
 			@Autowired @Qualifier("tpm2") ThroughputMonitor tpm2) throws Exception {
 		return new LoaderManager(configurationManager.getLoaderManagerConfig(), traceService, cacheManager, tpm2);
 	}
- 
+
 	@Bean
 	public BoterManager boterManager(@Autowired ConfigurationManager configurationManager,
-			@Autowired CacheManager cacheManager, @Autowired @Qualifier("tpm3") ThroughputMonitor tpm3)
+			@Autowired CacheManager cacheManager, @Autowired @Qualifier("tpm3") ThroughputMonitor tpm3,
+			@Autowired StateService stateService)
 			throws Exception {
-		return new BoterManager(configurationManager.getBoterManagerConfig(), cacheManager, tpm3);
+		return new BoterManager(configurationManager.getBoterManagerConfig(), cacheManager, tpm3, stateService);
 	}
 
 	@Bean
 	public BotLoaderManager botLoaderManager(@Autowired ConfigurationManager configurationManager,
 			@Autowired BotService botService, @Autowired CacheManager cacheManager,
-			@Autowired @Qualifier("tpm4") ThroughputMonitor tpm4) throws Exception {
-		return new BotLoaderManager(configurationManager.getBotLoaderManagerConfig(), botService, cacheManager, tpm4);
+			@Autowired @Qualifier("tpm4") ThroughputMonitor tpm4, @Autowired StateService stateService)
+			throws Exception {
+		return new BotLoaderManager(configurationManager.getBotLoaderManagerConfig(), botService, cacheManager, tpm4,
+				stateService);
 	}
 
 	@Bean
@@ -239,13 +249,13 @@ public class ApplicationConfig {
 	}
 
 	@Bean
-	public DatabasePolicyHandlerManager databasePolicyHandlerManager(
+	public PolicyHandlerManager databasePolicyHandlerManager(
 			@Autowired ConfigurationManager configurationManager, @Autowired CacheManager cacheManager,
 			@Autowired ServerManager serverManager, @Autowired ChannelManager channelManager,
 			@Autowired SystemService systemService, @Autowired MessageSource messageSource) throws Exception {
 
-		DatabasePolicyHandlerManager dpm = new DatabasePolicyHandlerManager(
-				configurationManager.getDatabasePolicyConfig(), systemService,
+		PolicyHandlerManager dpm = new PolicyHandlerManager(
+				configurationManager.getPolicyConfig(), systemService,
 				serverManager, channelManager, messageSource, cacheManager);
 		dpm.ready();
 		return dpm;
@@ -277,7 +287,9 @@ public class ApplicationConfig {
 			@Autowired UnmatchHandlerManager unmatchHandlerManager,
 			@Autowired TesterManager testerManager,
 			@Autowired ConfigurationManager configurationManager,
-			@Autowired SystemErrorTestManager systemErrorTestManager) throws Exception {
+			@Autowired SystemErrorTestManager systemErrorTestManager,
+			@Autowired CacheManager cacheManager,
+			@Autowired ApplicationContext applicationContext) throws Exception {
 		String name = configurationManager.getServerManagerConfig().getName();
 		TraceServer server = new TraceServer(
 				name,
@@ -292,9 +304,11 @@ public class ApplicationConfig {
 				unmatchHandlerManager,
 				testerManager,
 				configurationManager,
-				systemErrorTestManager);
+				systemErrorTestManager,
+				cacheManager);
 		server.ready();
-		ServerManager manager = new ServerManager(server, datasource01);
+
+		ServerManager manager = new ServerManager(server, datasource01, applicationContext, cacheManager);
 		return manager;
 	}
 

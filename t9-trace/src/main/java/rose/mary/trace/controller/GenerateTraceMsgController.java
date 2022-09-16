@@ -89,6 +89,33 @@ public class GenerateTraceMsgController {
 		return comMessage;
 	}
 
+
+	@RequestMapping(value = "/trace/test/generate/msgs/nodes", params = "method=GET", method = RequestMethod.POST, headers = "content-type=application/json")
+	public @ResponseBody ComMessage<Map<String, String>, String> generateNodeMsg(
+			HttpSession httpSession,
+			@RequestBody ComMessage<Map<String, String>, String> comMessage,
+			Locale locale,
+			HttpServletRequest request) throws Throwable {
+ 
+		Map<String, String> params = comMessage.getRequestObject();
+		String res = null;
+ 
+
+		res = gtms.generateNodeMsg(params);
+
+		// --------------------------------------------------
+		// 서비스 처리 종료시간을 얻어 CM에 세팅한다.
+		// --------------------------------------------------
+		{
+			comMessage.setEndTime(Util.getFormatedDate("yyyyMMddHHmmssSSS"));
+		}
+
+		comMessage.setResponseObject(res);
+		return comMessage;
+	}
+
+
+
 	@Autowired
 	ChannelManager channelManager;
 

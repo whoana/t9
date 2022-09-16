@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.data.cache.CacheSummary;
 import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.StateEvent;
 import rose.mary.trace.core.data.common.Trace;
 import rose.mary.trace.core.data.common.Unmatch;
 import rose.mary.trace.core.monitor.TPS;
@@ -45,9 +46,9 @@ public class CacheMonitorService {
 		csum.setMcDepth(mc.getCacheInfo().getCurrentNumberOfEntries()); 
 		
 	
-		List<CacheProxy<String, State>> bcs = cacheManager.getBotCaches(); 
+		List<CacheProxy<String, StateEvent>> bcs = cacheManager.getBotCaches(); 
 		List<Integer> bcDepth = new ArrayList<Integer>();
-		for(CacheProxy<String, State> bc : bcs) {
+		for(CacheProxy<String, StateEvent> bc : bcs) {
 			int depth = bc.getCacheInfo().getCurrentNumberOfEntries();
 			bcDepth.add(depth);
 		} 

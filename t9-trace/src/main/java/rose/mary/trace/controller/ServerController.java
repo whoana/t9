@@ -33,6 +33,7 @@ import rose.mary.trace.core.data.cache.CacheSummary;
 import rose.mary.trace.core.data.channel.ChannelConfig;
 import rose.mary.trace.core.data.channel.ChannelOperation;
 import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.StateEvent;
 import rose.mary.trace.core.data.common.Trace;
 import rose.mary.trace.core.monitor.TPS;
 import rose.mary.trace.manager.CacheManager;
@@ -194,13 +195,13 @@ public class ServerController {
 			mcMsg.append("{" + mc.getName() + ":" + mc.getCacheInfo().getCurrentNumberOfEntries() + "}");
 
 			StringBuffer bcMsg = new StringBuffer("B.C:[");
-			List<CacheProxy<String, State>> bcs = cacheManager.getBotCaches();
+			List<CacheProxy<String, StateEvent>> bcs = cacheManager.getBotCaches();
 			{
-				CacheProxy<String, State> bc = bcs.get(0);
+				CacheProxy<String, StateEvent> bc = bcs.get(0);
 				bcMsg.append("{" + bc.getName() + ":" + bc.getCacheInfo().getCurrentNumberOfEntries() + "}");
 			}
 			for (int i = 1; i < bcs.size(); i++) {
-				CacheProxy<String, State> bc = bcs.get(i);
+				CacheProxy<String, StateEvent> bc = bcs.get(i);
 				bcMsg.append(",{" + bc.getName() + ":" + bc.getCacheInfo().getCurrentNumberOfEntries() + "}");
 			}
 			bcMsg.append("]");
@@ -307,6 +308,17 @@ public class ServerController {
 		return res;
 	}
 
+	/**
+	 * <pre>
+	 * 사용중
+	 * </pre>
+	 * @param httpSession
+	 * @param comMessage
+	 * @param locale
+	 * @param request
+	 * @return
+	 * @throws Throwable
+	 */
 	@RequestMapping(value = "/trace/managers/servers/start", params = "method=GET", method = RequestMethod.POST, headers = "content-type=application/json")
 	public @ResponseBody ComMessage<ChannelOperation, ?> startServer(
 			HttpSession httpSession,
@@ -322,6 +334,18 @@ public class ServerController {
 
 	}
 
+	
+	/**
+	 * <pre>
+	 * 사용중
+	 * </pre>
+	 * @param httpSession
+	 * @param comMessage
+	 * @param locale
+	 * @param request
+	 * @return
+	 * @throws Throwable
+	 */
 	@RequestMapping(value = "/trace/managers/servers/stop", params = "method=GET", method = RequestMethod.POST, headers = "content-type=application/json")
 	public @ResponseBody ComMessage<ChannelOperation, ?> stopServer(
 			HttpSession httpSession,

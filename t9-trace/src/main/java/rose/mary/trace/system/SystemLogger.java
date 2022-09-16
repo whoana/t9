@@ -29,7 +29,9 @@ public class SystemLogger {
 		return str.append(System.lineSeparator()).toString();
 	}
 
-
+	public static void error(String msg) {
+		logger.error(msg);
+	}
 	public static void error(String msg, Throwable t) {
 		logger.error(msg, t);
 	}

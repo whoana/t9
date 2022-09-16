@@ -5,71 +5,73 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.core.config.DatabasePolicyConfig;
+import rose.mary.trace.core.config.PolicyConfig;
 import rose.mary.trace.core.data.common.State;
 import rose.mary.trace.core.data.common.Trace;
+import rose.mary.trace.core.exception.SystemError;
 import rose.mary.trace.database.service.SystemService;
-import rose.mary.trace.handler.DatabasePolicyHandler;
+import rose.mary.trace.handler.PolicyHandler;
 
-public class DatabasePolicyHandlerManager {
-	
+public class PolicyHandlerManager {
+
 	Logger logger = LoggerFactory.getLogger(getClass());
-	
-	DatabasePolicyConfig config = null;
-	  
+
+	PolicyConfig config = null;
+
 	MessageSource messageResource;
-	
+
 	SystemService systemService;
-	
+
 	ServerManager serverManager;
-	
+
 	ChannelManager channelManager;
 
-	DatabasePolicyHandler databaseHealthCheckHandler;
+	PolicyHandler policyHandler;
+
 	CacheManager cacheManager;
-	public DatabasePolicyHandlerManager(
-		DatabasePolicyConfig config,
-		SystemService systemService,
-		ServerManager serverManager,
-		ChannelManager channelManager,
-		MessageSource messageResource,
-		CacheManager cacheManager
-		
+
+	public PolicyHandlerManager(
+			PolicyConfig config,
+			SystemService systemService,
+			ServerManager serverManager,
+			ChannelManager channelManager,
+			MessageSource messageResource,
+			CacheManager cacheManager
+
 	) {
-		this.config = config; 
+		this.config = config;
 		this.systemService = systemService;
 		this.messageResource = messageResource;
 		this.serverManager = serverManager;
 		this.channelManager = channelManager;
 		this.cacheManager = cacheManager;
-		
 	}
 
-	public void ready() throws Exception{ 
+	public void ready() throws Exception {
 	}
-
-	
 
 	public void start() throws Exception {
 		try {
 			stop();
 			CacheProxy<String, Trace> errorCache1 = cacheManager.getErrorCache01();
 			CacheProxy<String, State> errorCache2 = cacheManager.getErrorCache02();
-			databaseHealthCheckHandler = new DatabasePolicyHandler(messageResource, systemService, serverManager, channelManager, config, errorCache1, errorCache2);
-			databaseHealthCheckHandler.start();
-		}catch (Exception e) {
+			CacheProxy<String, SystemError> systemErrorCache = cacheManager.getSystemErrorCache();
+			policyHandler = new PolicyHandler(messageResource, systemService, serverManager,
+					channelManager, config, errorCache1, errorCache2, systemErrorCache);
+			policyHandler.start();
+		} catch (Exception e) {
 			stop();
 			throw e;
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void stop() {
-		if(databaseHealthCheckHandler != null)  {
-			databaseHealthCheckHandler.stop();
-			databaseHealthCheckHandler = null;
+		if (policyHandler != null) {
+			policyHandler.stop();
+			policyHandler = null;
 		}
 	}
 }

@@ -14,7 +14,9 @@ import rose.mary.trace.core.config.BoterManagerConfig;
 
 import rose.mary.trace.core.data.common.InterfaceInfo;
 import rose.mary.trace.core.data.common.State;
+import rose.mary.trace.core.data.common.StateEvent;
 import rose.mary.trace.core.data.common.Trace;
+import rose.mary.trace.core.database.FromDatabase;
 import rose.mary.trace.core.exception.ExceptionHandler;
 import rose.mary.trace.core.monitor.ThroughputMonitor;
 
@@ -43,11 +45,15 @@ public class BoterManager {
 
 	ExceptionHandler exceptionHandler = null;
 
-	public BoterManager(BoterManagerConfig config, CacheManager cacheManager, ThroughputMonitor tpm) {
+	FromDatabase fromDatabase = null;
+
+	public BoterManager(BoterManagerConfig config, CacheManager cacheManager, ThroughputMonitor tpm,
+			FromDatabase fromDatabase) {
 		this.config = config;
 		this.delayForNoMessage = config.getDelayForNoMessage();
 		this.tpm = tpm;
 		this.cacheManager = cacheManager;
+		this.fromDatabase = fromDatabase;
 	}
 
 	public void ready() throws Exception {
@@ -57,7 +63,7 @@ public class BoterManager {
 		try {
 			CacheProxy<String, Trace> mergeCache = cacheManager.getMergeCache();
 			CacheProxy<String, Trace> backupCache = cacheManager.getBackupCache();
-			List<CacheProxy<String, State>> botCaches = cacheManager.getBotCaches();
+			List<CacheProxy<String, StateEvent>> botCaches = cacheManager.getBotCaches();
 			CacheProxy<String, State> finCache = cacheManager.getFinCache();
 			CacheProxy<String, InterfaceInfo> interfaceCache = cacheManager.getInterfaceCache();
 			CacheProxy<String, State> errorCache = cacheManager.getErrorCache02();
@@ -65,6 +71,12 @@ public class BoterManager {
 			logger.info("Boter starting");
 			boter = new Boter(config, mergeCache, backupCache, botCaches, finCache, interfaceCache, errorCache,
 					routingCache, tpm, exceptionHandler);
+
+			if (fromDatabase != null) {
+				logger.info("Boter finished to set fromDatabaseService");
+				boter.setFromDatabase(fromDatabase);
+			}
+
 			boter.start();
 			logger.info("Boter started");
 		} catch (Exception e) {

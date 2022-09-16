@@ -85,6 +85,7 @@ dependencies {
 	// compileOnly("rose.mary.trace:t9-core:1.0.0") 	
 	// implementation("lemon.balm:s9-utility:1.0.0")
 	implementation fileTree (dir: 'lib', include:['t9-cache-1.0.0.jar','s9-utility-1.0.0.jar'])  
+	//implementation fileTree (dir: 'lib', include:['t9-core-1.0.0.jar'])  //요걸로 컬파일하면 배포jar파일에 t9-core 가 포함됨 
 	compileOnly fileTree (dir: 'lib', include:['t9-core-1.0.0.jar'])  
  
 	//----------------------------------------------------------------------------

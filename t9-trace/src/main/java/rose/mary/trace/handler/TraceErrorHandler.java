@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 
-
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.data.common.Trace;
@@ -32,40 +31,40 @@ import rose.mary.trace.system.SystemLogger;
  * </pre>
  * 
  * @author whoana
- * since Oct 8, 2019
+ *         since Oct 8, 2019
  */
 public class TraceErrorHandler implements Runnable {
-	
+
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	CacheProxy<String, Trace> errorCache;
-	
+
 	CacheProxy<String, Trace> mergeCache;
-	
+
 	MessageSource messageResource;
-	
+
 	private long delayForNoMessage = 10;
-	
+
 	private boolean isShutdown = true;
-	
-	private long exceptionDelay = 1;	 
+
+	private long exceptionDelay = 1;
 
 	TraceService traceService;
 
 	Thread thread;
 
 	int maxRetry = 1;
-	
+
 	String name;
-	
+
 	public TraceErrorHandler(
 			String name,
-			CacheProxy<String, Trace> errorCache, 
+			CacheProxy<String, Trace> errorCache,
 			CacheProxy<String, Trace> mergeCache,
-			MessageSource messageResource, 
-			TraceService traceService, 
-			long delayForNoMessage, 
-			int maxRetry, 
+			MessageSource messageResource,
+			TraceService traceService,
+			long delayForNoMessage,
+			int maxRetry,
 			long exceptionDelay) {
 		this.name = name;
 		this.errorCache = errorCache;
@@ -86,21 +85,25 @@ public class TraceErrorHandler implements Runnable {
 	}
 
 	public void stop() {
-		if(Variables.startStopAsap) { 
-			stopAsap();
-		} else {
-			stopGracefully();
-		}
+		// if (Variables.startStopAsap) {
+		// stopAsap();
+		// } else {
+		// stopGracefully();
+		// }
+
+		isShutdown = true;
+		if (thread != null)
+			thread.interrupt();
 	}
-	
+
 	public void run() {
-		if(Variables.startStopAsap) { 
+		if (Variables.startStopAsap) {
 			runAsap();
 		} else {
 			runGracefully();
 		}
 	}
-	
+
 	public void stopGracefully() {
 		isShutdown = true;
 		if (thread != null) {
@@ -114,20 +117,22 @@ public class TraceErrorHandler implements Runnable {
 
 	public void stopAsap() {
 		isShutdown = true;
-		if (thread != null) thread.interrupt();
+		if (thread != null)
+			thread.interrupt();
 	}
-	  
+
 	public void runAsap() {
 
 		logger.info(Util.join("start TraceErrorHandler:[" + name + "]"));
 		while (true) {
 
 			try {
-				
-				if(thread.isInterrupted()) break;
-				
+
+				if (thread.isInterrupted())
+					break;
+
 				Set<String> keys = errorCache.keys();
- 
+
 				if (keys == null || keys.size() == 0) {
 
 					try {
@@ -138,16 +143,15 @@ public class TraceErrorHandler implements Runnable {
 					}
 					continue;
 				}
- 				
-				 
+
 				logger.info("The count to retry:" + keys.size());
 				SystemLogger.info("count to retry:" + keys.size());
-				 
-				for(String key : keys) {
+
+				for (String key : keys) {
 					Trace trace = errorCache.get(key);
 					try {
 						retry(trace);
-					}catch(Exception e) {
+					} catch (Exception e) {
 						logger.error("TraceErrorHandler retry exception:", e);
 						try {
 							Thread.sleep(exceptionDelay);
@@ -157,8 +161,7 @@ public class TraceErrorHandler implements Runnable {
 						}
 					}
 				}
-				 
-				 
+
 			} catch (Throwable t) {
 				logger.error("TraceErrorHandler exception:", t);
 				try {
@@ -175,18 +178,16 @@ public class TraceErrorHandler implements Runnable {
 		logger.info(Util.join("stop TraceErrorHandler:[" + name + "]"));
 
 	}
-	
+
 	public void runGracefully() {
 
 		logger.info(Util.join("start TraceErrorHandler:[" + name + "]"));
-		while(Thread.currentThread() == thread && !isShutdown) { 
+		while (Thread.currentThread() == thread && !isShutdown) {
 
 			try {
-				
-				 
-				
+
 				Set<String> keys = errorCache.keys();
- 
+
 				if (keys == null || keys.size() == 0) {
 
 					try {
@@ -197,16 +198,15 @@ public class TraceErrorHandler implements Runnable {
 					}
 					continue;
 				}
- 				
-				 
+
 				logger.info("The count to retry:" + keys.size());
 				SystemLogger.info("count to retry:" + keys.size());
-				 
-				for(String key : keys) {
+
+				for (String key : keys) {
 					Trace trace = errorCache.get(key);
 					try {
 						retry(trace);
-					}catch(Exception e) {
+					} catch (Exception e) {
 						logger.error("TraceErrorHandler retry exception:", e);
 						try {
 							Thread.sleep(exceptionDelay);
@@ -216,8 +216,7 @@ public class TraceErrorHandler implements Runnable {
 						}
 					}
 				}
-				 
-				 
+
 			} catch (Throwable t) {
 				logger.error("TraceErrorHandler exception:", t);
 				try {
@@ -234,42 +233,54 @@ public class TraceErrorHandler implements Runnable {
 		logger.info(Util.join("stop TraceErrorHandler:[" + name + "]"));
 
 	}
-	
+
 	private void retry(Trace trace) throws Exception {
 
 		int retry = trace.getRetry();
 		retry = retry + 1;
 		trace.setRetry(retry);
-		
+
 		if (retry < maxRetry) {
-			 
+
 			if (traceService.exist(trace.getId())) {
-				//이미 TOP0501에 존재하는 건은 에러캐시에서 삭제 처리 				
+				// 이미 TOP0501에 존재하는 건은 에러캐시에서 삭제 처리
 				String msg = messageResource.getMessage("error.msg.db.dup", null, null);
 				trace.setRetryErrorMsg(msg);
 				logger.info("duplica:" + Util.toJSONString(trace));
+				// --------------------------------
+				// SR#0001
+				// SR#0001#20220829
+				// Fault Test T2 구간 보완
+				// --------------------------------
+				// errorCache 삭제전에 mergeCache 로 넣는 부분 추가
+				// 이전 강제 종료시 DB 입력까지만 실행되고 mergeCache 에 남기지 못한 건일 수 있으므로
+				// 중복건이라 하더라도 mergeCache 에 입력해 주도록 한다.
+				mergeCache.put(trace.getId(), trace);
+				// --------------------------------
 				errorCache.remove(trace.getId());
-			} else {				
-				try { 					
-					traceService.insert(trace);								
+			} else {
+				try {
+					traceService.insert(trace);
 					String msg = messageResource.getMessage("success.msg.retry", null, null);
 					trace.setRetryErrorMsg(msg);
 					logger.info("insert:" + Util.toJSONString(trace));
 					mergeCache.put(trace.getId(), trace);
 					errorCache.remove(trace.getId());
-				} catch(Exception e) {
+				} catch (Exception e) {
 					String errorDetail = "";
 					PrintWriter pw = null;
-					try{
+					try {
 						ByteArrayOutputStream baos = new ByteArrayOutputStream();
 						pw = new PrintWriter(baos);
 						e.printStackTrace(pw);
 						pw.flush();
-						if(pw != null)  errorDetail = baos.toString();
-					}finally{
-						if(pw != null) pw.close();
+						if (pw != null)
+							errorDetail = baos.toString();
+					} finally {
+						if (pw != null)
+							pw.close();
 					}
-					String[] params = {errorDetail};
+					String[] params = { errorDetail };
 					String msg = messageResource.getMessage("error.msg.exception.retry", params, null);
 					trace.setRetryErrorMsg(msg);
 					logger.info("error:" + Util.toJSONString(trace));
@@ -281,11 +292,20 @@ public class TraceErrorHandler implements Runnable {
 			String msg = messageResource.getMessage("error.msg.too.much.retry", null, null);
 			trace.setRetryErrorMsg(msg);
 			logger.info("exceed:" + Util.toJSONString(trace));
+
+			// --------------------------------
+			// 20220829
+			// SR#0001#20220829
+			// Fault Test T2 구간 보완
+			// --------------------------------
+			// errorCache 삭제전에 mergeCache 로 넣는 부분 추가
+			// 이전 강제 종료시 DB 입력까지만 실행되고 mergeCache 에 남기지 못한 건일 수 있으므로
+			// 중복건이라 하더라도 mergeCache 에 입력해 주도록 한다.
+			mergeCache.put(trace.getId(), trace);
+
 			errorCache.remove(trace.getId());
 		}
-		 
+
 	}
-	 
- 
 
 }

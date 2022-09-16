@@ -16,7 +16,7 @@
 		"channelConfigs": [
 			{
 				"name": "RestChannel",
-				"threadCount": 4,
+				"threadCount": 3,
 				"type": 2,
 				"hostName": "localhost",
 				"qmgrName": "",
@@ -36,13 +36,13 @@
 				"commitCount": 100,
 				"maxCacheSize":100, 
 				"delayForMaxCache":1000,
-				"cacheIndex": [0,1,2,3],
+				"cacheIndex": [0,1,2],
 				"healthCheck": false,
 				"disable":false
 			},
 			{
 				"name": "MQChannel",
-				"threadCount": 4,
+				"threadCount": 3,
 				"type": 0,
 				"hostName": "%hostName%",
 				"qmgrName": "%qmgrName%",
@@ -60,14 +60,14 @@
 				"maxCommitWait": 100,
 				"delayForNoMessage": 1000,
 				"commitCount": 100,
-				"maxCacheSize":100, 
+				"maxCacheSize":1000000, 
 				"delayForMaxCache":1000,				
-				"cacheIndex": [0,1,2,3],
+				"cacheIndex": [0,1,2],
 				"healthCheck": true,
 				"disable": %wmqDisable%
 			},{
 				"name": "ILinkChannel",
-				"threadCount": 4,
+				"threadCount": 3,
 				"type": 0,
 				"hostName": "%hostName%",
 				"qmgrName": "%qmgrName%",
@@ -85,9 +85,9 @@
 				"maxCommitWait": 100,
 				"delayForNoMessage": 1000,
 				"commitCount": 100,
-				"maxCacheSize":100,
+				"maxCacheSize":1000000,
 				"delayForMaxCache":1000,
-				"cacheIndex": [0,1,2,3],        
+				"cacheIndex": [0,1,2],        
 				"healthCheck": true,
 				"disable": %iLinkDisable%
 		    }
@@ -104,102 +104,88 @@
 				"name": "dc01",
 				"memoryUnit": 3,
 				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
+				"diskSize": 3,
+				"maxEntries": 1000000
 			},
 			{
 				"name": "dc02",
 				"memoryUnit": 3,
 				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
+				"diskSize": 3,
+				"maxEntries": 1000000
 			},
 			{
 				"name": "dc03",
 				"memoryUnit": 3,
 				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
-			},
-			{
-				"name": "dc04",
-				"memoryUnit": 3,
-				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
+				"diskSize": 3,
+				"maxEntries": 1000000
 			}
 		],
 		"mergeCacheConfig": {
 			"name": "mc01",
 			"memoryUnit": 3,
 			"heapSize": 10000,
-			"diskSize": 1,
-			"maxEntries": 100000
+			"diskSize": 10,
+			"maxEntries": 10000000
 		},
 		"backupCacheConfig": {
 			"name": "backupCache",
 			"memoryUnit": 3,
 			"heapSize": 10000,
-			"diskSize": 1,
-			"maxEntries": 100000
+			"diskSize": 10,
+			"maxEntries": 10000000
 		},
 		"botCacheConfigs": [
 			{
 				"name": "bc01",
 				"memoryUnit": 3,
 				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
+				"diskSize": 3,
+				"maxEntries": 1000000
 			},
 			{
 				"name": "bc02",
 				"memoryUnit": 3,
 				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
+				"diskSize": 3,
+				"maxEntries": 1000000
 			},
 			{
 				"name": "bc03",
 				"memoryUnit": 3,
 				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
-			},
-			{
-				"name": "bc04",
-				"memoryUnit": 3,
-				"heapSize": 10000,
-				"diskSize": 1,
-				"maxEntries": 100000
+				"diskSize": 3,
+				"maxEntries": 1000000
 			}
 		],
 		"finCacheConfig": {
 			"name": "fc01",
 			"memoryUnit": 3,
 			"heapSize": 10000000,
-			"diskSize": 1,
-			"maxEntries": 100000000
+			"diskSize": 10,
+			"maxEntries": 10000000
 		},
 		"routingCacheConfig": {
 			"name": "rc01",
 			"memoryUnit": 2,
 			"heapSize": 10000,
-			"diskSize": 100,
-			"maxEntries": 100000
+			"diskSize": 500,
+			"maxEntries": 100000000
 		},
 		"errorCache01Config": {
 			"name": "ec01",
 			"memoryUnit": 3,
 			"heapSize": 10000,
-			"diskSize": 1,
-			"maxEntries": 100000
+			"diskSize": 10,
+			"maxEntries": 10000000
 		},
 		"errorCache02Config": {
 			"name": "ec02",
 			"memoryUnit": 3,
 			"heapSize": 10000,
-			"diskSize": 1,
-			"maxEntries": 100000
+			"diskSize": 10,
+			"maxEntries": 10000000
 		},
 		"testCacheConfig": null,
 		"interfaceCacheConfig": {
@@ -256,9 +242,9 @@
 		"commitCount": 100,
 		"delayForNoMessage": 1000,
 		"useWaitForCleaning": true,
-		"waitForFinishedCleaningSec": 1800,
-		"waitForCleaningSec": 86400,
-		"delayForDoCleaning": 10000, 
+		"waitForFinishedCleaningSec": 1,
+		"waitForCleaningSec": 600,
+		"delayForDoCleaning": 5000, 
 		"resetWhenStart": false,
 		"name": "finisher"
 	},
@@ -283,7 +269,7 @@
 		"delayForDoChecking": 10000, 
 		"exceptionDelay": 100
 	},
-	"databasePolicyConfig": {
+	"policyConfig": {
 		"name": "databasePolicyConfig",
 		"policy": 100,
 		"policyCheckDelay": 10000, 

@@ -119,6 +119,81 @@ public class GenerateTraceMsgService {
 		}
 	}
 	
+
+
+
+	public String generateNodeMsg(Map<String, String> params) throws Throwable{
+		StringBuffer res = new StringBuffer();
+		try {
+			int port;					//-po
+			String hostname; 			//-ho
+			String qmgrName; 			//-qm
+			String userId; 				//-um
+			String password; 			//-ps
+			String channelName; 		//-ch
+			String queueName; 			//-qu
+			String module;				//-mo
+			int generateCount = 1000; 	//-ge
+			int commitCount = 100;		//-co
+			String data;				//-da
+			String traceMsgCreator;     //-tr
+			TraceMsgCreator tmc = null;
+	
+			if (checkParams(params)) {
+				qmgrName = params.get("qmgrName");
+				userId = params.get("userId");
+				password = params.get("password");
+				queueName = params.get("queueName");
+				hostname = params.get("hostname");
+				channelName = params.get("channelName");
+				module = params.get("module");
+				data = params.get("data");
+				try {
+					port = Integer.parseInt(params.get("port"));
+				} catch (NumberFormatException e) {
+					port = 1414;
+				}
+				 
+				try {
+					generateCount = Integer.parseInt(params.get("generateCount"));
+				} catch (NumberFormatException e) {
+					generateCount = 1000;
+				}
+				
+				try {
+					commitCount = Integer.parseInt(params.get("commitCount"));
+				} catch (NumberFormatException e) {
+					commitCount = 100;
+				}
+				
+				traceMsgCreator = params.get("traceMsgCreator");
+				if(traceMsgCreator != null) {
+					Class clazz = Class.forName(traceMsgCreator);
+					tmc = (TraceMsgCreator)clazz.newInstance(); 
+				}
+				
+			} else { 
+				throw new IllegalArgumentException();
+			}	
+			 
+			
+			TraceMsgGenerator tmg = new TraceMsgGenerator(hostname, port, qmgrName, userId, password, channelName, queueName, module, generateCount, commitCount, data, tmc, cacheManager.getInterfaceCache());
+			 
+			
+			tmg.initialize();
+			 
+			tmg.generateNodeMsg(params);
+			
+			return res.append("ok").toString();
+		}catch (Throwable t) {
+			logger.info("------------------------------------------");
+			logger.info("- fail to generatd msgs.");
+			logger.info("------------------------------------------");
+			t.printStackTrace();
+			throw t;
+		}
+	}
+
 	
 	
 

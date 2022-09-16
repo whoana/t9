@@ -109,7 +109,7 @@ public class MQChannelTest {
             channel.setParser(parser);
             channel.setHealthCheck(healthCheck);
             channel.setChannelExceptionHandler(channelExceptionHandler);
-            channel.setIgnoreCacheSize(true);
+            channel.setIgnoreCacheSize(false);
             channel.start();
 
             System.out.println(Util.join("channel(", channel.getName(), ") started"));
