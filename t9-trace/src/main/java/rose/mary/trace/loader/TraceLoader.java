@@ -121,15 +121,35 @@ public class TraceLoader implements Runnable {
 	public void commit() throws Exception {
 		try {
 			Collection<Trace> collection = loadItems.values();
+
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-TLLBLD0101");
+
 			traceLoadService.load(collection, loadError, loadContents);
+
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-TLLBLD0102");
+
 			if (tpm != null)
 				tpm.count(loadItems.size());
+
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-TLLBLD0103");
+
 			if (T9.runMode == RunMode.Server) {
 				mergeCache.put(loadItems);
 			} else if (T9.runMode == RunMode.Distributor) {
 				distribute(loadItems);
 			}
+
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-TLLBLD0104");
+
 			distributeCache.removeAll(loadItems.keySet());
+
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-TLLBLD0105");
+
 		} catch (Exception e) {
 			// ----------------------------------------------------
 			// 20220905
@@ -139,14 +159,19 @@ public class TraceLoader implements Runnable {
 			// 에러큐에 넣지 안아도 D.C 에 있는 것은 재처리 되므로....
 			// ----------------------------------------------------
 			// if (errorCache != null) {
-			// 	errorCache.put(loadItems);
+			// errorCache.put(loadItems);
 			// }
 			// distributeCache.removeAll(loadItems.keySet());
 			// ----------------------------------------------------
 			logger.error("Loader commit Exception", e);
 			throw e;
 		} finally {
+
 			loadItems.clear();
+
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-TLLBLD0106");
+
 			commitLapse = System.currentTimeMillis();
 		}
 	}
@@ -261,9 +286,9 @@ public class TraceLoader implements Runnable {
 		if (thread != null) {
 			thread.interrupt();
 			// try {
-			// 	thread.join();
+			// thread.join();
 			// } catch (InterruptedException e) {
-			// 	logger.error("", e);
+			// logger.error("", e);
 			// }
 		}
 	}
@@ -275,6 +300,9 @@ public class TraceLoader implements Runnable {
 
 	}
 
+	/**
+	 * @deprecated since 202209
+	 */
 	public void runAsap() {
 
 		logger.info(Util.join("start loader:[" + name + "]"));
@@ -312,8 +340,9 @@ public class TraceLoader implements Runnable {
 
 					loadItems.put(key, trace);
 
-					if (oldKey != null && oldKey.equals(key))
-						dups.add(key);
+					// expect to delte block comming soon.
+					// if (oldKey != null && oldKey.equals(key))
+					// dups.add(key);
 
 					if (loadItems.size() > 0 && (loadItems.size() % commitCount == 0)) {
 
@@ -380,7 +409,11 @@ public class TraceLoader implements Runnable {
 
 			try {
 				if (loadItems.size() > 0 && (System.currentTimeMillis() - commitLapse >= maxCommitWait)) {
+					if (Variables.debugLineByLine)
+						logger.debug(name + "-TLLBLD0100");
 					commit();
+					if (Variables.debugLineByLine)
+						logger.debug(name + "-TLLBLD0199");
 				}
 
 				Collection<Trace> values = distributeCache.values();
@@ -406,13 +439,17 @@ public class TraceLoader implements Runnable {
 
 					loadItems.put(key, trace);
 
-					if (oldKey != null && oldKey.equals(key))
-						dups.add(key);
+					// exepct to delete comming soon(current date : 202209)
+					// if (oldKey != null && oldKey.equals(key)) dups.add(key);
 
 					if (loadItems.size() > 0 && (loadItems.size() % commitCount == 0)) {
 
 						try {
+							if (Variables.debugLineByLine)
+								logger.debug(name + "-TLLBLD0100");
 							commit();
+							if (Variables.debugLineByLine)
+								logger.debug(name + "-TLLBLD0199");
 							break;
 						} catch (Exception e) {
 

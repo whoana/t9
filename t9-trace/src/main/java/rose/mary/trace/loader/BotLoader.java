@@ -16,11 +16,11 @@ import rose.mary.trace.core.data.common.Bot;
 import rose.mary.trace.core.data.common.State;
 import rose.mary.trace.core.data.common.StateEvent;
 import rose.mary.trace.core.database.FromDatabase;
+import rose.mary.trace.core.envs.Variables;
 //import rose.mary.trace.core.envs.Variables;
 import rose.mary.trace.core.exception.ExceptionHandler;
 import rose.mary.trace.core.monitor.ThroughputMonitor;
 import rose.mary.trace.database.service.BotService;
-import rose.mary.trace.system.SystemLogger;
 
 /**
  * <pre>
@@ -113,14 +113,25 @@ public class BotLoader implements Runnable {
 	public void commit() throws Exception {
 		try {
 			Collection<State> bots = loadBots.values();
+
+			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0101");
+
 			int count = loadBots.size();
-			if (tpm != null)
-				tpm.count(count);
+
+			if (tpm != null) tpm.count(count);
+
+			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0102");
+
 			botService.mergeBots(bots, finCache); // SIGKILL LOG : SKL-BL001
+
+			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0103");
 
 			// dbCache.put(dbLoadStates); // SIGKILL LOG : SKL-BL002
 
 			botCache.removeAll(loadBots.keySet()); // SIGKILL LOG : SKL-BL003
+
+			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0104");
+
 		} catch (Exception e) {
 			// ----------------------------------------------------
 			// 20220905
@@ -138,7 +149,11 @@ public class BotLoader implements Runnable {
 		} finally {
 			// dbLoadStates.clear();
 			loadBots.clear();
+
+			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0105");
+
 			commitLapse = System.currentTimeMillis();
+
 		}
 	}
 
@@ -310,9 +325,10 @@ public class BotLoader implements Runnable {
 		logger.info(Util.join("start botLoader:[" + name + "]"));
 		while (Thread.currentThread() == thread && !isShutdown) {
 			try {
-				if (loadBots.size() > 0 &&
-						(System.currentTimeMillis() - commitLapse >= maxCommitWait)) {
+				if (loadBots.size() > 0 && (System.currentTimeMillis() - commitLapse >= maxCommitWait)) {
+					if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0100");
 					commit();
+					if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0199");
 				}
 
 				Set<String> keys = null;
@@ -345,7 +361,9 @@ public class BotLoader implements Runnable {
 						} else {
 							state.setBackendLog(BEL.W0002);
 						}
+						if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0200");
 						botCache.remove(key);
+						if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0201");
 					}
 					// 20220901
 					// DB에도 없는 건에 대한 처리는 어떻게 할지 고민해보자.(논리적으로 없어야함. 있으면 골치아품)
@@ -355,7 +373,9 @@ public class BotLoader implements Runnable {
 					addBatch(key, state);
 					if (loadBots.size() > 0 && (loadBots.size() % commitCount == 0)) {
 						try {
+							if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0100");
 							commit();
+							if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0199");
 							break;
 						} catch (Exception e) {
 							if (exceptionHandler != null) {
