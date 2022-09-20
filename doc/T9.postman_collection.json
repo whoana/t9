@@ -1,0 +1,3137 @@
+{
+	"info": {
+		"_postman_id": "e9b88c93-b85c-4867-ac6e-4dcab3502950",
+		"name": "T9",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7266860"
+	},
+	"item": [
+		{
+			"name": "Real",
+			"item": [
+				{
+					"name": "cachesR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/caches?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"caches"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eventCachesR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/caches/botEventCache01?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"caches",
+								"botEventCache01"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopChannelR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/channel/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"channel",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startChannelR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/channel/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"channel",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startServerR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startServerR Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopServerR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/loader/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"loader",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/loader/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"loader",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startBoterR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/boter/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"boter",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopBoterR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/boter/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"boter",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startBotLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/botLoader/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"botLoader",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopBotLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/botLoader/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"botLoader",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutdownServerR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/shutdown?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"shutdown"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "트레킹메시지발생테스트168",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"58414\",\n  \t\"hostname\":\"10.10.1.168\",\n  \t\"qmgrName\":\"TESTQM08\",\n  \t\"channelName\":\"SYSTEM.DEF.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1000\",\n  \t\"commitCount\":\"100\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.168:8090/trace/test/generate/msgs?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"168"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "트레킹메시지발생테스트10",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"41414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"IIP\",\n  \t\"channelName\":\"IIP.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"30000\",\n  \t\"commitCount\":\"1000\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/test/generate/msgs?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startTraceErrorHandler",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/trace-error-handler/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"trace-error-handler",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopTraceErrorHandler",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/trace-error-handler/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"trace-error-handler",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "송신 node 메시지 발생",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"1414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"TEST_HANA_QM\",\n  \t\"channelName\":\"T9CHANNEL\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"1\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.core.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\",\n    \"interfaceId\":\"TEST001\",\n    \"date\":\"20220906\",\n    \"time\":\"150000123456\",\n    \"groupId\":\"mocomsys\",\n    \"hostId\":\"host1\",\n    \"status\":\"00\",\n    \"nodeName\":\"sender\",\n    \"processHostId\":\"host1\",\n    \"processOsType\":\"mac\",\n    \"processOsVersion\":\"1\",\n    \"processId\":\"sender\",\n    \"processType\":\"app\",\n    \"processMode\":\"SNDR\",\n    \"hubCnt\":\"0\",\n    \"spokeCnt\":\"1\",\n    \"recvSpokeCnt\":\"1\",\n    \"hopCnt\":\"1\",\n    \"appType\":\"sender\",\n    \"recordCnt\":\"1\",\n    \"recordSize\":\"1\",\n    \"dataSize\":\"1\",\n    \"dataCompressYn\":\"N\",\n    \"errorCode\":\"\",\n    \"errorMessage\":\"\"    \n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/test/generate/msgs/nodes?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs",
+								"nodes"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HUB node 메시지 발생",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"1414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"TEST_HANA_QM\",\n  \t\"channelName\":\"T9CHANNEL\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"1\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.core.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\",\n    \"interfaceId\":\"TEST001\",\n    \"date\":\"20220906\",\n    \"time\":\"150000123456\",\n    \"groupId\":\"mocomsys\",\n    \"hostId\":\"host1\",\n    \"status\":\"00\",\n    \"nodeName\":\"hub\",\n    \"processHostId\":\"host2\",\n    \"processOsType\":\"linux\",\n    \"processOsVersion\":\"1\",\n    \"processId\":\"broker\",\n    \"processType\":\"mid\",\n    \"processMode\":\"BRKR\",\n    \"hubCnt\":\"1\",\n    \"spokeCnt\":\"0\",\n    \"recvSpokeCnt\":\"1\",\n    \"hopCnt\":\"1\",\n    \"appType\":\"sender\",\n    \"recordCnt\":\"1\",\n    \"recordSize\":\"1\",\n    \"dataSize\":\"1\",\n    \"dataCompressYn\":\"N\",\n    \"errorCode\":\"\",\n    \"errorMessage\":\"\"    \n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/test/generate/msgs/nodes?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs",
+								"nodes"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "수신 node 메시지 발생",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"1414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"TEST_HANA_QM\",\n  \t\"channelName\":\"T9CHANNEL\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"1\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.core.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\",\n    \"interfaceId\":\"TEST001\",\n    \"date\":\"20220906\",\n    \"time\":\"150000123456\",\n    \"groupId\":\"mocomsys\",\n    \"hostId\":\"host1\",\n    \"status\":\"00\",\n    \"nodeName\":\"receiver\",\n    \"processHostId\":\"host3\",\n    \"processOsType\":\"windows\",\n    \"processOsVersion\":\"1\",\n    \"processId\":\"receiver\",\n    \"processType\":\"app\",\n    \"processMode\":\"RCVR\",\n    \"hubCnt\":\"0\",\n    \"spokeCnt\":\"1\",\n    \"recvSpokeCnt\":\"1\",\n    \"hopCnt\":\"1\",\n    \"appType\":\"receiver\",\n    \"recordCnt\":\"1\",\n    \"recordSize\":\"1\",\n    \"dataSize\":\"1\",\n    \"dataCompressYn\":\"N\",\n    \"errorCode\":\"\",\n    \"errorMessage\":\"\"    \n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/test/generate/msgs/nodes?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs",
+								"nodes"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Local",
+			"item": [
+				{
+					"name": "cachesR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/caches?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"caches"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eventCachesR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/caches/botEventCache01?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"caches",
+								"botEventCache01"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopChannelR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/channel/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"channel",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startChannelR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/channel/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"channel",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startServerR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopServerR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/loader/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"loader",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/loader/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"loader",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startBoterR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/boter/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"boter",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopBoterR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8090/trace/managers/servers/boter/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"boter",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startBotLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/botLoader/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"botLoader",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopBotLoaderR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8090/trace/managers/servers/botLoader/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"botLoader",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutdownServerR",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/shutdown?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"shutdown"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "트레킹메시지발생테스트168",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"58414\",\n  \t\"hostname\":\"10.10.1.168\",\n  \t\"qmgrName\":\"TESTQM08\",\n  \t\"channelName\":\"SYSTEM.DEF.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1000\",\n  \t\"commitCount\":\"100\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.168:8090/trace/test/generate/msgs?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"168"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "트레킹메시지발생테스트10",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"41414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"IIP\",\n  \t\"channelName\":\"IIP.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"30000\",\n  \t\"commitCount\":\"1000\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/test/generate/msgs?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "송신 node 메시지 발생",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"1414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"TEST_HANA_QM\",\n  \t\"channelName\":\"T9CHANNEL\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"1\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.core.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\",\n    \"interfaceId\":\"TEST001\",\n    \"date\":\"20220906\",\n    \"time\":\"150000123456\",\n    \"groupId\":\"mocomsys\",\n    \"hostId\":\"host1\",\n    \"status\":\"00\",\n    \"nodeName\":\"sender\",\n    \"processHostId\":\"host1\",\n    \"processOsType\":\"mac\",\n    \"processOsVersion\":\"1\",\n    \"processId\":\"sender\",\n    \"processType\":\"app\",\n    \"processMode\":\"SNDR\",\n    \"hubCnt\":\"0\",\n    \"spokeCnt\":\"1\",\n    \"recvSpokeCnt\":\"1\",\n    \"hopCnt\":\"1\",\n    \"appType\":\"sender\",\n    \"recordCnt\":\"1\",\n    \"recordSize\":\"1\",\n    \"dataSize\":\"1\",\n    \"dataCompressYn\":\"N\",\n    \"errorCode\":\"\",\n    \"errorMessage\":\"\"    \n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/test/generate/msgs/nodes?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs",
+								"nodes"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "HUB node 메시지 발생",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"1414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"TEST_HANA_QM\",\n  \t\"channelName\":\"T9CHANNEL\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"1\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.core.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\",\n    \"interfaceId\":\"TEST001\",\n    \"date\":\"20220906\",\n    \"time\":\"150000123456\",\n    \"groupId\":\"mocomsys\",\n    \"hostId\":\"host1\",\n    \"status\":\"00\",\n    \"nodeName\":\"hub\",\n    \"processHostId\":\"host2\",\n    \"processOsType\":\"linux\",\n    \"processOsVersion\":\"1\",\n    \"processId\":\"broker\",\n    \"processType\":\"mid\",\n    \"processMode\":\"BRKR\",\n    \"hubCnt\":\"1\",\n    \"spokeCnt\":\"0\",\n    \"recvSpokeCnt\":\"1\",\n    \"hopCnt\":\"1\",\n    \"appType\":\"sender\",\n    \"recordCnt\":\"1\",\n    \"recordSize\":\"1\",\n    \"dataSize\":\"1\",\n    \"dataCompressYn\":\"N\",\n    \"errorCode\":\"\",\n    \"errorMessage\":\"\"    \n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/test/generate/msgs/nodes?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs",
+								"nodes"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "수신 node 메시지 발생",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"1414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"TEST_HANA_QM\",\n  \t\"channelName\":\"T9CHANNEL\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"1\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.core.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\",\n    \"interfaceId\":\"TEST001\",\n    \"date\":\"20220906\",\n    \"time\":\"150000123456\",\n    \"groupId\":\"mocomsys\",\n    \"hostId\":\"host1\",\n    \"status\":\"00\",\n    \"nodeName\":\"receiver\",\n    \"processHostId\":\"host3\",\n    \"processOsType\":\"windows\",\n    \"processOsVersion\":\"1\",\n    \"processId\":\"receiver\",\n    \"processType\":\"app\",\n    \"processMode\":\"RCVR\",\n    \"hubCnt\":\"0\",\n    \"spokeCnt\":\"1\",\n    \"recvSpokeCnt\":\"1\",\n    \"hopCnt\":\"1\",\n    \"appType\":\"receiver\",\n    \"recordCnt\":\"1\",\n    \"recordSize\":\"1\",\n    \"dataSize\":\"1\",\n    \"dataCompressYn\":\"N\",\n    \"errorCode\":\"\",\n    \"errorMessage\":\"\"    \n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/test/generate/msgs/nodes?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs",
+								"nodes"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startTraceErrorHandler",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/trace-error-handler/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"trace-error-handler",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopTraceErrorHandler",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://10.10.1.10:8090/trace/managers/servers/trace-error-handler/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"10",
+								"10",
+								"1",
+								"10"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"trace-error-handler",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "dev",
+			"item": [
+				{
+					"name": "caches",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/caches?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"caches"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "트레킹메시지발생테스트",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"41414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"IIP\",\n  \t\"channelName\":\"IIP.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"100\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/test/generate/msgs?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"test",
+								"generate",
+								"msgs"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startChannel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/channel/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"channel",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopChannel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/channel/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"channel",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startLoader",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/loader/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"loader",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startTraceErrorHandler",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/trace-error-handler/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"trace-error-handler",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopTraceErrorHandler",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/trace-error-handler/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"trace-error-handler",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopLoader",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/loader/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"loader",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startBoter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/loader/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"loader",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopBoter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/boter/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"boter",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "startServer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/start?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"start"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "stopServer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/stop?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"stop"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shutdownServer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8090/trace/managers/servers/shutdown?method=GET",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8090",
+							"path": [
+								"trace",
+								"managers",
+								"servers",
+								"shutdown"
+							],
+							"query": [
+								{
+									"key": "method",
+									"value": "GET"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "getFooList",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/services/foos?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"services",
+						"foos"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getState",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n      \"integrationId\":\"TEST001\", \n      \"trackingDate\":\"20220830110214830830\", \n      \"orgHostId\":\"host1\"\n    },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/services/states?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"services",
+						"states"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "retrieveTLog",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"integrationId\":\"TEST004\", \"offset\":10, \"rowCount\": 10},\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/services/tlogs?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"services",
+						"tlogs"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insertBatch",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/services/foos?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"services",
+						"foos"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "메시지발생(ILINK)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"10000\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"IIP\",\n  \t\"channelName\":\"IIP.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"i\",\n  \t\"generateCount\":\"300000\",\n  \t\"commitCount\":\"1000\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.test.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://10.10.1.10:8090/trace/test/generate/msgs?method=GET",
+					"protocol": "http",
+					"host": [
+						"10",
+						"10",
+						"1",
+						"10"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"test",
+						"generate",
+						"msgs"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "메시지발생(ILINK) 10",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"10000\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"IIP\",\n  \t\"channelName\":\"IIP.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"i\",\n  \t\"generateCount\":\"1\",\n  \t\"commitCount\":\"1000\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://10.10.1.10:8090/trace/test/generate/msgs?method=GET",
+					"protocol": "http",
+					"host": [
+						"10",
+						"10",
+						"1",
+						"10"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"test",
+						"generate",
+						"msgs"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "채널시작",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"operation\":2, \"threadCount\":40, \"channelConfigs\":[\n  \t\t{\n  \t\t\t\"hostName\":\"10.10.1.10\", \n  \t\t\t\"qmgrName\":\"IIP\", \n  \t\t\t\"port\" : 41414, \n  \t\t\t\"userId\":\"mqm\", \n  \t\t\t\"password\":\"mqm\",\n  \t\t\t\"channelName\":\"IIP.SVRCONN\", \n  \t\t\t\"queueName\":\"TRACE.EQ\",\n  \t\t\t\"module\":\"w\",\n  \t\t\t\"ccsid\":1208, \n  \t\t\t\"characterSet\":1208,\n  \t\t\t\"autoCommit\":false, \n  \t\t\t\"bindMode\":false\n  \t\t}\n  \t]\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://10.10.1.10:8090/trace/managers/channels?method=GET",
+					"protocol": "http",
+					"host": [
+						"10",
+						"10",
+						"1",
+						"10"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"channels"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "stopMonitor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/managers/monitors/stop?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"monitors",
+						"stop"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "operateMonitor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"op\":42},\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/managers/monitors/operations?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"monitors",
+						"operations"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "caches Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/managers/caches?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"caches"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTps",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/managers/monitors/tps?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"monitors",
+						"tps"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "startMonitor",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/managers/monitors/start?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"monitors",
+						"start"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "채널시작 ILINK",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"operation\":2, \"threadCount\":40, \"channelConfigs\":[\n  \t\t{\n  \t\t\t\"hostName\":\"10.10.1.10\", \n  \t\t\t\"qmgrName\":\"IIP\", \n  \t\t\t\"port\" : 41414, \n  \t\t\t\"userId\":\"mqm\", \n  \t\t\t\"password\":\"mqm\",\n  \t\t\t\"channelName\":\"IIP.SVRCONN\", \n  \t\t\t\"queueName\":\"TRACE.EQ\",\n  \t\t\t\"module\":\"w\",\n  \t\t\t\"ccsid\":1208, \n  \t\t\t\"characterSet\":1208,\n  \t\t\t\"autoCommit\":false, \n  \t\t\t\"bindMode\":false\n  \t\t}\n  \t]\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://10.10.1.10:8090/trace/managers/channels?method=GET",
+					"protocol": "http",
+					"host": [
+						"10",
+						"10",
+						"1",
+						"10"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"channels"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "168-발생테스트",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"58414\",\n  \t\"hostname\":\"10.10.1.168\",\n  \t\"qmgrName\":\"TESTQM08\",\n  \t\"channelName\":\"SYSTEM.DEF.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"1000\",\n  \t\"commitCount\":\"100\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.test.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/test/generate/msgs?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"test",
+						"generate",
+						"msgs"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "168-채널시작",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"operation\":2, \"threadCount\":100, \"channelConfigs\":[\n  \t\t{\n  \t\t\t\"hostName\":\"10.10.1.168\", \n  \t\t\t\"qmgrName\":\"TESTQM08\", \n  \t\t\t\"port\" : 58414, \n  \t\t\t\"userId\":\"mqm\", \n  \t\t\t\"password\":\"mqm\",\n  \t\t\t\"channelName\":\"SYSTEM.DEF.SVRCONN\", \n  \t\t\t\"queueName\":\"TRACE.EQ\",\n  \t\t\t\"module\":\"w\",\n  \t\t\t\"ccsid\":1208, \n  \t\t\t\"characterSet\":1208,\n  \t\t\t\"autoCommit\":true, \n  \t\t\t\"bindMode\":false\n  \t\t}\n  \t]\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/managers/channels?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"channels"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "168-채널종료",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"operation\":5, \"threadCount\":10, \"channelConfigs\":[]\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/managers/channels?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"channels"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "채널종료",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"operation\":5, \"threadCount\":10, \"channelConfigs\":[]\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://10.10.1.10:8090/trace/managers/channels?method=GET",
+					"protocol": "http",
+					"host": [
+						"10",
+						"10",
+						"1",
+						"10"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"channels"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "WMQ연결테스트",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\"scopeType\":\"0\",\"stDate\":\"20190611\"},\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.01:8080/trace/managers/channels/tps?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"01"
+					],
+					"port": "8080",
+					"path": [
+						"trace",
+						"managers",
+						"channels",
+						"tps"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "채널TPS",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":null,\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://10.10.1.10:8090/trace/managers/monitor?method=GET",
+					"protocol": "http",
+					"host": [
+						"10",
+						"10",
+						"1",
+						"10"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"managers",
+						"monitor"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "개발서버트레킹발생",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"objectType\": \"ComMessage\",\n  \"requestObject\":{\n  \t\"port\":\"41414\",\n  \t\"hostname\":\"10.10.1.10\",\n  \t\"qmgrName\":\"IIP\",\n  \t\"channelName\":\"IIP.SVRCONN\",\n  \t\"queueName\":\"TRACE.EQ\",\n  \t\"module\":\"w\",\n  \t\"generateCount\":\"100\",\n  \t\"commitCount\":\"100\",\n  \t\"traceMsgCreator\":\"rose.mary.trace.simulator.DefaultTraceMsgCreator\",\n  \t\"data\": \"한글1234567890qwertyuiop\"\n  },\n  \"startTime\": \"20190416105001001\",\n  \"endTime\": null,\n  \"errorCd\":\"0\",\n  \"errorMsg\":\"\",\n  \"userId\": \"iip\",\n  \"appId\": \"SU0810R01\",\n  \"checkSession\":false\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/trace/test/generate/msgs?method=GET",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"trace",
+						"test",
+						"generate",
+						"msgs"
+					],
+					"query": [
+						{
+							"key": "method",
+							"value": "GET"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "캐시데이터카운트",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8090//trace/console/servers/caches",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"",
+						"trace",
+						"console",
+						"servers",
+						"caches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "트레킹",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t  \"integrationId\" : \"EG_EGSSRM_BD_001\",\n\t  \"originHostId\" : \"testhost01\",\n\t  \"date\" : \"20200323105550748\",\n\t  \"processId\" : \"Sender01\",\n\t  \"processDate\" : \"20200323105550748\",\n\t  \"processEndDate\" : \"20200323105550748\",\n\t  \"type\" : \"SNDR\",\n\t  \"hostId\" : \"testhost01\",\n\t  \"status\" : \"00\",\n\t  \"todoNodeCount\" : 1\n\t},\n\t{\n\t  \"integrationId\" : \"EG_EGSSRM_BD_001\",\n\t  \"originHostId\" : \"testhost01\",\n\t  \"date\" : \"20200323105550748\",\n\t  \"processId\" : \"Sender02\",\n\t  \"processDate\" : \"20200323105550748\",\n\t  \"processEndDate\" : \"20200323105550748\",\n\t  \"type\" : \"BRKR\",\n\t  \"hostId\" : \"testhost02\",\n\t  \"status\" : \"00\",\n\t  \"todoNodeCount\" : 1\n\t},\n\t{\n\t  \"integrationId\" : \"EG_EGSSRM_BD_001\",\n\t  \"originHostId\" : \"testhost01\",\n\t  \"date\" : \"20200323105550748\",\n\t  \"processId\" : \"Sender02\",\n\t  \"processDate\" : \"20200323105550748\",\n\t  \"processEndDate\" : \"20200323105550748\",\n\t  \"type\" : \"RCVR\",\n\t  \"hostId\" : \"testhost03\",\n\t  \"status\" : \"00\",\n\t  \"todoNodeCount\" : 1\n\t}\n]\n\n"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8090/traces",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8090",
+					"path": [
+						"traces"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
