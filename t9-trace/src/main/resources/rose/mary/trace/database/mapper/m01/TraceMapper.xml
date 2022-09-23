@@ -74,11 +74,7 @@
 				with UPDATE_TABLE as (
 					update TOP0501 
 					set  
-						 INTEGRATION_ID = #{integrationId,	jdbcType=VARCHAR}                   
-						,TRACKING_DATE  = #{date,			jdbcType=VARCHAR}                 
-						,ORG_HOST_ID    = #{originHostId,	jdbcType=VARCHAR}                 
-						,PROCESS_ID     = #{processId,	 	jdbcType=VARCHAR}                 
-						,STATUS         = #{status,		 	jdbcType=VARCHAR}                 
+						 STATUS         = #{status,		 	jdbcType=VARCHAR}                 
 						,NODE_TYPE      = #{type,			jdbcType=VARCHAR}                 
 						,START_DATE     = #{processDate,	jdbcType=VARCHAR}                 
 						,END_DATE       = #{processEndDate,	jdbcType=VARCHAR}                 
@@ -164,11 +160,7 @@
 				)
 				when matched then
 				update set 					 
-					 a.INTEGRATION_ID = #{integrationId,	jdbcType=VARCHAR}                   
-					,a.TRACKING_DATE  = #{date,				jdbcType=VARCHAR}                 
-					,a.ORG_HOST_ID    = #{originHostId,		jdbcType=VARCHAR}                 
-					,a.PROCESS_ID     = #{processId,	 	jdbcType=VARCHAR}                 
-					,a.STATUS         = #{status,		 	jdbcType=VARCHAR}                 
+					 a.STATUS         = #{status,		 	jdbcType=VARCHAR}                 
 					,a.NODE_TYPE      = #{type,				jdbcType=VARCHAR}                 
 					,a.START_DATE     = #{processDate,		jdbcType=VARCHAR}                 
 					,a.END_DATE       = #{processEndDate,	jdbcType=VARCHAR}                 
