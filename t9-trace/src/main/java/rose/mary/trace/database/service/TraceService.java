@@ -82,8 +82,8 @@ public class TraceService {
 	@Autowired
 	TraceMapper traceMapper;
 
-	public boolean exist(String id) throws Exception {
-		return (traceMapper.exist(id) > 0);
+	public boolean exist(String integrationId, String date, String orgHostId, String processId) throws Exception {
+		return (traceMapper.exist(integrationId, date, orgHostId, processId) > 0);
 	}
 
 	public int insert(Trace trace) throws Exception {

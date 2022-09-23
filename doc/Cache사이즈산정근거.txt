@@ -9,3 +9,6 @@
 
 [InterfaceInfo 오브젝트]
 1건  1426 바이트 
+
+[참고]
+Data set size = Number of entries * (Average key size + Average value size + Memory overhead)

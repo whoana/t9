@@ -8,17 +8,16 @@
   	-->
 	<insert id="insert">
 		insert into TOP0501(             
-			 ID                               
-			,INTEGRATION_ID                     
+			 INTEGRATION_ID                     
 			,TRACKING_DATE                    
 			,ORG_HOST_ID                      
+			,PROCESS_ID                       
 			,STATUS                           
 			,NODE_TYPE                        
 			,START_DATE                       
 			,END_DATE                         
 			,SEQ                              
 			,HOST_ID                          
-			,PROCESS_ID                       
 			,IP                               
 			,OS                               
 			,APP_NM                           
@@ -32,17 +31,16 @@
 			,FILE_SIZE                         
 			,REG_DATE                         
 		) values (                            
-			 #{id,	 		 	jdbcType=VARCHAR}
-			,#{integrationId,	jdbcType=VARCHAR}
+			 #{integrationId,	jdbcType=VARCHAR}
 			,#{date,			jdbcType=VARCHAR}
 			,#{originHostId,	jdbcType=VARCHAR}
+			,#{processId,	 	jdbcType=VARCHAR}
 			,#{status,		 	jdbcType=VARCHAR}
 			,#{type,			jdbcType=VARCHAR}
 			,#{processDate,	 	jdbcType=VARCHAR}
 			,#{processEndDate,	jdbcType=VARCHAR}
 			,#{seq,				jdbcType=NUMERIC}                                
 			,#{hostId,		 	jdbcType=VARCHAR}
-			,#{processId,	 	jdbcType=VARCHAR}
 			,#{ip,			 	jdbcType=VARCHAR}
 			,#{os,			 	jdbcType=VARCHAR}
 			,#{app,			 	jdbcType=VARCHAR}
@@ -62,7 +60,10 @@
  	<select id="exist" resultType="int">
  		select count(*) 
  		  from TOP0501
- 		 where ID = #{id, jdbcType=VARCHAR} 
+ 		 where INTEGRATION_ID = #{integrationId}
+		   and TRACKING_DATE  = #{date}
+		   and ORG_HOST_ID    = #{originHostId}
+		   and PROCESS_ID     = #{processId}		 
  	</select>
 
 
@@ -76,13 +77,13 @@
 						 INTEGRATION_ID = #{integrationId,	jdbcType=VARCHAR}                   
 						,TRACKING_DATE  = #{date,			jdbcType=VARCHAR}                 
 						,ORG_HOST_ID    = #{originHostId,	jdbcType=VARCHAR}                 
+						,PROCESS_ID     = #{processId,	 	jdbcType=VARCHAR}                 
 						,STATUS         = #{status,		 	jdbcType=VARCHAR}                 
 						,NODE_TYPE      = #{type,			jdbcType=VARCHAR}                 
 						,START_DATE     = #{processDate,	jdbcType=VARCHAR}                 
 						,END_DATE       = #{processEndDate,	jdbcType=VARCHAR}                 
 						,SEQ            = #{seq,			jdbcType=NUMERIC}                 
 						,HOST_ID        = #{hostId,		 	jdbcType=VARCHAR}                 
-						,PROCESS_ID     = #{processId,	 	jdbcType=VARCHAR}                 
 						,IP             = #{ip,			 	jdbcType=VARCHAR}                 
 						,OS             = #{os,			 	jdbcType=VARCHAR}                 
 						,APP_NM         = #{app,			jdbcType=VARCHAR}                 
@@ -95,22 +96,23 @@
 						,FILE_NM        = ''                                                
 						,FILE_SIZE		= 0
 						,REG_DATE		= #{regDate,		jdbcType=VARCHAR}
-					where 
-						ID= #{id, jdbcType=VARCHAR}
+					where INTEGRATION_ID = #{integrationId}
+					  and TRACKING_DATE  = #{date}
+					  and ORG_HOST_ID    = #{originHostId}
+					  and PROCESS_ID     = #{processId}	
 					returning *
 				)
 				insert into TOP0501(             
-					 ID                               
-					,INTEGRATION_ID                     
+					 INTEGRATION_ID                     
 					,TRACKING_DATE                    
 					,ORG_HOST_ID                      
+					,PROCESS_ID                       
 					,STATUS                           
 					,NODE_TYPE                        
 					,START_DATE                       
 					,END_DATE                         
 					,SEQ                              
 					,HOST_ID                          
-					,PROCESS_ID                       
 					,IP                               
 					,OS                               
 					,APP_NM                           
@@ -125,17 +127,16 @@
 					,REG_DATE                         
 				) 
 				select 
-					 #{id,	 		 	jdbcType=VARCHAR}
-					,#{integrationId,	jdbcType=VARCHAR}
+					 #{integrationId,	jdbcType=VARCHAR}
 					,#{date,			jdbcType=VARCHAR}
 					,#{originHostId,	jdbcType=VARCHAR}
+					,#{processId,	 	jdbcType=VARCHAR}
 					,#{status,		 	jdbcType=VARCHAR}
 					,#{type,			jdbcType=VARCHAR}
 					,#{processDate,	 	jdbcType=VARCHAR}
 					,#{processEndDate,	jdbcType=VARCHAR}
 					,#{seq,				jdbcType=NUMERIC}
 					,#{hostId,		 	jdbcType=VARCHAR}
-					,#{processId,	 	jdbcType=VARCHAR}
 					,#{ip,			 	jdbcType=VARCHAR}
 					,#{os,			 	jdbcType=VARCHAR}
 					,#{app,			 	jdbcType=VARCHAR}
@@ -156,20 +157,23 @@
 				merge into TOP0501 a
 				using DUAL
 				on (
-					a.ID= #{id,		jdbcType=VARCHAR}
+					a.INTEGRATION_ID 	= #{integrationId,	jdbcType=VARCHAR}                   
+					and a.TRACKING_DATE = #{date,			jdbcType=VARCHAR}                 
+					and a.ORG_HOST_ID   = #{originHostId,	jdbcType=VARCHAR}                 
+					and a.PROCESS_ID    = #{processId,	 	jdbcType=VARCHAR}  
 				)
 				when matched then
 				update set 					 
 					 a.INTEGRATION_ID = #{integrationId,	jdbcType=VARCHAR}                   
 					,a.TRACKING_DATE  = #{date,				jdbcType=VARCHAR}                 
 					,a.ORG_HOST_ID    = #{originHostId,		jdbcType=VARCHAR}                 
+					,a.PROCESS_ID     = #{processId,	 	jdbcType=VARCHAR}                 
 					,a.STATUS         = #{status,		 	jdbcType=VARCHAR}                 
 					,a.NODE_TYPE      = #{type,				jdbcType=VARCHAR}                 
 					,a.START_DATE     = #{processDate,		jdbcType=VARCHAR}                 
 					,a.END_DATE       = #{processEndDate,	jdbcType=VARCHAR}                 
 					,a.SEQ            = #{seq,				jdbcType=NUMERIC}                 
 					,a.HOST_ID        = #{hostId,		 	jdbcType=VARCHAR}                 
-					,a.PROCESS_ID     = #{processId,	 	jdbcType=VARCHAR}                 
 					,a.IP             = #{ip,			 	jdbcType=VARCHAR}                 
 					,a.OS             = #{os,			 	jdbcType=VARCHAR}                 
 					,a.APP_NM         = #{app,				jdbcType=VARCHAR}                 
@@ -184,17 +188,16 @@
 					,a.REG_DATE		  = #{regDate,			jdbcType=VARCHAR} 	  
 				when not matched then 
 				insert (             
-					 ID                               
-					,INTEGRATION_ID                     
+					 INTEGRATION_ID                     
 					,TRACKING_DATE                    
 					,ORG_HOST_ID                      
+					,PROCESS_ID                       
 					,STATUS                           
 					,NODE_TYPE                        
 					,START_DATE                       
 					,END_DATE                         
 					,SEQ                              
 					,HOST_ID                          
-					,PROCESS_ID                       
 					,IP                               
 					,OS                               
 					,APP_NM                           
@@ -208,17 +211,16 @@
 					,FILE_SIZE                         
 					,REG_DATE                         
 				) values (  
-					 #{id,	 		 	jdbcType=VARCHAR}
 					,#{integrationId,	jdbcType=VARCHAR}
 					,#{date,			jdbcType=VARCHAR}
 					,#{originHostId,	jdbcType=VARCHAR}
+					,#{processId,	 	jdbcType=VARCHAR}
 					,#{status,		 	jdbcType=VARCHAR}
 					,#{type,			jdbcType=VARCHAR}
 					,#{processDate,	 	jdbcType=VARCHAR}
 					,#{processEndDate,	jdbcType=VARCHAR}
 					,#{seq,				jdbcType=NUMERIC}
 					,#{hostId,		 	jdbcType=VARCHAR}
-					,#{processId,	 	jdbcType=VARCHAR}
 					,#{ip,			 	jdbcType=VARCHAR}
 					,#{os,			 	jdbcType=VARCHAR}
 					,#{app,			 	jdbcType=VARCHAR}

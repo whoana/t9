@@ -242,7 +242,7 @@ public class TraceErrorHandler implements Runnable {
 
 		if (retry < maxRetry) {
 
-			if (traceService.exist(trace.getId())) {
+			if (traceService.exist(trace.getIntegrationId(), trace.getDate(), trace.getOriginHostId(), trace.getProcessId())) {
 				// 이미 TOP0501에 존재하는 건은 에러캐시에서 삭제 처리
 				String msg = messageResource.getMessage("error.msg.db.dup", null, null);
 				trace.setRetryErrorMsg(msg);

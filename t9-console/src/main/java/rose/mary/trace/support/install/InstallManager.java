@@ -468,6 +468,7 @@ public class InstallManager {
 		}
 
 		try {
+			qmgrParams.put("%T9_PORT%", T9_PORT + "");
 			File template = new File(T9_HOME, "/bin/curl-wmq-msg.sh.tpl");
 			File target = new File(T9_HOME, "/bin/curl-wmq-msg.sh");
 			replaceFileContents(template, target, qmgrParams);
