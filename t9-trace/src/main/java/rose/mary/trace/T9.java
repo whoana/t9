@@ -36,6 +36,7 @@ import rose.mary.trace.core.monitor.SystemResourceMonitor;
 import rose.mary.trace.manager.CacheManager;
 import rose.mary.trace.manager.ConfigurationManager;
 import rose.mary.trace.manager.PolicyHandlerManager;
+import rose.mary.trace.manager.RecoveryManager;
 import rose.mary.trace.manager.InterfaceCacheManager;
 import rose.mary.trace.manager.ServerManager;
 import rose.mary.trace.system.SystemLogger;
@@ -71,6 +72,9 @@ public class T9
 
 	@Autowired
 	ServerManager serverManager;
+
+	@Autowired
+	RecoveryManager recoveryManager;
 
 	// @Autowired
 	// DistributorManager distributorManager;
@@ -144,15 +148,20 @@ public class T9
 	 * 
 	 */
 	private void afterBoot() throws Exception {
-
+  
 		switch (runMode) {
 			case Server: {
-				if (configurationManager.getServerManagerConfig().isStartOnBoot()) {
-					serverManager.startServer();
+
+				if (recoveryManager != null && recoveryManager.haveRecoverableItems()) {
+					recoveryManager.start();
 				} else {
-					SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
+					if (configurationManager.getServerManagerConfig().isStartOnBoot()) {
+						serverManager.startServer();
+					} else {
+						SystemLogger.info("getServerManagerConfig().isStartOnBoot():false");
+					}
+					policyHandlerManager.start();
 				}
-				policyHandlerManager.start();
 			}
 				break;
 			case Distributor: {
@@ -166,9 +175,13 @@ public class T9
 				break;
 			case Recovery:
 				try {
-					SystemLogger.info("recovery mode starting, not implemented yet");
+					// SystemLogger.info("recovery mode starting, not implemented yet");
 					// ToDo: not implemented yet
-					// recoveryHandler.start();
+					if (recoveryManager != null) {
+						recoveryManager.start();
+					} else {
+						SystemLogger.info("recovery mode:true, but recoveryManager is null!");
+					}
 				} finally {
 
 				}

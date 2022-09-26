@@ -114,23 +114,28 @@ public class BotLoader implements Runnable {
 		try {
 			Collection<State> bots = loadBots.values();
 
-			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0101");
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-BLLBLD0101");
 
 			int count = loadBots.size();
 
-			if (tpm != null) tpm.count(count);
+			if (tpm != null)
+				tpm.count(count);
 
-			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0102");
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-BLLBLD0102");
 
 			botService.mergeBots(bots, finCache); // SIGKILL LOG : SKL-BL001
 
-			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0103");
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-BLLBLD0103");
 
 			// dbCache.put(dbLoadStates); // SIGKILL LOG : SKL-BL002
 
 			botCache.removeAll(loadBots.keySet()); // SIGKILL LOG : SKL-BL003
 
-			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0104");
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-BLLBLD0104");
 
 		} catch (Exception e) {
 			// ----------------------------------------------------
@@ -150,7 +155,8 @@ public class BotLoader implements Runnable {
 			// dbLoadStates.clear();
 			loadBots.clear();
 
-			if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0105");
+			if (Variables.debugLineByLine)
+				logger.debug(name + "-BLLBLD0105");
 
 			commitLapse = System.currentTimeMillis();
 
@@ -326,9 +332,11 @@ public class BotLoader implements Runnable {
 		while (Thread.currentThread() == thread && !isShutdown) {
 			try {
 				if (loadBots.size() > 0 && (System.currentTimeMillis() - commitLapse >= maxCommitWait)) {
-					if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0100");
+					if (Variables.debugLineByLine)
+						logger.debug(name + "-BLLBLD0100");
 					commit();
-					if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0199");
+					if (Variables.debugLineByLine)
+						logger.debug(name + "-BLLBLD0199");
 				}
 
 				Set<String> keys = null;
@@ -353,29 +361,33 @@ public class BotLoader implements Runnable {
 					State state = finCache.get(botId);
 					// logger.debug(name + "," + botCache.getName() + ",key=" + key + ", tk=[" +
 					// state.getContext() + "]");
-					if (state == null && fromDatabase != null) {
-						state = fromDatabase.getState(botId);
-						// F.C 에서 삭제되어 디비에서 최종상태를 조회하여 얻어온 값으로 백로그컬럼에 상황을 로깅하기 위해 backLog 값을 세팅한다.
-						if (State.ING.equals(state.getStatus())) {
-							state.setBackendLog(BEL.W0001);
+					if (state == null) {
+
+						state = fromDatabase != null ? fromDatabase.getState(botId) : state;
+						if (state == null) {
+							// DB 에도 없고 캐시에도 존재하지 않는 건
+							// 이경우 예외가 발생되어 캐시에서 장시간 남아있어던 건은 삭제시간이 도래하여 삭제되건에 해당됨,
+							// 삭제된 건에 대해서는 스킵 처리한다.
+							botCache.remove(key);
+							continue;
 						} else {
-							state.setBackendLog(BEL.W0002);
+							// F.C 에서 삭제되어 디비에서 최종상태를 조회하여 얻어온 값으로 백로그컬럼에 상황을 로깅하기 위해 backLog 값을 세팅한다.
+							if (State.ING.equals(state.getStatus())) {
+								state.setBackendLog(BEL.W0001);
+							} else {
+								state.setBackendLog(BEL.W0002);
+							}
 						}
-						if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0200");
-						botCache.remove(key);
-						if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0201");
 					}
-					// 20220901
-					// DB에도 없는 건에 대한 처리는 어떻게 할지 고민해보자.(논리적으로 없어야함. 있으면 골치아품)
-					if (state == null)
-						continue;
 
 					addBatch(key, state);
 					if (loadBots.size() > 0 && (loadBots.size() % commitCount == 0)) {
 						try {
-							if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0100");
+							if (Variables.debugLineByLine)
+								logger.debug(name + "-BLLBLD0100");
 							commit();
-							if (Variables.debugLineByLine) logger.debug(name + "-BLLBLD0199");
+							if (Variables.debugLineByLine)
+								logger.debug(name + "-BLLBLD0199");
 							break;
 						} catch (Exception e) {
 							if (exceptionHandler != null) {

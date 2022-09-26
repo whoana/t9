@@ -38,6 +38,7 @@ import rose.mary.trace.manager.CacheManager;
 import rose.mary.trace.manager.ChannelManager;
 import rose.mary.trace.manager.ConfigurationManager;
 import rose.mary.trace.manager.PolicyHandlerManager;
+import rose.mary.trace.manager.RecoveryManager;
 import rose.mary.trace.manager.FinisherManager;
 import rose.mary.trace.manager.InterfaceCacheManager;
 import rose.mary.trace.manager.LoaderManager;
@@ -328,6 +329,28 @@ public class ApplicationConfig {
 	@Bean(initMethod = "prepare")
 	public SystemErrorDetector systemErrorDetector() {
 		return new SystemErrorDetector();
+	}
+
+
+	@Bean
+	public RecoveryManager recoveryManager(
+			@Autowired ConfigurationManager configurationManager, 
+			@Autowired CacheManager cacheManager,
+			@Autowired ServerManager serverManager,
+			@Autowired PolicyHandlerManager policyHandlerManager
+	) throws Exception {
+		
+		long recoveryTaskDelay = 10000;
+
+		RecoveryManager recoveryManager 
+			= new RecoveryManager(
+				configurationManager,
+				policyHandlerManager,
+				cacheManager,
+				serverManager,
+				recoveryTaskDelay);
+
+		return recoveryManager;
 	}
 
 }
