@@ -94,4 +94,8 @@ public class TraceService {
 		return traceMapper.upsert(trace);
 	}
 
+
+	public List<Trace> getTraces(String integrationId, String trackingDate, String orgHostId) throws Exception {
+		return traceMapper.getList(integrationId, trackingDate, orgHostId);
+	}
 }

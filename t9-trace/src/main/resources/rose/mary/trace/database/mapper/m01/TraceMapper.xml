@@ -61,10 +61,41 @@
  		select count(*) 
  		  from TOP0501
  		 where INTEGRATION_ID = #{integrationId}
-		   and TRACKING_DATE  = #{date}
+		   and TRACKING_DATE  = #{trackingDate}
 		   and ORG_HOST_ID    = #{originHostId}
 		   and PROCESS_ID     = #{processId}		 
  	</select>
+
+	<select id="getList" resultMap="traceMap">
+		select * 
+		  from TOP0501 
+ 		 where INTEGRATION_ID = #{integrationId}
+		   and TRACKING_DATE  = #{trackingDate}
+		   and ORG_HOST_ID    = #{originHostId}
+		order by SEQ		
+	</select>
+
+	<resultMap id="traceMap" type="rose.mary.trace.core.data.common.Trace">
+		<id property="integrationId"  	  column="integration_id"/>
+		<id property="date"           	  column="tracking_date"/>
+		<id property="originHostId"   	  column="org_host_id"/>
+		<id property="processId"      	  column="process_id"/>
+		<result property="status"         column="status"/>
+		<result property="type"           column="node_type"/>
+		<result property="processDate"    column="start_date"/>
+		<result property="processEndDate" column="end_date"/>
+		<result property="seq"            column="seq"/>
+		<result property="hostId"         column="host_id"/>
+		<result property="ip"             column="ip"/>
+		<result property="os"             column="os"/>
+		<result property="app"            column="app_nm"/>
+		<result property="errorCode"      column="error_cd"/>
+		<result property="errorMessage"   column="error_msg"/>
+		<result property="recordCount"    column="record_cnt"/>
+		<result property="dataSize"       column="data_amt"/>
+		<result property="compress"       column="cmp"/>
+		<result property="regDate" 		  column="reg_date"/>
+	</resultMap>
 
 
 	<update id="upsert" parameterType="rose.mary.trace.core.data.common.Trace">

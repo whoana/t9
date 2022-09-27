@@ -72,11 +72,11 @@ public class ApplicationConfig {
 	@Autowired
 	ConfigurationManager configurationManager;
 
-	@Autowired
-	TraceService traceService;
+	// @Autowired
+	// TraceService traceService;
 
-	@Autowired
-	SystemService systemService;
+	// @Autowired
+	// SystemService systemService;
 
 	@Bean
 	public RuntimeInfo runtimeInfo() {
@@ -159,7 +159,7 @@ public class ApplicationConfig {
 
 	@Bean(initMethod = "start")
 	public S9LManager s9lManager() throws Exception {
-  
+
 		S9LManager manager = new S9LManager();
 		// manager.check();
 		return manager;
@@ -331,19 +331,16 @@ public class ApplicationConfig {
 		return new SystemErrorDetector();
 	}
 
-
 	@Bean
 	public RecoveryManager recoveryManager(
-			@Autowired ConfigurationManager configurationManager, 
+			@Autowired ConfigurationManager configurationManager,
 			@Autowired CacheManager cacheManager,
 			@Autowired ServerManager serverManager,
-			@Autowired PolicyHandlerManager policyHandlerManager
-	) throws Exception {
-		
+			@Autowired PolicyHandlerManager policyHandlerManager) throws Exception {
+
 		long recoveryTaskDelay = 10000;
 
-		RecoveryManager recoveryManager 
-			= new RecoveryManager(
+		RecoveryManager recoveryManager = new RecoveryManager(
 				configurationManager,
 				policyHandlerManager,
 				cacheManager,

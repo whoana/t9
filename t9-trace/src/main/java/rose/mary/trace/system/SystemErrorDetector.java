@@ -1,6 +1,5 @@
 package rose.mary.trace.system;
-
-import java.sql.BatchUpdateException;
+ 
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +11,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.mybatis.spring.MyBatisSystemException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,17 +21,15 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.CannotGetJdbcConnectionException;
 import org.springframework.jdbc.InvalidResultSetAccessException;
 import org.springframework.jdbc.UncategorizedSQLException;
-
-import com.ibm.disthub2.impl.formats.OldEnvelop.payload.error;
+ 
 
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.core.data.policy.SeriousErrorPolicy;
+
 import rose.mary.trace.core.exception.SystemError;
 import rose.mary.trace.manager.CacheManager;
-import rose.mary.trace.manager.ChannelManager;
+
 import rose.mary.trace.manager.ConfigurationManager;
-import rose.mary.trace.manager.ServerManager;
 
 /**
  * <pre>
@@ -48,28 +45,14 @@ import rose.mary.trace.manager.ServerManager;
  */
 @Aspect
 public class SystemErrorDetector {
-
-	SeriousErrorPolicy policy = SeriousErrorPolicy.SHUTDOWN;
-
-	MessageSource messageResource;
+ 
 
 	@Autowired
 	ConfigurationManager configurationManager;
 
 	@Autowired
 	CacheManager cacheManager;
-
-	@Autowired
-	ChannelManager channelManager;
-
-	@Autowired
-	ServerManager serverManager;
-
-	@Autowired
-	MessageSource messageSource;
-
-	private int policyCount = 1;
-
+ 
 	CacheProxy<String, SystemError> systemErrorCache = null;
 
 	SystemErrorHandler systemErrorhandler = null;
@@ -77,8 +60,7 @@ public class SystemErrorDetector {
 	Set<String> seriousErrors = new HashSet<String>();
 
 	public void prepare() {
-		policyCount = configurationManager.getPolicyConfig().getPolicyCount();
-		policy = new SeriousErrorPolicy(configurationManager.getPolicyConfig().getPolicy());
+		
 		systemErrorCache = cacheManager.getSystemErrorCache();
 
 		seriousErrors.add(SystemError.T9E0000001.getId());// JdbcConnectFailError
