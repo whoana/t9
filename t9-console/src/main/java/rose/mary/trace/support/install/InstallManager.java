@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -135,6 +136,14 @@ public class InstallManager {
 					T9_HOME = homeDir.getAbsolutePath();
 					File installFileDir = new File(userDir, INSTALL_SRC_DIR);
 					copyDirectory(installFileDir, homeDir);
+				} catch (FileNotFoundException e) {
+					println("> 압축 해제된 설치파일 디렉토리 위치가 올바르지 않습니다. 설치 매니저 실행 시 설치파일 경로를 지정해서 실행해 보세요.");
+					println("> 설치 예) 압축해제한 설치파일 위치가 ./t9-install-linux 라면, ");
+					println("> java -jar -Dsrc.dir=./t9-install-linux ./t9-install-linux/lib/t9-console-1.0.0.jar -i");
+
+					writeToLogFile(e);
+					e.printStackTrace();
+					continue;
 				} catch (Exception e) {
 					println("> 예외가 발생되었습니다. 처리 후 다시 시도해 주십시요. ");
 					writeToLogFile(e);
