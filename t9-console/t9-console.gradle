@@ -82,7 +82,10 @@ plugins {
 	//compile group: 'com.ibm.mq', 				name: 'com.ibm.mq.allclient', 			version: '9.1.3.0'
 	compile group: 'com.ibm.mq', 				name: 'com.ibm.mq.allclient', 			version: '9.2.0.1'
 
-	compile fileTree (dir: '../t9-trace/lib', include:['ILinkAPI-6.1.0.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar'])
+	compile fileTree (dir: '../t9-trace/lib', include:[
+		'ILinkAPI-6.1.0.jar','mi_link_wrapper.jar','mi_common.jar', 'javax.jms.jar','MQInterfaceSDK.1.6.4.jar',
+		't9-cache-1.0.0.jar','t9-core-1.0.0.jar'
+	])
 
 	// https://mvnrepository.com/artifact/oracle/ojdbc6
 	//compile group: 'oracle', name: 'ojdbc6', version: '11.2.0.3'

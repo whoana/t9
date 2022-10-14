@@ -29,6 +29,8 @@ import com.ibm.mq.constants.CMQC;
 import org.apache.commons.io.FileUtils;
 
 import pep.per.mint.common.util.Util;
+import rose.mary.trace.core.helper.module.mte.ILinkMsgHandler;
+import rose.mary.trace.core.helper.module.mte.MQMsgHandler;
 import rose.mary.trace.support.console.AnsiUtil;
 
 /**
@@ -315,12 +317,12 @@ public class InstallManager {
 		boolean wmqDisable = false;
 		boolean iLinkDisable = true;
 		println("> [큐매니저 정보 설정]");
-
+		int qmgrType = 0;
 		while (true) {
 			println("> 사용할 QMGR 제품을 선택하세요.:");
 			println("> 1) WebsphereMQ	2) ILink  (숫자를 입력하세요.)");
 			printIn();
-			int qmgrType = console.nextInt();
+			qmgrType = console.nextInt();
 			console.nextLine();
 			if (qmgrType == QMGR_WMQ) {
 				wmqDisable = false;
@@ -382,36 +384,50 @@ public class InstallManager {
 			queueName = console.nextLine();
 			println("> queueName: " + queueName);
 
-			Hashtable<String, Object> params = new Hashtable<String, Object>();
+			if (checkOption) {
+				if (qmgrType == QMGR_WMQ) {
+					try {
+						Hashtable<String, Object> params = new Hashtable<String, Object>();
+						params.put(CMQC.CHANNEL_PROPERTY, channelName);
+						params.put(CMQC.HOST_NAME_PROPERTY, hostName);
+						params.put(CMQC.PORT_PROPERTY, new Integer(port));
+						params.put(CMQC.USER_ID_PROPERTY, userId);
+						params.put(CMQC.PASSWORD_PROPERTY, password);
+						MQException.log = null;
 
-			params.put(CMQC.CHANNEL_PROPERTY, channelName);
+						MQQueueManager qmgr = new MQQueueManager(qmgrName, params);
+						int openOptions = CMQC.MQOO_INPUT_AS_Q_DEF + CMQC.MQOO_FAIL_IF_QUIESCING;
+						MQQueue queue = qmgr.accessQueue(queueName, openOptions);
+						queue = qmgr.accessQueue(queueName, openOptions);
+						MQGetMessageOptions gmo = new MQGetMessageOptions();
+						gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_FAIL_IF_QUIESCING
+								+ CMQC.MQGMO_WAIT;
+						queue.close();
+						qmgr.close();
 
-			params.put(CMQC.HOST_NAME_PROPERTY, hostName);
-			params.put(CMQC.PORT_PROPERTY, new Integer(port));
-
-			params.put(CMQC.USER_ID_PROPERTY, userId);
-
-			params.put(CMQC.PASSWORD_PROPERTY, password);
-
-			MQException.log = null;
-
-			if (checkOption)
-				try {
-					MQQueueManager qmgr = new MQQueueManager(qmgrName, params);
-					int openOptions = CMQC.MQOO_INPUT_AS_Q_DEF + CMQC.MQOO_FAIL_IF_QUIESCING;
-					MQQueue queue = qmgr.accessQueue(queueName, openOptions);
-					queue = qmgr.accessQueue(queueName, openOptions);
-					MQGetMessageOptions gmo = new MQGetMessageOptions();
-					gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_FAIL_IF_QUIESCING + CMQC.MQGMO_WAIT;
-					queue.close();
-					qmgr.close();
-
-				} catch (Exception e) {
-					println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 올바른 정보를 확인후 다시 시도해 주십시요. ");
-					writeToLogFile(e);
-					e.printStackTrace();
+					} catch (Exception e) {
+						println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 올바른 정보를 확인후 다시 시도해 주십시요. ");
+						writeToLogFile(e);
+						e.printStackTrace();
+						continue;
+					}
+				} else if (qmgrType == QMGR_ILIN) {
+					try {
+						ILinkMsgHandler handler = new ILinkMsgHandler(qmgrName, hostName, port, channelName, userId, password);
+						handler.open(queueName, MQMsgHandler.Q_QPEN_OPT_GET);
+						handler.close();
+					} catch (Exception e) {
+						println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 올바른 정보를 확인후 다시 시도해 주십시요. ");
+						writeToLogFile(e);
+						e.printStackTrace();
+						continue;
+					}
+				} else {
+					println("> 설치 지원하지 않는 큐매니저 제품입니다.");
 					continue;
 				}
+
+			}
 
 			try {
 
