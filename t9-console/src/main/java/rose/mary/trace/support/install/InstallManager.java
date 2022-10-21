@@ -20,17 +20,22 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.jms.ConnectionFactory;
+import javax.jms.MessageConsumer;
+import javax.jms.Queue;
+import javax.jms.QueueBrowser;
+import javax.jms.Session;
+
 import com.ibm.mq.MQException;
 import com.ibm.mq.MQGetMessageOptions;
 import com.ibm.mq.MQQueue;
 import com.ibm.mq.MQQueueManager;
 import com.ibm.mq.constants.CMQC;
+import com.mococo.ILinkAPI.jms.ILConnectionFactory;
 
 import org.apache.commons.io.FileUtils;
 
 import pep.per.mint.common.util.Util;
-import rose.mary.trace.core.helper.module.mte.ILinkMsgHandler;
-import rose.mary.trace.core.helper.module.mte.MQMsgHandler;
 import rose.mary.trace.support.console.AnsiUtil;
 
 /**
@@ -413,9 +418,15 @@ public class InstallManager {
 					}
 				} else if (qmgrType == QMGR_ILIN) {
 					try {
-						ILinkMsgHandler handler = new ILinkMsgHandler(qmgrName, hostName, port, channelName, userId, password);
-						handler.open(queueName, MQMsgHandler.Q_QPEN_OPT_GET);
-						handler.close();
+						ConnectionFactory factory = new ILConnectionFactory(hostName, port);
+						javax.jms.Connection conn = factory.createConnection();
+						Session session = conn.createSession(true, Session.SESSION_TRANSACTED);
+						conn.start();
+						Queue queue = session.createQueue(queueName);
+						MessageConsumer consumer = session.createConsumer(queue);
+						QueueBrowser browser = session.createBrowser(queue);
+						session.close();
+						conn.close();
 					} catch (Exception e) {
 						println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 올바른 정보를 확인후 다시 시도해 주십시요. ");
 						writeToLogFile(e);
