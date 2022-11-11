@@ -2,21 +2,16 @@
  * Copyright 2020 portal.mocomsys.com All Rights Reserved.
  */
 package rose.mary.trace.loader;
-
-import java.sql.BatchUpdateException;
-import java.sql.SQLException;
+ 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-//import javax.transaction.TransactionManager;
-
-import org.apache.ibatis.exceptions.PersistenceException;
+ 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+`
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.RunMode;
 import rose.mary.trace.T9;
@@ -157,14 +152,22 @@ public class TraceLoader implements Runnable {
 			// 수정이 필요한지 고민해볼 부분이 있따.
 			// 에러큐로 빼지 않고 그대로 놔두고 시스템 종료, 문제해결, 재기동 후
 			// 에러큐에 넣지 안아도 D.C 에 있는 것은 재처리 되므로....
+			//
+			// 20221110
+			// 에러발생된건이 재처리 될수 없는 건이라면, 이를테면 데이터 길이 오류등
+			// 테이블에 입력될 수 없는 겅우라면
+			// 로그 확인 후 캐시를 지우고 재기동하는 것이 합리적인 처리 정책인건지 고민해 볼것
 			// ----------------------------------------------------
-			// if (errorCache != null) {
-			// errorCache.put(loadItems);
-			// }
-			// distributeCache.removeAll(loadItems.keySet());
+			if (errorCache != null) {
+				errorCache.put(loadItems);
+			}
+			distributeCache.removeAll(loadItems.keySet());
 			// ----------------------------------------------------
-			logger.error("Loader commit Exception", e);
-			throw e;
+
+			// 20221111
+			// errorCache를 이용하는 것으로 일단 수정하자.
+			// logger.error("Loader commit Exception", e);
+			// throw e;
 		} finally {
 
 			loadItems.clear();

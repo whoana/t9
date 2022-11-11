@@ -145,12 +145,15 @@ public class BotLoader implements Runnable {
 			// 에러큐로 빼지 않고 그대로 놔두고 시스템 종료, 문제해결, 재기동 후
 			// 에러큐에 넣지 안아도 B.C 에 있는 것은 재처리 되므로....
 			// ----------------------------------------------------
-			// if (errorCache != null) {
-			// errorCache.put(loadBots);
-			// }
-			// botCache.removeAll(loadBots.keySet());
-			logger.error("Loader commit Exception", e);
-			throw e;
+			if (errorCache != null) {
+				errorCache.put(loadBots);
+			}
+			botCache.removeAll(loadBots.keySet());
+
+			// 20221111
+			// errorCache를 이용하는 것으로 일단 수정하자. 
+			// logger.error("BotLoader commit Exception", e);
+			// throw e;
 		} finally {
 			// dbLoadStates.clear();
 			loadBots.clear();
