@@ -1,0 +1,100 @@
+성능 측정
+
+    1 결과 
+        857.5 TPS
+        메시지 5만 건 수집처리 20회 실시 후 평균 값 측정    
+        처리 쓰레드 개수 10개 
+        raw data
+                기록일시            로그수집시작            로그수집종료         TPS
+            20220726121756538	20220726121555214	20220726121256716	833
+            20220726125202329	20220726124959115	20220726124702382	843
+            20220726130603138	20220726130352845	20220726130103270	888
+            20220726133845571	20220726133632239	20220726133345667	893
+            20220726134700878	20220726134452242	20220726134201011	877
+            20220726141345243	20220726141137864	20220726140845356	867
+            20220726142110366	20220726141901381	20220726141610692	877
+            20220726142914759	20220726142715987	20220726142414951	829
+            20220726143645676	20220726143436476	20220726143145793	877
+            20220726144422914	20220726144215690	20220726143923158	867
+            20220726145155620	20220726144947542	20220726144655675	867
+            20220726145925223	20220726145722008	20220726145425352	843
+            20220726150704274	20220726150453728	20220726150204323	888
+            20220726151435084	20220726151245652	20220726150935721	789
+            20220726152224541	20220726152026809	20220726151724693	824
+            20220726153027476	20220726152831200	20220726152527879	815
+            20220726153828806	20220726153623626	20220726153328892	852
+            20220726154624812	20220726154417334	20220726154124843	862
+            20220726155428395	20220726155220031	20220726154928428	872
+            20220726160232634	20220726160032649	20220726155732798	833
+
+    2 측정 환경
+
+        2.1 S/W 구성
+
+            WMQ 9.2.0.1  -------> T9 -------> Postgres Server 42.3.4
+
+        2.2 H/W (VMWare 가상 서버)
+
+            OS : 
+                Linux version 3.10.0-514.el7.x86_64 (mockbuild@x86-039.build.eng.bos.redhat.com)
+                NAME="Red Hat Enterprise Linux Server"
+                VERSION="7.3 (Maipo)"
+                ID="rhel"
+                ID_LIKE="fedora"
+                VERSION_ID="7.3"
+                PRETTY_NAME="Red Hat Enterprise Linux Server 7.3 (Maipo)"
+                ANSI_COLOR="0;31"
+                CPE_NAME="cpe:/o:redhat:enterprise_linux:7.3:GA:server"
+                HOME_URL="https://www.redhat.com/"
+                BUG_REPORT_URL="https://bugzilla.redhat.com/"
+
+                REDHAT_BUGZILLA_PRODUCT="Red Hat Enterprise Linux 7"
+                REDHAT_BUGZILLA_PRODUCT_VERSION=7.3
+                REDHAT_SUPPORT_PRODUCT="Red Hat Enterprise Linux"
+                REDHAT_SUPPORT_PRODUCT_VERSION="7.3"
+                Red Hat Enterprise Linux Server release 7.3 (Maipo)
+
+            IP : 
+                10.10.1.10
+
+            메모리 : 64 Gbytes
+                [mqm@ora18host ~]$ free
+                    total        used        free      shared  buff/cache   available
+                    Mem:       65809708     7833376    43265536      224172    14710796    57147676
+                    Swap:      10485756           0    10485756
+
+            CPU : vCpu[Intel(R) Xeon(R) CPU E5-2650 v3 @ 2.30GHz] * 8EA 
+                Architecture:          x86_64
+                CPU op-mode(s):        32-bit, 64-bit
+                Byte Order:            Little Endian
+                CPU(s):                8
+                On-line CPU(s) list:   0-7
+                Thread(s) per core:    1
+                Core(s) per socket:    8
+                Socket(s):             1
+                NUMA node(s):          1
+                Vendor ID:             GenuineIntel
+                CPU family:            6
+                Model:                 63
+                Model name:            Intel(R) Xeon(R) CPU E5-2650 v3 @ 2.30GHz
+                Stepping:              2
+                CPU MHz:               2294.704
+                BogoMIPS:              4589.37
+                Hypervisor vendor:     VMware
+                Virtualization type:   full
+                L1d cache:             32K
+                L1i cache:             32K
+                L2 cache:              256K
+                L3 cache:              25600K
+                NUMA node0 CPU(s):     0-7                
+
+            디스크 : 200 Gbytes
+                Filesystem             Size  Used Avail Use% Mounted on
+                /dev/mapper/rhel-root   50G   29G   22G  57% /
+                devtmpfs                32G     0   32G   0% /dev
+                tmpfs                   32G     0   32G   0% /dev/shm
+                tmpfs                   32G  8.7M   32G   1% /run
+                tmpfs                   32G     0   32G   0% /sys/fs/cgroup
+                /dev/sda1             1014M  139M  876M  14% /boot
+                /dev/mapper/rhel-home   39G  6.3G   33G  16% /home
+                tmpfs                  6.3G     0  6.3G   0% /run/user/1414

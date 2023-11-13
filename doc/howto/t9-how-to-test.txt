@@ -1,0 +1,37 @@
+실행 및 테스트 
+
+1.설치 구성
+  아래 문서 참고 
+  t9-howto-install-at-linux.txt
+
+2.실행
+  아래 문서 참고 
+  t9-howto-start-at-linux.txt  
+
+3.테스트
+  설치된 t9을 실행한후 테스트 메시지를 발생하여 fault 테스트 / 비정상 종료 / 데이터 정합성 테스트를 진행한다.
+  t9실행시 개발 모드를 development 로 변경하면 디버그 로그를 남길수 있다. 
+	vi .{T9_HOME}/bin/run.sh
+	#export ACTIVE_PROFILE=production
+	export ACTIVE_PROFILE=development
+
+  테스트 메시지 발생 방법
+	ssh mqm@10.10.1.10
+	cd /home/mqm/apps/msg-gener/bin
+	#1000건 발생(상세 3000건, summary 1000건)
+	./curl-wmq-msg.sh 
+	#10000건 발생
+	./curl-wmq-msg-10000.sh 
+	#3000건 발생
+	./curl-wmq-msg-30000.sh 
+
+  처리 데이터 검증 SQL
+	-- 로그 상세 건수 체크 
+	select count(*) as tcnt from top0501 where tracking_date >= '20220919100000000';
+	-- 로그 Summary 건수 체크 
+	select count(*) as scnt from top0503 where tracking_date >= '20220919100000000';
+	-- 로그 Summary 완료상태 체크 
+	select status, count(*) cnt from top0503 where tracking_date >= '20220919100000000' group by status;
+
+
+  * 개인별 테스트 시 DB, MQ 환경은 별도 설치 필요. 

@@ -50,7 +50,7 @@
 
 	<select id="generateBadSqlGrammarException" resultType="int">
 		SELECT count(*)
-		  FROM TOP0505dfasdfasdfadsf a
+		  FROM TOP0505 a
 		 WHERE a.PACKAGE = 'system'
 		   AND a.ATTRIBUTE_ID = 'database.health.check.date'
 		   AND a.idx = 0

@@ -4,6 +4,8 @@
 package rose.mary.trace.database.service;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
@@ -89,19 +91,25 @@ public class BotService {
 	 * @param states
 	 * @throws Exception
 	 */
-	public void mergeBots(Collection<State> states) throws Exception {
+	public void mergeBots(Collection<State> states, CacheProxy<String, State> finCache) throws Exception {
 
 		boolean autoCommit = false;
 		SqlSession session = null;
 		try {
 			session = sqlSessionFactory.openSession(ExecutorType.BATCH, autoCommit);
+			// 20220825
+			// 처리 속도 향상을 위해 한번만 실행하는 것으로 함 정확한 로킹을 위해서는 for 안으로 이동 필요함.
 			String date = Util.getFormatedDate(Util.DEFAULT_DATE_FORMAT_MI);
+			Map<String, State> updateStates = new HashMap<String, State>();
 			for (State state : states) {
-
+				// String date = Util.getFormatedDate(Util.DEFAULT_DATE_FORMAT_MI);
 				Bot bot = new Bot();
 				InterfaceInfo interfaceInfo = cacheManager.getInterfaceCache().get(state.getIntegrationId());
 				if (interfaceInfo == null) {
 					// 매치되는 것이 없으면 TOP0503에는 저장하지 않는다.
+					// 대신 UnmatchCache 에 integrationId 를 키값으로 Unmatch 오브젝트를 등록해 둔다.
+
+					// 저장 하려면 아래 로직으로 임시인터페이스 정보를 만들어 등록하도록 처리할 수 있다.(보류)
 					// interfaceInfo = new InterfaceInfo();
 					// interfaceInfo.setInterfaceId(state.getIntegrationId());
 					// interfaceInfo.setIntegrationId(state.getIntegrationId());
@@ -131,9 +139,13 @@ public class BotService {
 					// logger.debug("add batchItem:" + Util.toJSONString(bot));
 					int res = session.update("rose.mary.trace.database.mapper.m01.BotMapper.restore", bot);
 				}
+				state.setLoaded(true);
+				updateStates.put(state.getBotId(), state);
 			}
 			session.flushStatements();
 			session.commit();
+			finCache.put(updateStates);
+			
 		} catch (Exception e) {
 			session.rollback();
 			throw e;
@@ -184,6 +196,19 @@ public class BotService {
 			if (session != null)
 				session.close();
 		}
+	}
+
+	public State getState(String integrationId, String trackingDate, String orgHostId) throws Exception {
+		State state = botMapper.getState(integrationId, trackingDate, orgHostId);
+		if (state != null) {
+			int finishNodeCount = state.getFinishNodeCount();
+			int todoNodeCount = state.getTodoNodeCount();
+			boolean senderReceived = state.isFinishSender();
+			state.setBotId(Util.join(integrationId, "@", trackingDate, "@", orgHostId));
+			state.setFinish(finishNodeCount >= todoNodeCount && senderReceived);
+			state.setCreateDate(System.currentTimeMillis());
+		}
+		return state;
 	}
 
 }

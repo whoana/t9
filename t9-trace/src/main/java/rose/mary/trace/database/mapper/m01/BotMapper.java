@@ -4,6 +4,7 @@
 package rose.mary.trace.database.mapper.m01;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import rose.mary.trace.core.data.common.Bot;
 import rose.mary.trace.core.data.common.State;
@@ -23,5 +24,7 @@ public interface BotMapper {
 	public int restore(Bot bot) throws Exception;
 	
 	public int updateUnmatch(Unmatch unmatch) throws Exception;
+
+	public State getState(@Param("integrationId") String integrationId, @Param("trackingDate") String trackingDate, @Param("orgHostId") String orgHostId) throws Exception;
 
 }

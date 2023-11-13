@@ -11,7 +11,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import junit.framework.Assert;
-import lombok.extern.slf4j.Slf4j;
+ 
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.data.common.Trace;
 

@@ -9,10 +9,10 @@ import org.springframework.context.MessageSource;
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.cache.CacheProxy;
 import rose.mary.trace.core.channel.Channel;
-import rose.mary.trace.core.config.DatabasePolicyConfig;
+import rose.mary.trace.core.config.PolicyConfig;
 import rose.mary.trace.core.data.common.State;
 import rose.mary.trace.core.data.common.Trace;
-import rose.mary.trace.core.data.policy.DatabasePolicy;
+import rose.mary.trace.core.data.policy.SeriousErrorPolicy;
 import rose.mary.trace.core.envs.Variables;
 import rose.mary.trace.database.service.SystemService;
 import rose.mary.trace.manager.ChannelManager;
@@ -35,7 +35,7 @@ public class SystemErrorHandler implements Runnable {
 
 	Logger logger = LoggerFactory.getLogger("rose.mary.trace.SystemLogger");
 
-	DatabasePolicy policy = DatabasePolicy.SHUTDOWN;
+	SeriousErrorPolicy policy = SeriousErrorPolicy.SHUTDOWN;
 
 	ServerManager serverManager;
 
@@ -55,7 +55,7 @@ public class SystemErrorHandler implements Runnable {
 
 	private int policyCount = 1;
 
-	private DatabasePolicyConfig config;
+	private PolicyConfig config;
 
 	String name;
 
@@ -69,7 +69,7 @@ public class SystemErrorHandler implements Runnable {
 			SystemService systemService,
 			ServerManager serverManager,
 			ChannelManager channelManager,
-			DatabasePolicyConfig config,
+			PolicyConfig config,
 			CacheProxy<String, Trace> errorCache1,
 			CacheProxy<String, State> errorCache2) {
 		this.messageResource = messageResource;
@@ -81,7 +81,7 @@ public class SystemErrorHandler implements Runnable {
 		this.exceptionDelay = config.getExceptionDelay();
 		this.policyCheckDelay = config.getPolicyCheckDelay();
 		this.policyCount = config.getPolicyCount();
-		policy = new DatabasePolicy(config.getPolicy());
+		policy = new SeriousErrorPolicy(config.getPolicy());
 		this.errorCache1 = errorCache1;
 		this.errorCache2 = errorCache2;
 
@@ -181,13 +181,13 @@ public class SystemErrorHandler implements Runnable {
 					logger.info("database health check result : true");
 					databaseHealth = true;
 					switch (policy.getPolicy()) {
-						case DatabasePolicy.stopChannel:
+						case SeriousErrorPolicy.stopChannel:
 							if (!serverManager.getChannelsStarted()) {
 								logger.info("DatabasePolicy 정책에 따라 멈쳐있던 채널들을 재시작 합니다.");
 								serverManager.startChannel();
 							}
 							break;
-						case DatabasePolicy.stopServer:
+						case SeriousErrorPolicy.stopServer:
 							if (serverManager.checkServerState() == TraceServer.STATE_STOP) {
 								logger.info("DatabasePolicy 정책에 따라 멈쳐있던 서버를 재시작 합니다.");
 								serverManager.startServer();
@@ -303,13 +303,13 @@ public class SystemErrorHandler implements Runnable {
 					logger.info("database health check result : true");
 					databaseHealth = true;
 					switch (policy.getPolicy()) {
-						case DatabasePolicy.stopChannel:
+						case SeriousErrorPolicy.stopChannel:
 							if (!serverManager.getChannelsStarted()) {
 								logger.info("DatabasePolicy 정책에 따라 멈쳐있던 채널들을 재시작 합니다.");
 								serverManager.startChannel();
 							}
 							break;
-						case DatabasePolicy.stopServer:
+						case SeriousErrorPolicy.stopServer:
 							if (serverManager.checkServerState() == TraceServer.STATE_STOP) {
 								logger.info("DatabasePolicy 정책에 따라 멈쳐있던 서버를 재시작 합니다.");
 								serverManager.startServer();
@@ -405,17 +405,17 @@ public class SystemErrorHandler implements Runnable {
 
 	private void runPolicy() throws Exception {
 		switch (policy.getPolicy()) {
-			case DatabasePolicy.stopChannel:
+			case SeriousErrorPolicy.stopChannel:
 				logger.info("DatabasePolicy.stopChannel 정책을 실행합니다.");
 				serverManager.stopChannel();
 				logger.info("DatabasePolicy.stopChannel 정책을 실행을 처리하였습니다.");
 				break;
-			case DatabasePolicy.stopServer:
+			case SeriousErrorPolicy.stopServer:
 				logger.info("DatabasePolicy.stopServer 정책을 실행합니다.");
 				serverManager.stopServer();
 				logger.info("DatabasePolicy.stopServer 정책을 실행을 처리하였습니다.");
 				break;
-			case DatabasePolicy.shutdownServer:
+			case SeriousErrorPolicy.shutdownServer:
 				logger.info("DatabasePolicy.shutdownServer 정책을 실행합니다.");
 				isShutdown = true;
 				serverManager.shutdownServer();

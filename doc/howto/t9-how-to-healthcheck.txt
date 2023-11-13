@@ -1,0 +1,10 @@
+--------------------------------------------------------------------------
+-- 기본 값 10초 간격 health check 세팅
+-- 아래 SQL 결과 값['lastHealthCheckedDate']을 조회하여 
+-- 현재 시간 기준 11초 이상 지났다면 로그수집 서버에 문제가 있는 것으로 판단하고 확인 필요함.
+--------------------------------------------------------------------------  
+select attribute_value as "lastHealthCheckedDate" 
+  from top0505 
+ where package = 'system' 
+   and attribute_id = 'database.health.check.date'
+  ;

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="rose.mary.trace.database.mapper.m01.TpsMapper">
+  	<!--
+  	<cache/>
+  	-->
+	<insert id="recordAvgTps">
+		insert into TOP0507 (RECORD_DATE, AVG_TPS, START_DATE, END_DATE) 
+        select #{recordDate}, avg(a.cnt), max(a.t1), min(a.t2) 
+		  from (
+            select                                               
+                substr(reg_date, 1, 14),
+                count(*) as cnt,
+                max(reg_date) as t1,
+                min(reg_date) as t2
+              from top0501
+             where reg_date <![CDATA[>=]]> #{startDate}
+               and reg_date <![CDATA[<=]]> #{endDate}
+          group by substr(reg_date, 1, 14)
+        ) a                                                                 
+	</insert>
+ 
+ 
+ 	<select id="getAvgTps" resultType="int">
+ 		select AVG_TPS from TOP0507 where RECORD_DATE = #{recordDate}
+ 	</select>
+
+</mapper>

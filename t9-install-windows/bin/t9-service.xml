@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<service>
+
+	<env name="T9_HOME" 		value="C:\DEV\Softwares\t9" />
+	<env name="JAVA_HOME"		value="C:\DEV\Softwares\Zulu\zulu-8" />
+	<env name="JAVA_OPTS" 		value="-Xms64m -Xmx1024m -Xverify:none" />
+	<env name="ACTIVE_PROFILE" 	value="development" />
+	<env name="CPATH" 		value="%T9_HOME%\lib\t9-trace-1.0.0.jar;%T9_HOME%\lib\ext\t9-cache-1.0.0.jar;%T9_HOME%\lib\ext\infinispan-core-9.4.16.Final.jar;%T9_HOME%\lib\ext\infinispan-commons-9.4.16.Final.jar;%T9_HOME%\lib\ext\jboss-logging-3.4.1.Final.jar;%T9_HOME%\lib\ext\jboss-transaction-api_1.2_spec-1.1.1.Final.jar;%T9_HOME%\lib\ext\jboss-marshalling-osgi-2.0.6.Final.jar;%T9_HOME%\lib\ext\caffeine-2.8.0.jar;%T9_HOME%\lib\ext\rxjava-2.2.15.jar;%T9_HOME%\lib\ext\reactive-streams-1.0.3.jar;%T9_HOME%\lib\ext\s9-utility-1.0.0.jar;%T9_HOME%\lib\ext\ILinkAPI-6.1.0.jar;%T9_HOME%\lib\ext\mi_link_wrapper.jar;%T9_HOME%\lib\ext\mi_common.jar;%T9_HOME%\lib\ext\javax.jms.jar;%T9_HOME%\lib\ext\MQInterfaceSDK.1.6.4.jar" />
+	<!-- 
+	<env name="ACTIVE_PROFILE" 	value="production" />
+	 --> 
+
+    	<id>t9</id>
+    	<name>t9</name>
+    	<description>t9 windows service</description>
+    	<executable>%JAVA_HOME%\bin\java</executable>
+	<!-- JMX MONISTOR SET
+	<startargument>-Dspring.application.admin.enabled=true</startargument>
+	<startargument>-Dcom.sun.management.jmxremote.port=50201</startargument>
+	<startargument>-Dcom.sun.management.jmxremote.authenticate=false</startargument>
+	<startargument>-Dcom.sun.management.jmxremote.ssl=false </startargument>
+	-->
+	
+    	<arguments>%JAVA_OPTS% -classpath %CPATH% -Dapp.name=rosemary -Drose.mary.home=%T9_HOME% -Dspring.profiles.active=%ACTIVE_PROFILE% -Dspring.config.location=%T9_HOME%\config\application.yml -Dloader.main=rose.mary.trace.T9 org.springframework.boot.loader.T9L</arguments>
+	
+	<logmode>rotate</logmode>
+
+</service>

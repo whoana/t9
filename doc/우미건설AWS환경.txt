@@ -1,0 +1,17 @@
+---------------------
+-- 이수건설 AWS 환경  --
+---------------------
+터미널 공통 패스워드 :
+    48xkh&qg4
+
+c.dat 업로드 
+    scp -i "/Users/whoana/DEV/projects/SEOUL-QA-WM-BASTION-KEY.pem" -P 4022 /Users/whoana/DEV/workspace-vs/s9/cached-classes/anybody/c/c.dat miuser@13.124.103.50:/home/miuser/install/iip
+    scp -i "/home/miuser/keyfile/SEOUL-QA-WM-EAI-KEY.pem" -P 4022 /home/miuser/install/iip/c.dat miuser@10.40.52.176:/home/miuser/iip/t9/lib/ext/c/c.dat
+
+t9-trace-1.0.0.jar 업로드 
+    scp -i "/Users/whoana/DEV/projects/SEOUL-QA-WM-BASTION-KEY.pem" -P 4022 /Users/whoana/DEV/workspace-vs/t9/t9-install-linux/lib/t9-trace-1.0.0.jar miuser@13.124.103.50:/home/miuser/install/iip
+    scp -i "/home/miuser/keyfile/SEOUL-QA-WM-EAI-KEY.pem" -P 4022 /home/miuser/install/iip/t9-trace-1.0.0.jar miuser@10.40.52.176:/home/miuser/iip/t9/lib/t9-trace-1.0.0.jar
+
+
+2. Bastion 터널링 설정
+   ssh -i "/Users/whoana/DEV/projects/SEOUL-QA-WM-BASTION-KEY.pem" -p 4022 miuser@13.124.103.50 -L 9999:seoul-qa-wm-eai-rds.cmdc5vxe0tm0.ap-northeast-2.rds.amazonaws.com:5532

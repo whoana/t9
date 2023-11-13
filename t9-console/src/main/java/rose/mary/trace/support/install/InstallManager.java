@@ -8,6 +8,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,11 +20,18 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.jms.ConnectionFactory;
+import javax.jms.MessageConsumer;
+import javax.jms.Queue;
+import javax.jms.QueueBrowser;
+import javax.jms.Session;
+
 import com.ibm.mq.MQException;
 import com.ibm.mq.MQGetMessageOptions;
 import com.ibm.mq.MQQueue;
 import com.ibm.mq.MQQueueManager;
 import com.ibm.mq.constants.CMQC;
+import com.mococo.ILinkAPI.jms.ILConnectionFactory;
 
 import org.apache.commons.io.FileUtils;
 
@@ -45,6 +53,7 @@ public class InstallManager {
 	static String JAVA_HOME = "";
 	static String INSTALL_SRC_DIR = "t9-install-linux";
 	static String T9_HOME = "";
+	static int T9_PORT = 8090;
 	Scanner console = null;
 	public static boolean checkOption = true;
 	public static boolean runOption = false;
@@ -74,6 +83,8 @@ public class InstallManager {
 		println("> ---------------------------------------------------------------------");
 		setHome();
 		println("> ---------------------------------------------------------------------");
+		setPort();
+		println("> ---------------------------------------------------------------------");
 		setJavaHome();
 		println("> ---------------------------------------------------------------------");
 		setJdbc();
@@ -100,6 +111,12 @@ public class InstallManager {
 
 	}
 
+	void setPort() {
+		println("> [T9 서비스 포트 설정]");
+		T9_PORT = inputInt(console, "> T9 서비스 PORT 를 입력해주세요.(기본값:8090) :", "> T9_PORT 값은 숫자를 입력해 주세요.");
+		println("> T9_PORT: " + T9_PORT);
+	}
+
 	void setHome() {
 		String userHome = System.getProperty("user.home");
 		String userDir = System.getProperty("user.dir");
@@ -113,6 +130,7 @@ public class InstallManager {
 			printIn();
 			String home = console.nextLine();
 			println("> T9_HOME: " + home);
+
 			println("> 설치를 진행할까요? (yes | no) :");
 			printIn();
 			String ok = console.nextLine();
@@ -125,6 +143,14 @@ public class InstallManager {
 					T9_HOME = homeDir.getAbsolutePath();
 					File installFileDir = new File(userDir, INSTALL_SRC_DIR);
 					copyDirectory(installFileDir, homeDir);
+				} catch (FileNotFoundException e) {
+					println("> 압축 해제된 설치파일 디렉토리 위치가 올바르지 않습니다. 설치 매니저 실행 시 설치파일 경로를 지정해서 실행해 보세요.");
+					println("> 설치 예) 압축해제한 설치파일 위치가 ./t9-install-linux 라면, ");
+					println("> java -jar -Dsrc.dir=./t9-install-linux ./t9-install-linux/lib/t9-console-1.0.0.jar -i");
+
+					writeToLogFile(e);
+					e.printStackTrace();
+					continue;
 				} catch (Exception e) {
 					println("> 예외가 발생되었습니다. 처리 후 다시 시도해 주십시요. ");
 					writeToLogFile(e);
@@ -224,30 +250,6 @@ public class InstallManager {
 
 		outer: while (true) {
 
-			// while (true) {
-			// println("> JDBC Driver Class Name 을 입력해 주세요. :");
-			// println("> ex) org.postgresql.Driver");
-			// printIn();
-			// dirverName = console.nextLine();
-			// if (!"org.postgresql.Driver".equals(dirverName) ||
-			// !"org.postgresql.Driver".equals(dirverName)) {
-			// println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
-			// continue;
-			// }
-			// if (checkOption)
-			// try {
-			// Class.forName(dirverName);
-			// } catch (Exception e) {
-			// println("> 현재 지원가능한 드라이버는 org.postgresql.Driver 와 오라클입니다.");
-			// writeToLogFile(e);
-			// e.printStackTrace();
-			// continue;
-			// }
-
-			// break;
-			// }
-			// println("> JDBC dirverName: " + dirverName);
-
 			while (true) {
 				println("> 트래킹적재 데이터베이스 JDBC URL을 입력해주세요. :");
 				println("> ex) Postgres --> jdbc:postgresql://127.0.0.1:5432/iipdb");
@@ -284,7 +286,7 @@ public class InstallManager {
 					params.put("%jdbcUrl%", url);
 					params.put("%username%", username);
 					params.put("%password%", password);
-
+					params.put("%t9Port%", T9_PORT + "");
 					File template = new File(T9_HOME, "/config/application.yml.tpl");
 					File target = new File(T9_HOME, "/config/application.yml");
 					replaceFileContents(template, target, params);
@@ -320,12 +322,12 @@ public class InstallManager {
 		boolean wmqDisable = false;
 		boolean iLinkDisable = true;
 		println("> [큐매니저 정보 설정]");
-
+		int qmgrType = 0;
 		while (true) {
 			println("> 사용할 QMGR 제품을 선택하세요.:");
 			println("> 1) WebsphereMQ	2) ILink  (숫자를 입력하세요.)");
 			printIn();
-			int qmgrType = console.nextInt();
+			qmgrType = console.nextInt();
 			console.nextLine();
 			if (qmgrType == QMGR_WMQ) {
 				wmqDisable = false;
@@ -387,36 +389,56 @@ public class InstallManager {
 			queueName = console.nextLine();
 			println("> queueName: " + queueName);
 
-			Hashtable<String, Object> params = new Hashtable<String, Object>();
+			if (checkOption) {
+				if (qmgrType == QMGR_WMQ) {
+					try {
+						Hashtable<String, Object> params = new Hashtable<String, Object>();
+						params.put(CMQC.CHANNEL_PROPERTY, channelName);
+						params.put(CMQC.HOST_NAME_PROPERTY, hostName);
+						params.put(CMQC.PORT_PROPERTY, new Integer(port));
+						params.put(CMQC.USER_ID_PROPERTY, userId);
+						params.put(CMQC.PASSWORD_PROPERTY, password);
+						MQException.log = null;
 
-			params.put(CMQC.CHANNEL_PROPERTY, channelName);
+						MQQueueManager qmgr = new MQQueueManager(qmgrName, params);
+						int openOptions = CMQC.MQOO_INPUT_AS_Q_DEF + CMQC.MQOO_FAIL_IF_QUIESCING;
+						MQQueue queue = qmgr.accessQueue(queueName, openOptions);
+						queue = qmgr.accessQueue(queueName, openOptions);
+						MQGetMessageOptions gmo = new MQGetMessageOptions();
+						gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_FAIL_IF_QUIESCING
+								+ CMQC.MQGMO_WAIT;
+						queue.close();
+						qmgr.close();
 
-			params.put(CMQC.HOST_NAME_PROPERTY, hostName);
-			params.put(CMQC.PORT_PROPERTY, new Integer(port));
-
-			params.put(CMQC.USER_ID_PROPERTY, userId);
-
-			params.put(CMQC.PASSWORD_PROPERTY, password);
-
-			MQException.log = null;
-
-			if (checkOption)
-				try {
-					MQQueueManager qmgr = new MQQueueManager(qmgrName, params);
-					int openOptions = CMQC.MQOO_INPUT_AS_Q_DEF + CMQC.MQOO_FAIL_IF_QUIESCING;
-					MQQueue queue = qmgr.accessQueue(queueName, openOptions);
-					queue = qmgr.accessQueue(queueName, openOptions);
-					MQGetMessageOptions gmo = new MQGetMessageOptions();
-					gmo.options = CMQC.MQGMO_PROPERTIES_FORCE_MQRFH2 + CMQC.MQGMO_FAIL_IF_QUIESCING + CMQC.MQGMO_WAIT;
-					queue.close();
-					qmgr.close();
-
-				} catch (Exception e) {
-					println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 올바른 정보를 확인후 다시 시도해 주십시요. ");
-					writeToLogFile(e);
-					e.printStackTrace();
+					} catch (Exception e) {
+						println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 올바른 정보를 확인후 다시 시도해 주십시요. ");
+						writeToLogFile(e);
+						e.printStackTrace();
+						continue;
+					}
+				} else if (qmgrType == QMGR_ILIN) {
+					try {
+						ConnectionFactory factory = new ILConnectionFactory(hostName, port);
+						javax.jms.Connection conn = factory.createConnection();
+						Session session = conn.createSession(true, Session.SESSION_TRANSACTED);
+						conn.start();
+						Queue queue = session.createQueue(queueName);
+						MessageConsumer consumer = session.createConsumer(queue);
+						QueueBrowser browser = session.createBrowser(queue);
+						session.close();
+						conn.close();
+					} catch (Exception e) {
+						println("> 큐매니저 접속 테스트 예외가 발생되었습니다. 올바른 정보를 확인후 다시 시도해 주십시요. ");
+						writeToLogFile(e);
+						e.printStackTrace();
+						continue;
+					}
+				} else {
+					println("> 설치 지원하지 않는 큐매니저 제품입니다.");
 					continue;
 				}
+
+			}
 
 			try {
 
@@ -453,6 +475,7 @@ public class InstallManager {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("%T9_HOME%", T9_HOME);
 			params.put("%JAVA_HOME%", JAVA_HOME);
+			params.put("%T9_PORT%", T9_PORT + "");
 			File template = new File(T9_HOME, "/bin/run.sh.tpl");
 			File target = new File(T9_HOME, "/bin/run.sh");
 			replaceFileContents(template, target, params);
@@ -468,6 +491,7 @@ public class InstallManager {
 			Map<String, Object> params = new HashMap<String, Object>();
 			params.put("%T9_HOME%", T9_HOME);
 			params.put("%JAVA_HOME%", JAVA_HOME);
+			params.put("%T9_PORT%", T9_PORT + "");
 			File template = new File(T9_HOME, "/bin/stop.sh.tpl");
 			File target = new File(T9_HOME, "/bin/stop.sh");
 			replaceFileContents(template, target, params);
@@ -480,6 +504,7 @@ public class InstallManager {
 		}
 
 		try {
+			qmgrParams.put("%T9_PORT%", T9_PORT + "");
 			File template = new File(T9_HOME, "/bin/curl-wmq-msg.sh.tpl");
 			File target = new File(T9_HOME, "/bin/curl-wmq-msg.sh");
 			replaceFileContents(template, target, qmgrParams);
@@ -491,12 +516,41 @@ public class InstallManager {
 			// throw new Exception(msg, e);
 		}
 
-
 		try {
 			File testshell = new File(T9_HOME, "/bin/test.sh");
-			testshell.setExecutable(true); 
+			testshell.setExecutable(true);
 		} catch (Exception e) {
 			String msg = "test.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			throw new Exception(msg, e);
+		}
+
+		try {
+			File template = new File(T9_HOME, "/bin/tps.sh.tpl");
+			File target = new File(T9_HOME, "/bin/tps.sh");
+			replaceFileContents(template, target, qmgrParams);
+			target.setExecutable(true);
+			template.deleteOnExit();
+		} catch (Exception e) {
+			String msg = "tps.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			// throw new Exception(msg, e);
+		}
+
+		try {
+			File testshell = new File(T9_HOME, "/bin/tps-test.sh");
+			testshell.setExecutable(true);
+		} catch (Exception e) {
+			String msg = "tps-test.sh 스크립트 설치시 예외 발생:";
+			writeToLogFile(msg, e);
+			throw new Exception(msg, e);
+		}
+
+		try {
+			File testshell = new File(T9_HOME, "/bin/diskspeed.sh");
+			testshell.setExecutable(true);
+		} catch (Exception e) {
+			String msg = "diskspeed.sh 스크립트 설치시 예외 발생:";
 			writeToLogFile(msg, e);
 			throw new Exception(msg, e);
 		}
@@ -616,6 +670,41 @@ public class InstallManager {
 			}
 		}
 
+	}
+
+	public static int inputInt(Scanner console, String inputMsg, String typeErrorMsg) {
+
+		while (true) {
+			println(inputMsg);
+			printIn();
+			try {
+				String var = null;
+				if (console.hasNextLine())
+					var = console.nextLine();
+				return Util.isEmpty(var) || System.lineSeparator().equals(var) ? T9_PORT : Integer.parseInt(var);
+			} catch (Exception e) {
+				println(typeErrorMsg);
+				continue;
+			}
+		}
+	}
+
+	public static String inputStr(Scanner console, String inputMsg, String typeErrorMsg) {
+
+		while (true) {
+			println(inputMsg);
+			printIn();
+			try {
+				String output = null;
+				if (console.hasNextLine())
+					output = console.nextLine();
+				if (Util.isEmpty(output))
+					throw new Exception(typeErrorMsg);
+			} catch (Exception e) {
+				println(typeErrorMsg);
+				continue;
+			}
+		}
 	}
 
 }

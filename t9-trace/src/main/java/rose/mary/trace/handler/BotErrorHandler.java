@@ -28,49 +28,50 @@ import rose.mary.trace.system.SystemLogger;
  * 
  * BotErrorHandler.java
  * </pre>
+ * 
  * @author whoana
  * @since 20200508
  */
-public class BotErrorHandler implements Runnable{
-	
+public class BotErrorHandler implements Runnable {
+
 	Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	CacheProxy<String, State> errorCache;
-	
+
 	MessageSource messageResource;
-	
+
 	private long delayForNoMessage = 10;
-	
+
 	private boolean isShutdown = true;
-	
-	private long exceptionDelay = 1;	
-	
+
+	private long exceptionDelay = 1;
+
 	BotService botService;
-	
+
 	Thread thread;
 
 	int maxRetry = 1;
-	
+
 	String name;
-	
+
 	public BotErrorHandler(
 			String name,
-			CacheProxy<String, State> errorCache, 
-			MessageSource messageResource, 
-			BotService botService, 
-			long delayForNoMessage, 
-			int maxRetry, 
-			long exceptionDelay ) {
-		this.name = name; 
+			CacheProxy<String, State> errorCache,
+			MessageSource messageResource,
+			BotService botService,
+			long delayForNoMessage,
+			int maxRetry,
+			long exceptionDelay) {
+		this.name = name;
 		this.errorCache = errorCache;
 		this.messageResource = messageResource;
 		this.botService = botService;
 		this.delayForNoMessage = delayForNoMessage;
 		this.maxRetry = maxRetry;
 		this.exceptionDelay = exceptionDelay;
-		
+
 	}
-	
+
 	public void start() throws Exception {
 		if (thread != null)
 			stop();
@@ -78,18 +79,21 @@ public class BotErrorHandler implements Runnable{
 		isShutdown = false;
 		thread.start();
 	}
-	
+
 	public void stop() {
-		if(Variables.startStopAsap) { 
-			stopAsap();
-		} else {
-			stopGracefully();
-		}
+		// if(Variables.startStopAsap) {
+		// stopAsap();
+		// } else {
+		// stopGracefully();
+		// }
+		isShutdown = true;
+		if (thread != null)
+			thread.interrupt();
 	}
-	
+
 	@Override
 	public void run() {
-		if(Variables.startStopAsap) { 
+		if (Variables.startStopAsap) {
 			runAsap();
 		} else {
 			runGracefully();
@@ -109,17 +113,19 @@ public class BotErrorHandler implements Runnable{
 
 	public void stopAsap() {
 		isShutdown = true;
-		if (thread != null)thread.interrupt();
+		if (thread != null)
+			thread.interrupt();
 	}
-	
 
 	public void runAsap() {
 		logger.info(Util.join("start BotErrorHandler:[" + name + "]"));
 		while (true) {
 			try {
-				
-				if(thread.isInterrupted()) break;
-				
+
+				if (thread.isInterrupted()) {
+					isShutdown = true;
+					break;
+				}
 				Set<String> keys = errorCache.keys();
 				if (keys == null || keys.size() == 0) {
 					try {
@@ -132,42 +138,44 @@ public class BotErrorHandler implements Runnable{
 				}
 				logger.info("The count to retry:" + keys.size());
 				SystemLogger.info("count to retry:" + keys.size());
-				
+
 				String date = Util.getFormatedDate(Util.DEFAULT_DATE_FORMAT_MI);
-				for(String key : keys) {
+				for (String key : keys) {
 					State state = errorCache.get(key);
 					int retry = state.getRetry();
 					retry = retry + 1;
 					state.setRetry(retry);
-					
-					if(retry < maxRetry) {
-						
+
+					if (retry < maxRetry) {
+
 						try {
 							botService.mergeBot(state, date);
 							String msg = messageResource.getMessage("success.msg.retry", null, null);
 							state.setRetryErrorMsg(msg);
 							errorCache.remove(key);
 							logger.info(Util.toJSONString(state));
-							
-						}catch(Exception e) {
-							 
+
+						} catch (Exception e) {
+
 							String errorDetail = "";
 							PrintWriter pw = null;
-							try{
+							try {
 								ByteArrayOutputStream baos = new ByteArrayOutputStream();
 								pw = new PrintWriter(baos);
 								e.printStackTrace(pw);
 								pw.flush();
-								if(pw != null)  errorDetail = baos.toString();
-							}finally{
-								if(pw != null) pw.close();
+								if (pw != null)
+									errorDetail = baos.toString();
+							} finally {
+								if (pw != null)
+									pw.close();
 							}
-							String[] params = {errorDetail};
+							String[] params = { errorDetail };
 							String msg = messageResource.getMessage("error.msg.exception.retry", params, null);
 							state.setRetryErrorMsg(msg);
 							errorCache.put(key, state);
 							logger.info(Util.toJSONString(state));
-							 
+
 							logger.error("BotErrorHandler exception:", e);
 							try {
 								Thread.sleep(exceptionDelay);
@@ -175,20 +183,18 @@ public class BotErrorHandler implements Runnable{
 								isShutdown = true;
 								break;
 							}
-							
+
 						}
-						
-						
-					}else{
+
+					} else {
 						String msg = messageResource.getMessage("error.msg.too.much.retry", null, null);
 						state.setRetryErrorMsg(msg);
 						errorCache.remove(key);
 						logger.info(Util.toJSONString(state));
 					}
 				}
-				
-				
-			}catch(Throwable t) {
+
+			} catch (Throwable t) {
 				logger.error("BotErrorHandler exception:", t);
 				try {
 					Thread.sleep(exceptionDelay);
@@ -202,8 +208,7 @@ public class BotErrorHandler implements Runnable{
 		isShutdown = true;
 		logger.info(Util.join("stop BotErrorHandler:[" + name + "]"));
 	}
-	
-	 
+
 	public void runGracefully() {
 		logger.info(Util.join("start BotErrorHandler:[" + name + "]"));
 		while (Thread.currentThread() == thread && !isShutdown) {
@@ -218,45 +223,45 @@ public class BotErrorHandler implements Runnable{
 					}
 					continue;
 				}
-				 
-				
+
 				String date = Util.getFormatedDate(Util.DEFAULT_DATE_FORMAT_MI);
-				
-				 
-				for(String key : keys) {
+
+				for (String key : keys) {
 					State state = errorCache.get(key);
+					if (state == null)
+						continue;
 					int retry = state.getRetry();
-					if(retry < maxRetry) {
-						
+					if (retry < maxRetry) {
+
 						try {
 							botService.mergeBot(state, date);
 							String msg = messageResource.getMessage("success.msg.retry", null, null);
 							state.setRetryErrorMsg(msg);
 							errorCache.remove(key);
 							logger.info(Util.toJSONString(state));
-							
-						}catch(Exception e) {
-							
-							
+
+						} catch (Exception e) {
+
 							state.setRetry(retry + 1);
 							String errorDetail = "";
 							PrintWriter pw = null;
-							try{
+							try {
 								ByteArrayOutputStream baos = new ByteArrayOutputStream();
 								pw = new PrintWriter(baos);
 								e.printStackTrace(pw);
 								pw.flush();
-								if(pw != null)  errorDetail = baos.toString();
-							}finally{
-								if(pw != null) pw.close();
+								if (pw != null)
+									errorDetail = baos.toString();
+							} finally {
+								if (pw != null)
+									pw.close();
 							}
-							String[] params = {errorDetail};
+							String[] params = { errorDetail };
 							String msg = messageResource.getMessage("error.msg.exception.retry", params, null);
 							state.setRetryErrorMsg(msg);
 							errorCache.put(key, state);
 							logger.info(Util.toJSONString(state));
-							
-							
+
 							logger.error("BotErrorHandler exception:", e);
 							try {
 								Thread.sleep(exceptionDelay);
@@ -264,20 +269,18 @@ public class BotErrorHandler implements Runnable{
 								isShutdown = true;
 								break;
 							}
-							
+
 						}
-						
-						
-					}else{
+
+					} else {
 						String msg = messageResource.getMessage("error.msg.too.much.retry", null, null);
 						state.setRetryErrorMsg(msg);
 						errorCache.remove(key);
 						logger.info(Util.toJSONString(state));
 					}
 				}
-				
-				
-			}catch(Throwable t) {
+
+			} catch (Throwable t) {
 				logger.error("BotErrorHandler exception:", t);
 				try {
 					Thread.sleep(exceptionDelay);
@@ -291,8 +294,5 @@ public class BotErrorHandler implements Runnable{
 		isShutdown = true;
 		logger.info(Util.join("stop BotErrorHandler:[" + name + "]"));
 	}
-	
-	
-	
-	
+
 }

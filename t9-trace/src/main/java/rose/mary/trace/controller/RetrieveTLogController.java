@@ -33,11 +33,10 @@ public class RetrieveTLogController {
     @Autowired
     RetrieveTLogService service;
 
-    @PostConstruct
+    // @PostConstruct
     public void testRetrieve() {
         logger.info("Retrieving test for");
 
-        
         String toDate = Util.getFormatedDate("yyyyMMddHH");
         String fromDate = Util.getDateAdd("yyyyMMddHH", toDate, -7);
 
@@ -69,7 +68,7 @@ public class RetrieveTLogController {
             @RequestBody ComMessage<Map, Map> comMessage,
             Locale locale,
             HttpServletRequest request) throws Throwable {
-              
+
         Map params = comMessage.getRequestObject();
         if (Util.isEmpty(params)) {
 
@@ -90,9 +89,6 @@ public class RetrieveTLogController {
         response.put("list", list);
         comMessage.setEndTime(Util.getFormatedDate("yyyyMMddHHmmssSSS"));
         comMessage.setResponseObject(response);
-
-
-
 
         return comMessage;
 

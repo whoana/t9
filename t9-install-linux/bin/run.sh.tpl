@@ -13,6 +13,19 @@ export CPATH=$CPATH:$T9_HOME/lib/ext/caffeine-2.8.0.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/reactive-streams-1.0.3.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/rxjava-2.2.15.jar
 export CPATH=$CPATH:$T9_HOME/lib/ext/s9-utility-1.0.0.jar
+#----------------------------------------------------------------
+#for ilink libs
+#----------------------------------------------------------------
+export CPATH=$CPATH:$T9_HOME/lib/ext/ILinkAPI-6.1.0.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/mi_link_wrapper.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/mi_common.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/javax.jms.jar
+export CPATH=$CPATH:$T9_HOME/lib/ext/MQInterfaceSDK.1.6.4
+#----------------------------------------------------------------
+#for wmq binding lib
+#----------------------------------------------------------------
+#linux
+export LD_LIBRARY_PATH=/opt/mqm/java/lib64:$LD_LIBRARY_PATH
 
 arg1=$1
 if [ "$arg1" = "-f" ]; then
@@ -28,7 +41,7 @@ if [ "$arg1" = "-f" ]; then
 elif [ "$arg1" = "-c" ]; then
 	echo "console start..."
 	clear
-	${JAVA_HOME}/bin/java -Dconsole.home=${T9_HOME} -Dconsole.port=8090 -jar ${T9_HOME}/lib/t9-console-1.0.0.jar
+	${JAVA_HOME}/bin/java -Dconsole.home=${T9_HOME} -Dconsole.port=%T9_PORT% -jar ${T9_HOME}/lib/t9-console-1.0.0.jar
 elif [ "$arg1" = "-r" ]; then
 	echo "recovery mode start..."
 	${JAVA_HOME}/bin/java -cp $CPATH \

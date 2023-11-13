@@ -1,0 +1,57 @@
+key: gopherProxySet, value: false
+key: awt.toolkit, value: sun.lwawt.macosx.LWCToolkit
+key: java.specification.version, value: 11
+key: sun.cpu.isalist, value: 
+key: sun.jnu.encoding, value: UTF-8
+key: java.class.path, value: ./t9-install-linux/lib/t9-console-1.0.0.jar
+key: java.vm.vendor, value: Oracle Corporation
+key: sun.arch.data.model, value: 64
+key: java.vendor.url, value: https://openjdk.java.net/
+key: user.timezone, value: 
+key: os.name, value: Mac OS X
+key: java.vm.specification.version, value: 11
+key: sun.java.launcher, value: SUN_STANDARD
+key: user.country, value: KR
+key: sun.boot.library.path, value: /Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/lib
+key: sun.java.command, value: ./t9-install-linux/lib/t9-console-1.0.0.jar -i
+key: http.nonProxyHosts, value: local|*.local|169.254/16|*.169.254/16|127.0.0.1:16105|*.127.0.0.1:16105|127.0.0.1:21300|*.127.0.0.1:21300|localhost|*.localhost
+key: jdk.debug, value: release
+key: sun.cpu.endian, value: little
+key: user.home, value: /Users/whoana
+key: user.language, value: ko
+key: java.specification.vendor, value: Oracle Corporation
+key: java.version.date, value: 2020-07-14
+key: java.home, value: /Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home
+key: file.separator, value: /
+key: java.vm.compressedOopsMode, value: Zero based
+key: line.separator, value: 
+
+key: java.specification.name, value: Java Platform API Specification
+key: java.vm.specification.vendor, value: Oracle Corporation
+key: java.awt.graphicsenv, value: sun.awt.CGraphicsEnvironment
+key: sun.management.compiler, value: HotSpot 64-Bit Tiered Compilers
+key: ftp.nonProxyHosts, value: local|*.local|169.254/16|*.169.254/16|127.0.0.1:16105|*.127.0.0.1:16105|127.0.0.1:21300|*.127.0.0.1:21300|localhost|*.localhost
+key: java.runtime.version, value: 11.0.8+10-LTS
+key: user.name, value: whoana
+key: path.separator, value: :
+key: os.version, value: 10.16
+key: java.runtime.name, value: Java(TM) SE Runtime Environment
+key: file.encoding, value: UTF-8
+key: java.vm.name, value: Java HotSpot(TM) 64-Bit Server VM
+key: java.vendor.version, value: 18.9
+key: java.vendor.url.bug, value: https://bugreport.java.com/bugreport/
+key: java.io.tmpdir, value: /var/folders/j5/7kvv44hn0ndfrd340ydnpf5c0000gn/T/
+key: java.version, value: 11.0.8
+key: user.dir, value: /Users/whoana/DEV/workspace-vs/rosemary
+key: os.arch, value: x86_64
+key: java.vm.specification.name, value: Java Virtual Machine Specification
+key: java.awt.printerjob, value: sun.lwawt.macosx.CPrinterJob
+key: sun.os.patch.level, value: unknown
+key: java.library.path, value: /Users/whoana/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:.
+key: java.vendor, value: Oracle Corporation
+key: java.vm.info, value: mixed mode
+key: java.vm.version, value: 11.0.8+10-LTS
+key: sun.io.unicode.encoding, value: UnicodeBig
+key: java.class.version, value: 55.0
+key: socksNonProxyHosts, value: local|*.local|169.254/16|*.169.254/16|127.0.0.1:16105|*.127.0.0.1:16105|127.0.0.1:21300|*.127.0.0.1:21300|localhost|*.localhost
+

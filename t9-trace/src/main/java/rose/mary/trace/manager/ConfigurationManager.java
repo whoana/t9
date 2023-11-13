@@ -6,7 +6,7 @@ package rose.mary.trace.manager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays; 
+import java.util.Arrays;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,7 +18,7 @@ import rose.mary.trace.core.config.BoterManagerConfig;
 import rose.mary.trace.core.config.CacheManagerConfig;
 import rose.mary.trace.core.config.ChannelManagerConfig;
 import rose.mary.trace.core.config.Config;
-import rose.mary.trace.core.config.DatabasePolicyConfig;
+import rose.mary.trace.core.config.PolicyConfig;
 import rose.mary.trace.core.config.FinisherManagerConfig;
 import rose.mary.trace.core.config.InterfaceCacheManagerConfig;
 import rose.mary.trace.core.config.LoaderManagerConfig;
@@ -34,6 +34,7 @@ import rose.mary.trace.core.envs.SqlErrorCodeMap;
  * rose.mary.trace.manager
  * ConfigurationManager.java
  * </pre>
+ * 
  * @author whoana
  * @date Aug 23, 2019
  */
@@ -43,27 +44,25 @@ public class ConfigurationManager {
 	String configFile = "config.json";
 	Config config;
 
-
 	String sqlerrorFile = "sqlerror.json";
 
 	SqlErrorCodeMap sqlErrorCodeMap;
 
 	public void prepare() throws Exception {
-		//configHome = System.getProperty("rose.mary.config.home");
+		// configHome = System.getProperty("rose.mary.config.home");
 		configHome = System.getProperty("rose.mary.home") + File.separator + "config";
 
-		System.out.println("configHome:" + System.getProperty("configHome"));
+		System.out.println("configHome:" + configHome);
 		System.getProperties().list(System.out);
 
-		if(configHome == null) {
-			//configHome = "/Users/whoana/git/projectq/src/main/resources/config";
-			throw new Exception("-Drose.mary.home={설정홈} 값을 읽을 수 없습니다.(errorcd:ROSE-0001)")  ;
+		if (configHome == null) {
+			// configHome = "/Users/whoana/git/projectq/src/main/resources/config";
+			throw new Exception("-Drose.mary.home={설정홈} 값을 읽을 수 없습니다.(errorcd:ROSE-0001)");
 		}
-		config = (Config)readObjectFromJson(new File(configHome, configFile), Config.class, null);
+		config = (Config) readObjectFromJson(new File(configHome, configFile), Config.class, null);
 
-		sqlErrorCodeMap = (SqlErrorCodeMap)readObjectFromJson(new File(configHome, sqlerrorFile), SqlErrorCodeMap.class, null);
-
-
+		sqlErrorCodeMap = (SqlErrorCodeMap) readObjectFromJson(new File(configHome, sqlerrorFile),
+				SqlErrorCodeMap.class, null);
 
 	}
 
@@ -108,16 +107,12 @@ public class ConfigurationManager {
 		save();
 	}
 
-
-
-
 	/**
 	 * @return the serverManagerConfig
 	 */
 	public ServerManagerConfig getServerManagerConfig() {
 		return config.getServerManagerConfig();
 	}
-
 
 	/**
 	 * @param serverManagerConfig the serverManagerConfig to set
@@ -128,16 +123,12 @@ public class ConfigurationManager {
 		save();
 	}
 
-
-
-
 	/**
 	 * @return the loaderManagerConfig
 	 */
 	public LoaderManagerConfig getLoaderManagerConfig() {
 		return config.getLoaderManagerConfig();
 	}
-
 
 	/**
 	 * @param loaderManagerConfig the loaderManagerConfig to set
@@ -148,9 +139,6 @@ public class ConfigurationManager {
 		save();
 	}
 
-
-
-
 	/**
 	 * @return the interfaceCacheManagerConfig
 	 */
@@ -158,18 +146,15 @@ public class ConfigurationManager {
 		return config.getInterfaceCacheManagerConfig();
 	}
 
-
 	/**
 	 * @param interfaceCacheManagerConfig the interfaceCacheManagerConfig to set
 	 * @throws Exception
 	 */
-	public void setInterfaceCacheManagerConfig(InterfaceCacheManagerConfig interfaceCacheManagerConfig) throws Exception {
+	public void setInterfaceCacheManagerConfig(InterfaceCacheManagerConfig interfaceCacheManagerConfig)
+			throws Exception {
 		config.setInterfaceCacheManagerConfig(interfaceCacheManagerConfig);
 		save();
 	}
-
-
-
 
 	/**
 	 * @return the boterManagerConfig
@@ -177,7 +162,6 @@ public class ConfigurationManager {
 	public BoterManagerConfig getBoterManagerConfig() {
 		return config.getBoterManagerConfig();
 	}
-
 
 	/**
 	 * @param boterManagerConfig the boterManagerConfig to set
@@ -188,16 +172,12 @@ public class ConfigurationManager {
 		save();
 	}
 
-
-
-
 	/**
 	 * @return the botLoaderManagerConfig
 	 */
 	public BotLoaderManagerConfig getBotLoaderManagerConfig() {
 		return config.getBotLoaderManagerConfig();
 	}
-
 
 	/**
 	 * @param botLoaderManagerConfig the botLoaderManagerConfig to set
@@ -215,16 +195,16 @@ public class ConfigurationManager {
 		return config.getTraceErrorHandlerManagerConfig();
 	}
 
-
 	/**
-	 * @param traceErrorHandlerManagerConfig the traceErrorHandlerManagerConfig to set
+	 * @param traceErrorHandlerManagerConfig the traceErrorHandlerManagerConfig to
+	 *                                       set
 	 * @throws Exception
 	 */
-	public void setTraceErrorHandlerManagerConfig(TraceErrorHandlerManagerConfig traceErrorHandlerManagerConfig) throws Exception {
+	public void setTraceErrorHandlerManagerConfig(TraceErrorHandlerManagerConfig traceErrorHandlerManagerConfig)
+			throws Exception {
 		config.setTraceErrorHandlerManagerConfig(traceErrorHandlerManagerConfig);
 		save();
 	}
-
 
 	/**
 	 * @return the botErrorHandlerManagerConfig
@@ -233,16 +213,15 @@ public class ConfigurationManager {
 		return config.getBotErrorHandlerManagerConfig();
 	}
 
-
 	/**
 	 * @param botErrorHandlerManagerConfig the botErrorHandlerManagerConfig to set
 	 * @throws Exception
 	 */
-	public void setBotErrorHandlerManagerConfig(BotErrorHandlerManagerConfig botErrorHandlerManagerConfig) throws Exception {
+	public void setBotErrorHandlerManagerConfig(BotErrorHandlerManagerConfig botErrorHandlerManagerConfig)
+			throws Exception {
 		config.setBotErrorHandlerManagerConfig(botErrorHandlerManagerConfig);
 		save();
 	}
-
 
 	/**
 	 * @return the unmatchHandlerConfig
@@ -255,24 +234,25 @@ public class ConfigurationManager {
 	 * @param unmatchHandlerManagerConfig the unmatchHandlerConfig to set
 	 * @throws Exception
 	 */
-	public void setUnmatchHandlerManagerConfig(UnmatchHandlerManagerConfig unmatchHandlerManagerConfig) throws Exception {
+	public void setUnmatchHandlerManagerConfig(UnmatchHandlerManagerConfig unmatchHandlerManagerConfig)
+			throws Exception {
 		config.setUnmatchHandlerManagerConfig(unmatchHandlerManagerConfig);
 		save();
 	}
 
 	/**
-	 * @return the databasePolicyConfig
+	 * @return the policyConfig
 	 */
-	public DatabasePolicyConfig getDatabasePolicyConfig() {
-		return config.getDatabasePolicyConfig();
+	public PolicyConfig getPolicyConfig() {
+		return config.getPolicyConfig();
 	}
 
 	/**
-	 * @param databasePolicyConfig the databasePolicyConfig to set
+	 * @param policyConfig the policyConfig to set
 	 * @throws Exception
 	 */
-	public void setDatabasePolicyConfig(DatabasePolicyConfig databasePolicyConfig) throws Exception {
-		config.setDatabasePolicyConfig(databasePolicyConfig);
+	public void setPolicyConfig(PolicyConfig policyConfig) throws Exception {
+		config.setPolicyConfig(policyConfig);
 		save();
 	}
 
@@ -283,7 +263,6 @@ public class ConfigurationManager {
 		return config.getFinisherManagerConfig();
 	}
 
-
 	/**
 	 * @param finisherManagerConfig the finisherManagerConfig to set
 	 * @throws Exception
@@ -292,7 +271,6 @@ public class ConfigurationManager {
 		config.setFinisherManagerConfig(finisherManagerConfig);
 		save();
 	}
-
 
 	public TesterManagerConfig getTesterManagerConfig() {
 		return config.getTesterManagerConfig();
@@ -303,31 +281,32 @@ public class ConfigurationManager {
 		save();
 	}
 
-
-	Object readObjectFromJson(File dest, Class clazz, String ccsid) throws Exception{
+	Object readObjectFromJson(File dest, Class clazz, String ccsid) throws Exception {
 		ObjectMapper jsonMapper = new ObjectMapper();
 		jsonMapper.enable(JsonParser.Feature.ALLOW_COMMENTS);
 		FileInputStream fis = null;
-		try{
+		try {
 			fis = new FileInputStream(dest);
-			byte b[] = new byte[(int)dest.length()];
+			byte b[] = new byte[(int) dest.length()];
 			fis.read(b);
 			return jsonMapper.readValue(b, clazz);
-		}finally{
-			try{if(fis != null) fis.close();}catch(IOException e){}
+		} finally {
+			try {
+				if (fis != null)
+					fis.close();
+			} catch (IOException e) {
+			}
 		}
 	}
 
-	private void save() throws Exception{
-		try{
+	private void save() throws Exception {
+		try {
 			ObjectMapper jsonMapper = new ObjectMapper();
 			jsonMapper.enable(JsonParser.Feature.ALLOW_COMMENTS);
 			jsonMapper.writeValue(new File(configHome, configFile), config);
-		}finally{
+		} finally {
 		}
 	}
-
-
 
 	public SqlErrorCodeMap getSqlErrorCodeMap() {
 		return sqlErrorCodeMap;
@@ -338,43 +317,43 @@ public class ConfigurationManager {
 	}
 
 	public static void main(String[] args) {
-		System.setProperty("rose.mary.home","/Users/whoana/Documents/gitlab/t9/t9-trace/src/main/resources");
+		System.setProperty("rose.mary.home", "/Users/whoana/Documents/gitlab/t9/t9-trace/src/main/resources");
 		ConfigurationManager cm = new ConfigurationManager();
 		try {
 			cm.prepare();
 
-//			ChannelManagerConfig channelManagerConfig = cm.getChannelManagerConfig();
-//			System.out.println(Util.toJSONString(channelManagerConfig));
-//
-//			CacheManagerConfig cacheManagerConfig = cm.getCacheManagerConfig();
-//			System.out.println(Util.toJSONString(cacheManagerConfig));
-//
-//
-//			ServerManagerConfig serverManagerConfig = cm.getServerManagerConfig();
-//			System.out.println(Util.toJSONString(serverManagerConfig));
-//
+			// ChannelManagerConfig channelManagerConfig = cm.getChannelManagerConfig();
+			// System.out.println(Util.toJSONString(channelManagerConfig));
+			//
+			// CacheManagerConfig cacheManagerConfig = cm.getCacheManagerConfig();
+			// System.out.println(Util.toJSONString(cacheManagerConfig));
+			//
+			//
+			// ServerManagerConfig serverManagerConfig = cm.getServerManagerConfig();
+			// System.out.println(Util.toJSONString(serverManagerConfig));
+			//
 			System.out.println("sqlErrorCodeMap:" + cm.getSqlErrorCodeMap());
 			SqlErrorCode sqlErrorCodes = cm.getSqlErrorCodeMap().getMap().get("Oracle");
-			System.out.println("oracle:"+ Util.toJSONPrettyString(sqlErrorCodes));
-			String [] badSqlGrammarCodes = sqlErrorCodes.getBadSqlGrammarCodes();
+			System.out.println("oracle:" + Util.toJSONPrettyString(sqlErrorCodes));
+			String[] badSqlGrammarCodes = sqlErrorCodes.getBadSqlGrammarCodes();
 
-			//Arrays.sort(badSqlGrammarCodes);
+			// Arrays.sort(badSqlGrammarCodes);
 			int res = Arrays.binarySearch(badSqlGrammarCodes, "900");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 			res = Arrays.binarySearch(badSqlGrammarCodes, "903");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 			res = Arrays.binarySearch(badSqlGrammarCodes, "904");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 			res = Arrays.binarySearch(badSqlGrammarCodes, "917");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 			res = Arrays.binarySearch(badSqlGrammarCodes, "936");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 			res = Arrays.binarySearch(badSqlGrammarCodes, "942");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 			res = Arrays.binarySearch(badSqlGrammarCodes, "655000");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 			res = Arrays.binarySearch(badSqlGrammarCodes, "1700600000");
-			System.out.println("res:"+ res);
+			System.out.println("res:" + res);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

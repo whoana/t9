@@ -12,10 +12,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import pep.per.mint.common.util.Util;
 import rose.mary.trace.core.cache.CacheProxy;
-import rose.mary.trace.core.channel.Channel;
-import rose.mary.trace.core.config.OldStateCheckHandlerConfig;
-import rose.mary.trace.core.data.common.Trace;
-import rose.mary.trace.core.helper.checker.OldStateCheckHandler;
+import rose.mary.trace.core.channel.Channel; 
+import rose.mary.trace.core.data.common.Trace; 
 import rose.mary.trace.core.util.IntCounter;
 
 /**
@@ -37,11 +35,10 @@ public class RestChannel extends Channel {
 	ThreadPoolTaskExecutor taskExecutor;
 
 	public RestChannel(String name, int maxCacheSize,
-			long delayForMaxCache, List<CacheProxy<String, Trace>> caches, ThreadPoolTaskExecutor taskExecutor,
-			OldStateCheckHandlerConfig oschc) {
+			long delayForMaxCache, List<CacheProxy<String, Trace>> caches, ThreadPoolTaskExecutor taskExecutor) {
 		super(name, false, 0, 0, 0, 0, maxCacheSize, delayForMaxCache, null);
 		this.caches = caches;
-		this.stateChecker = new OldStateCheckHandler(oschc);
+		this.stateCheckerId = "rose.mary.trace.core.helper.checker.OldStateCheckHandler";
 		this.counter = new IntCounter(0, caches.size() - 1, 1);
 		this.taskExecutor = taskExecutor;
 	}
@@ -73,7 +70,7 @@ public class RestChannel extends Channel {
 		public void run() {
 			try {
 				Trace trace = parser.parse(msg);
-				trace.setStateCheckHandler(stateChecker);
+				trace.setStateCheckHandlerId(stateCheckerId);
 				int index = counter.getAndIncrease();
 				logger.debug("********************************** cache index:" + index);
 				CacheProxy<String, Trace> cache = caches.get(index);
@@ -114,7 +111,7 @@ public class RestChannel extends Channel {
 		if (msg != null) {
 			try {
 				Trace trace = parser.parse(msg);
-				trace.setStateCheckHandler(stateChecker);
+				trace.setStateCheckHandlerId(stateCheckerId);
 				int index = counter.getAndIncrease();
 				logger.debug("********************************** cache index:" + index);
 				CacheProxy<String, Trace> cache = caches.get(index);
