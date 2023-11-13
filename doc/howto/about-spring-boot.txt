@@ -1,5 +1,5 @@
 스프링부트 명령줄 실행 방법 
-
+2023
     java -cp t9-trace-1.0.0.jar \
     -Drose.mary.home=/Users/whoana/DEV/workspace-vs/t9/home \
     -Dloader.main=rose.mary.trace.T9 \
